@@ -15,17 +15,13 @@ body{
   height: auto;
 }
 
-.nav-link{
-  color: #00FF00 !important;
-}
-
 .jumbotron{
   background-color: #151515;
   color: white;
 }
 
 .well > h3{  
-  color: #00FF00;
+  color: #40e0d0;
 }
 
 /*Login form */
@@ -81,6 +77,11 @@ body{
 .help-block{
   font-size: 20px !important;
 }
+
+.btn{
+    cursor: pointer;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
