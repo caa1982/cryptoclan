@@ -15,6 +15,11 @@ img{
   height: auto;
 }
 
+#chart-pie{
+  width: 200px; 
+  height: auto;
+}
+
 .jumbotron{
   background-color: #151515;
   color: white;
@@ -106,5 +111,9 @@ li {
     #login-dp .bottom{
         background-color: inherit;
         border-top:0 none;
+    }
+    .navbar > a {
+      visibility:hidden;
+      height: 0px;
     }
 }
