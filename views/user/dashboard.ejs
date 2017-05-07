@@ -1,2 +1,43 @@
-Dashboard
-<img src ="<%=user.photo%>">
+<nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar7">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <a href="/" class="navbar-brand">
+        <img src="../../img/CryptoClan.png" class="d-inline-block align-top" alt=""> CryptoClan
+        </a>
+        <div class="navbar-nav ml-auto"></div>
+        <div class="collapse justify-content-stretch" id="collapseExample" id="navbar7">
+            <ul class="navbar-nav">
+                <li><i class="fa fa-briefcase"> Portfolio</i></li>
+                <li><i class="fa fa-map"> Map</i></li>
+                <li><i class="fa fa-building"> Jobs</i></li>
+                <li><i class="fa fa-bell"> Notification</i></li>
+                <li><i class="fa fa-envelope"> Email</i></li>
+                <li><i class="fa fa-cog"> Settings</i></li>
+            </ul>
+        </div>
+        <div class="navbar-nav">
+        <img id="profilePic" data-toggle="collapse" href="#collapseExample" class="rounded-circle" src ="<%=user.photo%>">
+        </div>
+    </nav>
+    <section class="dashboard mx-auto">
+        <div class="row">
+            <aside class="col sortable">
+                <img src="../../img/coins/bitcoin.png" id="bitcoin">
+                <img src="../../img/coins/ripple.png" id="litecoin">
+                <img src="../../img/coins/ethereum.png" id="ethereum">
+                <img src="../../img/coins/litecoin.png" id="litecoin">
+                <img src="../../img/coins/dash.png" id="dash">
+            </aside>
+
+            <section class="col-7"></section>
+
+            <aside class="col sortable">
+                <img src="../../img/coins/bitcoin.png" id="bitcoin">
+                <img src="../../img/coins/ripple.png" id="litecoin">
+                <img src="../../img/coins/ethereum.png" id="ethereum">
+                <img src="../../img/coins/litecoin.png" id="litecoin">
+                <img src="../../img/coins/dash.png" id="dash">
+            </aside>
+        </div>
+    </section>
