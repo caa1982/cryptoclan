@@ -212,26 +212,27 @@ authRoutes.get('/email-verification/:url', (req,res) => {
         }
     }, function(error, options){
     });
+    if( !nev.options.tempUserModel) {
+      nev.generateTempUserModel(User, (err, model)=>{});
+    }
+    nev.confirmTempUser(url, function(err, user) {
+        if (err) {
+          
 
-    nev.generateTempUserModel(User, (err, model)=>{
-      nev.confirmTempUser(url, function(err, user) {
-          if (err) {
+        }
+        if (user) {
+            // optional
+            nev.sendConfirmationEmail(user['email'], function(err, info) {
+                res.redirect('/dashboard')
+            });
+        }    // user's data probably expired...
+        else {
+          // redirect to sign-up
+          res.redirect("/signup");
+        }
             
-
-          }
-          if (user) {
-              // optional
-              nev.sendConfirmationEmail(user['email'], function(err, info) {
-                  res.redirect('/dashboard')
-              });
-          }    // user's data probably expired...
-          else {
-            // redirect to sign-up
-            res.redirect("/signup");
-          }
-              
-      });
     });
+
 });
 
 

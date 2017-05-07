@@ -5,7 +5,9 @@ const User        = require("../models/user");
 
 router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res)=>{
   console.log(req.user)
+  
   User.findById(req.session.id, (err, user)=>{
+    console.log(err);
     res.render('user/dashboard', {user});
   });
 });
