@@ -3,13 +3,12 @@ const router      = express.Router();
 const ensureLogin = require("connect-ensure-login");
 const User        = require("../models/user");
 
-router.get("/dashboard", ensureLogin.ensureLoggedIn(), (req, res)=>{
-  console.log(req.user)
-  
-  User.findById(req.session.id, (err, user)=>{
-    console.log(err);
-    res.render('user/dashboard', {user});
-  });
+router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/dashboard');
+});
+
+router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/edit');
 });
 
 module.exports = router;

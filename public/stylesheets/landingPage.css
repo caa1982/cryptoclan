@@ -98,3 +98,13 @@ img{
         border-top:0 none;
     }
 }
+
+a.nostyle:link {
+    text-decoration: inherit;
+    cursor: auto;
+}
+
+a.nostyle:visited {
+    text-decoration: inherit;
+    cursor: auto;
+}
