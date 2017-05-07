@@ -53,7 +53,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(expressLayouts);
-app.set('layout', 'layouts/main-layout');
+app.set('layout', 'layouts/landingPage-layout');
 app.set('views', __dirname + '/views');
 
 
