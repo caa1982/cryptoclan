@@ -6,6 +6,7 @@ var cookieParser    = require('cookie-parser');
 var bodyParser      = require('body-parser');
 const session       = require("express-session");
 const passport      = require("./helpers/passport");
+
 const flash         = require("connect-flash");
 const auth          = require("./helpers/auth");
 const expressLayouts= require('express-ejs-layouts');
@@ -16,8 +17,7 @@ const configuration = require("./configuration");
 const nev           = require('email-verification')(mongoose);
 
 const User          = require('./models/user');
-
-
+const coinmarketcap = require('./helpers/c');
 
 
 mongoose.connect("mongodb://localhost/cryptoclan");
@@ -77,5 +77,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+coinmarketcap();
 
 module.exports = app;

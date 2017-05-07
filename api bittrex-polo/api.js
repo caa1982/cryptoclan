@@ -31,7 +31,7 @@ poloniex.returnTicker(function(err, ticker) {
 
 */
 
-setInterval(function(){
+
 	request.get({
 	url: "https://api.coinmarketcap.com/v1/ticker/",
 	json: true,
@@ -44,7 +44,7 @@ setInterval(function(){
 
 	}
 });
-},30000)
+
 
 
 
