@@ -1,7 +1,7 @@
 module.exports = {
   setCurrentUser: function(req,res,next) {
     if(req.isAuthenticated()) {
-      res.locals.currentUser = req.user;
+      res.locals.user = req.user;
       res.locals.isUserLoggedIn = true;
     } else {
       res.locals.isUserLoggedIn = false;

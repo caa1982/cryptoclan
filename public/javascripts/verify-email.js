@@ -7,11 +7,12 @@ $(document).ready(function(){
   var register = function() {
    email = $("#email").val()
     var pw = $("#password").val(),
-        pwr = $("#passwordRepeat").val();
+        pwr = $("#passwordRepeat").val(),
+        name= $("#name").val();
     $.ajax({
       url: '/signup',
       type: 'POST',
-      data: {email: email, password: pw, passwordRepeat: pwr, type: 'register'}
+      data: {email: email, password: pw, passwordRepeat: pwr, name:name, type: 'register'}
     }).then(function(data) {
       if(data.userExists) {
         $('#signup-form').html(`

@@ -10,14 +10,29 @@ passport.serializeUser((user, cb) => {
   cb(null, user);
 });
 
-passport.deserializeUser((id, cb) => {
-  if(mongoose.Types.ObjectId.isValid(id)) {
-    User.findOne({ "_id": id }, (err, user) => {
+passport.deserializeUser((user, cb) => {
+  if(mongoose.Types.ObjectId.isValid(user)) {
+    User.findOne({ "_id": user }, (err, user) => {
       if (err) { return cb(err); }
         cb(null, user);
     });
   } else {
-    cb(null, id);
+    let providerIdField = "";
+    if(user.provider==="facebook") {
+      User.findOne({ "facebookId": user.id }, (err, dbUser) => {
+      if (err) { return cb(err); }
+        cb(null, dbUser);
+      });
+    }
+    if(user.provider==="linkedin") {
+      User.findOne({ "linkedinId": user.id }, (err, dbUser) => {
+      if (err) { return cb(err); }
+        cb(null, dbUser);
+      });      
+    }
+    console.log(providerIdField, user.id)
+     
+    //cb(null, user);
   }
 
 });
