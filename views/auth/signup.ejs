@@ -1,0 +1,29 @@
+<!-- views/auth/signup.ejs -->
+<h2>Signup</h2>
+<div id="signup-form">
+
+  <label for="username">Email</label><br>
+  <input id="email" type="text" name="email" placeholder="Your email">
+  <br><br>
+  <label for="password">Password</label><br>
+  <input id="password" type="password" name="password" placeholder="Your password">
+  <br><br>
+  <label for="password">Repeat password</label><br>
+  <input id="passwordRepeat" type="password" name="passwordRepeat" placeholder="Repeat password">
+
+  <br><span id="msg-reg"></span>
+
+  <br><br>
+    <button id="button-register">Create account</button>
+    <p>
+    <a href="/auth/facebook">Sign up with facebook</a> | <a href="/auth/linkedin">Sign up with linkedin</a><br>
+    <p>
+
+
+  <p class="account-message">
+    Do you already have an account?
+    <a href="/login">Login</a>
+  </p>
+
+</div>
+<script src = "/javascripts/verify-email.js"></script>
