@@ -8,14 +8,20 @@ const session       = require("express-session");
 const passport      = require("./helpers/passport");
 const flash         = require("connect-flash");
 const auth          = require("./helpers/auth");
-
+const expressLayouts= require('express-ejs-layouts');
 const authRoutes    = require("./routes/auth-routes");
 const userRoutes    = require("./routes/user");
-
-
 const mongoose      = require("mongoose");
+const configuration = require("./configuration");
+const nev           = require('email-verification')(mongoose);
+
+const User          = require('./models/user');
+
+
+
 
 mongoose.connect("mongodb://localhost/cryptoclan");
+
 
 var app = express();
 
@@ -46,6 +52,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(expressLayouts);
+app.set('layout', 'layouts/main-layout');
+app.set('views', __dirname + '/views');
 
 
 app.use('/', authRoutes);

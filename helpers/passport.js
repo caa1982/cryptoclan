@@ -47,7 +47,8 @@ passport.use(new LocalStrategy({
 passport.use(new FbStrategy({
   clientID: "408192872894889",
   clientSecret: "4427a7287727fd5d4676fd3697122932",
-  callbackURL: "http://localhost:3000/auth/facebook/callback"
+  callbackURL: "http://localhost:3000/auth/facebook/callback",
+  profileFields: ['id', 'displayName', 'photos', "email"]
 }, (accessToken, refreshToken, profile, done) => {
 
     User.findOne({ facebookId: profile.id }, function(err, user) {
@@ -57,9 +58,11 @@ passport.use(new FbStrategy({
       if (!err && user !== null) {
         done(null, user);
       } else {
+        console.log(profile)
         user = new User({
           facebookId: profile.id,
-          name: profile.displayName
+          name: profile.displayName,
+          photo: profile.photos[0].value
         });
         user.save(function(err) {
           if(err) {
@@ -77,7 +80,8 @@ passport.use(new FbStrategy({
 passport.use(new LinkedInStrategy({
     consumerKey: "7727j909q0ro86",
     consumerSecret: "MohL4wKqv3GRWf24",
-    callbackURL: "http://localhost:3000/auth/linkedin/callback"
+    callbackURL: "http://localhost:3000/auth/linkedin/callback",
+    profileFields: ['id', 'first-name', 'last-name', 'email-address', 'pictureUrl']
   },
   function(token, tokenSecret, profile, done) {
     console.log('profile: ', profile);
@@ -91,7 +95,8 @@ passport.use(new LinkedInStrategy({
         } else {
           user = new User({
             linkedinId: profile.id,
-            name: profile.displayName
+            name: profile.displayName,
+            photo: profile._json.pictureUrl
           });
           user.save(function(err) {
             if(err) {
