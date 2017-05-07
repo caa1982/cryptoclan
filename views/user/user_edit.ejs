@@ -11,8 +11,109 @@
     <button>Save profile</button>
   </div>
   <% if (typeof message != "undefined") { %>
-    <div class="error-message"><%= message %></div>
-  <% } %>
-  <p>
+    <div class="error-message">
+      <%= message %>
+    </div>
+    <% } %>
+      <p>
 
 </form>
+
+
+--------------------------------------------
+
+<div class="container" action="/user/<%=user.id%>" method="POST">
+  <div class="tab-pane" id="edit">
+    <div class="text-center">
+      <br>
+      <img class="rounded-circle" src="../../img/userProfilIcon.jpg">
+    </div>
+    <form role="form">
+      <div class="form-group">
+        <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">First name</label>
+        <div class="col-lg-9">
+          <input class="form-control" type="text" value="John">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+        <div class="col-lg-9">
+          <input class="form-control" type="text" value="Doe">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Email</label>
+        <div class="col-lg-9">
+          <input class="form-control" type="email" value="JohnDoe@gmail.com">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Company</label>
+        <div class="col-lg-9">
+          <input class="form-control" type="text" value="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Website</label>
+        <div class="col-lg-9">
+          <input class="form-control" type="url" value="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Bio</label>
+        <div class="col-lg-9">
+          <textarea class="form-control" type="url" value=""></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Address</label>
+        <div class="col-lg-9">
+          <input class="form-control" type="text" value="" placeholder="Street">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label"></label>
+        <div class="col-lg-6">
+          <input class="form-control" type="text" value="" placeholder="City">
+        </div>
+        <div class="col-lg-3">
+          <input class="form-control" type="text" value="" placeholder="State">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Username</label>
+        <div class="col-lg-9">
+          <input class="form-control" name="username" type="text" value="<%=user.username%>">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Password</label>
+        <div class="col-lg-9">
+          <input class="form-control" name="password" type="password">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
+        <div class="col-lg-9">
+          <input class="form-control" type="password" value="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label"></label>
+        <div class="col-lg-9">
+          <input type="reset" class="btn btn-outline-danger" value="Cancel">
+          <input type="button" class="btn btn-outline-success" value="Save Changes">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<% if (typeof message != "undefined") { %>
+  <div class="error-message">
+    <%= message %>
+  </div>
+  <% } %>
+    <p>

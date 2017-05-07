@@ -87,21 +87,6 @@ img{
     cursor: pointer;
 }
 
-#profilePic{
-    width: 50px; 
-    height: 50px;
-    cursor: pointer;
-}
-
-li {
-    color: white;
-    padding-right: 1em;
-    cursor: pointer;
-}
-
-.dashboard{
-    margin-top: 0.5%;
-}
 
 @media(max-width:768px){
     #login-dp{
@@ -111,9 +96,5 @@ li {
     #login-dp .bottom{
         background-color: inherit;
         border-top:0 none;
-    }
-    .navbar > a {
-      visibility:hidden;
-      height: 0px;
     }
 }
