@@ -5,6 +5,8 @@ module.exports = {
     tempUserCollection: 'tempusers',
     user:'cryptoclannow@gmail.com',
     pass: 'cryptoclan123'
-  } 
+  },
+  coinmarketcapInterval: 30*1000,
+  portfolioInterval: 5*1000
 
 }
