@@ -25,9 +25,7 @@ router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     }else {
       res.status(200).json({message: "ok"})  
     }
-    
   });
-
 });
 
 router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {

@@ -9,7 +9,7 @@ const config = require("../configuration");
 
 module.exports =
     function () {
-     setInterval(function () {
+   //  setInterval(function () {
 
         User.find({
             $and: [
@@ -59,26 +59,28 @@ module.exports =
                 })
             });
         });
-     }, config.portfolioInterval);
+   //  }, config.portfolioInterval);
     };
 
 
 
 function updateUserPortfolio(user, coins, total, callback) {
     let time = Date.now();
-    User.findOneAndUpdate({ "_id": user.id }, { portfolio: { coins, total, time } }, (err, user) => {
-        let portfolioHistory = new PortfolioHistory({
-            userId:user.id,
-            portfolio: coins,
-            total,
-            time
-        });
-        portfolioHistory.save((err)=>{
-            if(err) console.log(err);
-        })
+    let coinIds  = coins.map(coin=>coin.id).filter(coin=>coin);
+    User.findOneAndUpdate({ "_id": user.id }, {$addToSet:{coins:{$each:coinIds}}, portfolio: { coins, total, time } }, (err, user) => {
+            let portfolioHistory = new PortfolioHistory({
+                userId:user.id,
+                portfolio: coins,
+                total,
+                time
+            });
+            portfolioHistory.save((err)=>{
+                if(err) console.log(err);
+            })
 
-        callback(err);
-    })
+            callback(err);
+        })
+   
 }
 
 function getBittrex(user, callBack) {
@@ -95,6 +97,7 @@ function getBittrex(user, callBack) {
         async.each(bittrexCoins, function (coin, callback) {
             Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
                 totalValue += coinData ? coinData.price_usd * coin.balance : 0;
+                coin.id =  coinData ? coinData.id : "";
                 callback();
             })
         }, function (err) {
@@ -118,6 +121,7 @@ function getPoloniex(user, callBack) {
         async.each(poloniexCoins, function (coin, callback) {
             Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
                 totalValue += coinData ? coinData.price_usd * coin.balance : 0;
+                coin.id =  coinData ? coinData.id : "";
                 callback();
             })
         }, function (err) {
