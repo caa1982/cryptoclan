@@ -31,6 +31,8 @@ module.exports =
                     });
                 }
             });
+
         }, config.coinmarketcapInterval);
+
     }
 
