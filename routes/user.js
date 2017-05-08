@@ -10,7 +10,6 @@ const bcryptSalt = 10;
 router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   Coin.find({}, function (err, coins) {
     User.findOne({ "_id": req.user.id }, "coins", function (err, userCoins) {
-      console.log(userCoins)
       res.render('user/dashboard', {
         coins,
         userCoins:userCoins.coins
@@ -20,9 +19,10 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 });
 
 router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.findOneAndUpdate({ "_id": req.user.id }, { $push: { "coins": req.body.name } }, (err, user) => {
+  User.findOneAndUpdate({ "_id": req.user.id }, { $addToSet: { "coins": req.body.name } }, (err, user) => {
     if (err) console.log(err);
   });
+
 });
 
 router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
