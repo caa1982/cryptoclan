@@ -9,8 +9,12 @@ const bcryptSalt = 10;
 
 router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   Coin.find({}, function (err, coins) {
-    res.render('user/dashboard', {
-      coins
+    User.findOne({ "_id": req.user.id }, "coins", function (err, userCoins) {
+      console.log(userCoins)
+      res.render('user/dashboard', {
+        coins,
+        userCoins:userCoins.coins
+      });
     });
   });
 });

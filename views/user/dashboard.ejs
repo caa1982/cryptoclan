@@ -10,18 +10,16 @@
 	</datalist>
 </label>
 <br>
+<% userCoins.forEach( (coin) => { %>
+    <img src="/images/coins/<%= coin %>.png">
+    <% }) %>
         </aside>
 
         <section class="col-7">
-            <a href="/user/clan_join" class="btn btn-primary">Join clans</a> Select which coins you wish to follow.
         </section>
 
         <aside class="col sortable">
-            <img src="/images/coins/bitcoin.png" id="bitcoin">
-            <img src="/images/coins/ripple.png" id="litecoin">
-            <img src="/images/coins/ethereum.png" id="ethereum">
-            <img src="/images/coins/litecoin.png" id="litecoin">
-            <img src="/images/coins/dash.png" id="dash">
+
         </aside>
     </div>
 </section>
