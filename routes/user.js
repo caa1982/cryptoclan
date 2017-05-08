@@ -12,7 +12,7 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     User.findOne({ "_id": req.user.id }, "coins", function (err, userCoins) {
       res.render('user/dashboard', {
         coins,
-        userCoins:userCoins.coins
+        userCoins: userCoins.coins
       });
     });
   });
@@ -21,15 +21,16 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOneAndUpdate({ "_id": req.user.id }, { $addToSet: { "coins": req.body.name } }, (err, user) => {
     if (err) {
-      res.status(500).json({message: err})
-    }else {
-      res.status(200).json({message: "ok"})  
+      res.status(500).json({ message: err })
+    } else {
+      res.status(200).json({ message: "ok" })
     }
   });
 });
 
 router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  res.render('user/edit');
+    console.log(res.locals);
+    res.render('user/edit');
 });
 
 
@@ -71,7 +72,9 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     website: req.body.website,
     bio: req.body.bio,
     address: req.body.address,
-    city: req.body.city
+    city: req.body.city,
+    poloniex: {apikey:req.body.poloniex_apikey, apisecret:req.body.poloniex_apisecret},
+    bittrex: {apikey:req.body.bittrex_apikey, apisecret:req.body.bittrex_apisecret}
   }
 
   if (password) {

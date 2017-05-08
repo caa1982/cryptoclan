@@ -66,6 +66,7 @@ module.exports =
 
 function updateUserPortfolio(user, coins, total, callback) {
     let time = Date.now();
+
     let coinIds  = coins.map(coin=>coin.id).filter(coin=>coin);
     User.findOneAndUpdate({ "_id": user.id }, {$addToSet:{coins:{$each:coinIds}}, portfolio: { coins, total, time } }, (err, user) => {
             let portfolioHistory = new PortfolioHistory({
@@ -80,7 +81,6 @@ function updateUserPortfolio(user, coins, total, callback) {
 
             callback(err);
         })
-   
 }
 
 function getBittrex(user, callBack) {
