@@ -42,6 +42,10 @@ li {
     cursor: pointer;
 }
 
+i {
+    font-size: 1.2em !important;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;

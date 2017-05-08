@@ -18,6 +18,7 @@ const nev           = require('email-verification')(mongoose);
 
 const User          = require('./models/user');
 const coinmarketcap = require('./helpers/c');
+const portfolio = require('./helpers/portfolio');
 
 
 mongoose.connect("mongodb://localhost/cryptoclan");
@@ -87,5 +88,6 @@ app.use(function(err, req, res, next) {
 });
 
 coinmarketcap();
+portfolio();
 
 module.exports = app;

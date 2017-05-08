@@ -11,4 +11,30 @@ router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
   res.render('user/edit');
 });
 
+router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/portfolio');
+});
+
+router.get("/user/map", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/map');
+});
+
+router.get("/user/email", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/email');
+});
+
+router.get("/user/notifications", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/notifications');
+});
+
+router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/connect');
+});
+
+router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  req.logout();
+  res.redirect('/');
+});
+
+
 module.exports = router;
