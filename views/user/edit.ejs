@@ -49,9 +49,20 @@
         <div class="col-lg-9">
           <input class="form-control" type="text" name="city" value="<%=user.city%>" placeholder="City">
         </div>
-      <!--  <div class="col-lg-3">
-          <input class="form-control" type="text" value="" placeholder="State">
-        </div> -->
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Bittrex Api</label>
+        <div class="col-lg-9">
+          <input class="form-control" placeholder="Bittrex Api Key" name="bittrex_apikey" type="text" value="<%=user.bittrex.apikey%>"></input>
+          <input class="form-control" placeholder="Bittrex Api Secret" name="bittrex_apisecret" type="text" value="<%=user.bittrex.apisecret%>"></input>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Poloniex Api</label>
+        <div class="col-lg-9">
+          <input class="form-control" placeholder="Poloniex Api Key" name="poloniex_apikey" type="text" value="<%=user.poloniex.apikey%>"></input>
+          <input class="form-control" placeholder="Poloniex Api Secret" name="poloniex_apisecret" type="text" value="<%=user.poloniex.apisecret%>"></input>
+        </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Password</label>

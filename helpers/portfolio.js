@@ -76,7 +76,6 @@ function updateUserPortfolio(user, coins, total, callback) {
         portfolioHistory.save((err)=>{
             if(err) console.log(err);
         })
-
         callback(err);
     })
 }
