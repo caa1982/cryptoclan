@@ -1,5 +1,6 @@
 const Coin = require("../models/coin");
 const request = require('request');
+const config = require("../configuration");
 module.exports =
 
     function () {
@@ -30,6 +31,6 @@ module.exports =
                     });
                 }
             });
-        }, 300000);
+        }, config.coinmarketcapInterval);
     }
 
