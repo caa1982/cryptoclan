@@ -20,7 +20,12 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOneAndUpdate({ "_id": req.user.id }, { $addToSet: { "coins": req.body.name } }, (err, user) => {
-    if (err) console.log(err);
+    if (err) {
+      res.status(500).json({message: err})
+    }else {
+      res.status(200).json({message: "ok"})  
+    }
+    
   });
 
 });
