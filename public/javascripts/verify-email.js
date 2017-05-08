@@ -53,4 +53,3 @@ $(document).ready(function(){
 
    $("#button-register").click(register);
 });
-
