@@ -16,7 +16,7 @@ const userSchema = new Schema({
   poloniex: [{apikey: String, apisecrect: String}],
   bittrex: [{apikey: String, apisecrect: String}],
   portfolio: Array,
-  coins : [{ type: Schema.Types.ObjectId, ref: 'Coin' }]
+  coins : Array
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
