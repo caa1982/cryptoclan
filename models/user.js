@@ -16,6 +16,7 @@ const userSchema = new Schema({
   poloniex: {apikey: String, apisecret: String},
   bittrex: {apikey: String, apisecret: String},
   portfolio: Array,
+  fake: Boolean,
   coins : Array
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }

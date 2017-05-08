@@ -15,8 +15,9 @@ $("#dropDownCoins").on("input", function () {
                 console.log(coin)
                  $("#dropDownCoins").val("");
                 $("#asideCoins").append(
-                    $(`<img src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`),
-                )
+                    $(`<img src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`
+                    ));
+                
             },
             error: function(){
                 console.log("error");
