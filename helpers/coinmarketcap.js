@@ -20,11 +20,10 @@ module.exports =
                             el,
                             { upsert: true },
                             function (err) {
-                                console.log(err);
-                        
+                                 if(err)  console.log(err);
                                 Coin.findOneAndUpdate({ id: el.id }, { $push: { "price_history": { price_usd: el.price_usd, price_btc: el.price_btc, timestamp: time } } },
                                     function (err) {
-                                        console.log(err);
+                                        if(err)  console.log(err);
                                     });
                             }
                         );

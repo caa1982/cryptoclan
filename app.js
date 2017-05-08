@@ -17,8 +17,11 @@ const configuration = require("./configuration");
 const nev           = require('email-verification')(mongoose);
 
 const User          = require('./models/user');
-const coinmarketcap = require('./helpers/c');
+
 const portfolio = require('./helpers/portfolio');
+
+const coinmarketcap = require('./helpers/coinmarketcap');
+
 
 
 mongoose.connect("mongodb://localhost/cryptoclan");
@@ -62,7 +65,7 @@ app.use((req,res,next)=>{
   }
   next();
 })
-app.set('layout', 'layouts/landingPage-layout');
+//app.set('layout', 'layouts/landingPage-layout');
 app.set('views', __dirname + '/views');
 
 

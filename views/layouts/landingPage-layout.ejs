@@ -20,6 +20,60 @@
 </head>
 
 <body>
+
+<nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar7">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a href="#" class="navbar-brand">
+        <img src="images/CryptoClan.png" class="d-inline-block align-top" alt=""> CryptoClan
+        </a>
+    <div class="navbar-collapse collapse justify-content-stretch" id="navbar7">
+        <ul class="navbar-nav ml-auto">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle nostyle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+                <ul id="login-dp" class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                Login via
+                                <div class="social-buttons">
+                                    <a href="/auth/facebook" class="btn btn-fb"><i class="fa fa-facebook-square fa-3x"></i></a>
+                                    <a href="/auth/linkedin" class="btn btn-lk"><i class="fa fa-linkedin-square fa-3x"></i></a>
+                                </div>
+                                or
+                                <form class="form" role="form" method="post" action="/login" accept-charset="UTF-8" id="login-nav">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                                        <input type="email" name="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                        <input type="password" name="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                        <div class="help-block text-center"><a href="">Forgot your password ?</a></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-success btn-block">Sign in</button>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+											 <input type="checkbox"> keep me logged-in
+											 </label>
+                                    </div>
+                                </form>
+                                <div class="bottom text-center">
+                                    <div>You don't have an account?</div>
+                                    <a href="/signup"><b>Join Us</b></a>
+                                </div>
+                    </li>
+                </ul>
+                <% if (typeof message != "undefined") { %>
+                    <div class="error-message">
+                        <%= message %>
+                    </div>
+                    <% } %>
+                        </div>
+</nav>
   <%- body -%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
