@@ -9,7 +9,6 @@ $("#dropDownCoins").on("input", function () {
         $.ajax({
             url: "/send_save",
             type: "POST",
-            dataType: "json",
             data: {name: coin}
         });
         $("#asideCoins").append(

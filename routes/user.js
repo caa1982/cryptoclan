@@ -15,6 +15,12 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   });
 });
 
+router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  User.findOneAndUpdate({ "_id": req.user.id }, { $push: { "coins": req.body.name } }, (err, user) => {
+    if (err) console.log(err);
+  });
+});
+
 router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   res.render('user/edit');
 });
