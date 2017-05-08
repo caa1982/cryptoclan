@@ -17,7 +17,7 @@ const configuration = require("./configuration");
 const nev           = require('email-verification')(mongoose);
 
 const User          = require('./models/user');
-const coinmarketcap = require('./helpers/c');
+const coinmarketcap = require('./helpers/coinmarketcap');
 
 
 mongoose.connect("mongodb://localhost/cryptoclan");

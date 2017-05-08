@@ -1,93 +1,57 @@
-<form action="/user/<%=user.id%>" method="POST">
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" name="username" value="<%=user.username%>">
-  </div>
-  <div>
-    <label for="password">Password:</label>
-    <input type="password" name="password">
-  </div>
-  <div>
-    <button>Save profile</button>
-  </div>
-  <% if (typeof message != "undefined") { %>
-    <div class="error-message">
-      <%= message %>
-    </div>
-    <% } %>
-      <p>
-
-</form>
-
-
---------------------------------------------
-
-<div class="container" action="/user/<%=user.id%>" method="POST">
+<form class="container" action="/user/<%=user.id%>" method="POST">
   <div class="tab-pane" id="edit">
     <div class="text-center">
       <br>
-      <img class="rounded-circle" src="../../img/userProfilIcon.jpg">
+      <img class="rounded-circle" src="<%=user.photo%>">
     </div>
     <form role="form">
       <div class="form-group">
-        <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+        <input type="file" class="form-control-file" name="file" id="exampleInputFile" aria-describedby="fileHelp">
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">First name</label>
+        <label class="col-lg-3 col-form-label form-control-label">Name</label>
         <div class="col-lg-9">
-          <input class="form-control" type="text" value="John">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-        <div class="col-lg-9">
-          <input class="form-control" type="text" value="Doe">
+          <input class="form-control" name="name" type="text" value="<%=user.name%>">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Email</label>
         <div class="col-lg-9">
-          <input class="form-control" type="email" value="JohnDoe@gmail.com">
+          <input class="form-control" name="email" type="email" value="<%=user.email%>">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Company</label>
         <div class="col-lg-9">
-          <input class="form-control" type="text" value="">
+          <input class="form-control" name="company" type="text" value="<%=user.company%>">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Website</label>
         <div class="col-lg-9">
-          <input class="form-control" type="url" value="">
+          <input class="form-control" name="website" type="url" value="<%=user.website%>">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Bio</label>
         <div class="col-lg-9">
-          <textarea class="form-control" type="url" value=""></textarea>
+          <textarea class="form-control" name="bio" type="url"><%=user.bio%></textarea>
         </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Address</label>
         <div class="col-lg-9">
-          <input class="form-control" type="text" value="" placeholder="Street">
+          <input class="form-control" name="address" type="text" value="<%=user.address%>" placeholder="Street">
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label"></label>
-        <div class="col-lg-6">
-          <input class="form-control" type="text" value="" placeholder="City">
-        </div>
-        <div class="col-lg-3">
-          <input class="form-control" type="text" value="" placeholder="State">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Username</label>
+        <label class="col-lg-3 col-form-label form-control-label">City</label>
         <div class="col-lg-9">
-          <input class="form-control" name="username" type="text" value="<%=user.username%>">
+          <input class="form-control" type="text" name="city" value="<%=user.city%>" placeholder="City">
         </div>
+      <!--  <div class="col-lg-3">
+          <input class="form-control" type="text" value="" placeholder="State">
+        </div> -->
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Password</label>
@@ -98,19 +62,19 @@
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
         <div class="col-lg-9">
-          <input class="form-control" type="password" value="">
+          <input class="form-control" name="passwordRepeat" type="password" value="">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label"></label>
         <div class="col-lg-9">
-          <input type="reset" class="btn btn-outline-danger" value="Cancel">
-          <input type="button" class="btn btn-outline-success" value="Save Changes">
+         <!-- <input type="reset" class="btn btn-outline-danger" value="Cancel"> -->
+          <input type="submit" class="btn btn-outline-success" value="Save Changes">
         </div>
       </div>
     </form>
   </div>
-</div>
+</form>
 <% if (typeof message != "undefined") { %>
   <div class="error-message">
     <%= message %>

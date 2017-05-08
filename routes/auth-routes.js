@@ -14,7 +14,13 @@ const bcrypt     = require("bcrypt");
 const bcryptSalt = 10;
 
 
-
+authRoutes.get("/", (req, res) => {
+  if(req.isAuthenticated()) {
+    res.redirect('/user/dashboard')
+  } else {
+    res.render('index');
+  }
+});
 
 authRoutes.get("/signup", (req, res, next) => {
   res.render("auth/signup");
@@ -149,7 +155,7 @@ authRoutes.get("/login", (req, res, next) => {
 });
 
 authRoutes.post("/login", passport.authenticate("local", {
-  failureRedirect: "/login",
+  failureRedirect: "/",
   failureFlash: true,
   passReqToCallback: true
 }), (req, res)=>{
@@ -157,9 +163,6 @@ authRoutes.post("/login", passport.authenticate("local", {
   res.redirect("/user/dashboard");
 });
 
-authRoutes.get("/", (req, res) => {
-  res.render('index');
-});
 
 
 authRoutes.get("/logout", (req, res) => {
