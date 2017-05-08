@@ -3,7 +3,6 @@ $(".sortable").sortable({ revert: true });
 
 $("#dropDownCoins").on("input", function () {
     var coin = $(this).val();
-    $("#dropDownCoins").val("");
     if ($("#coins option").filter(function () {
         return this.value === coin;
     }).length) {
@@ -14,6 +13,7 @@ $("#dropDownCoins").on("input", function () {
             success: function(response){
                 console.log("success", response)
                 console.log(coin)
+                 $("#dropDownCoins").val("");
                 $("#asideCoins").append(
                     $(`<img src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`),
                 )
