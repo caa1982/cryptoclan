@@ -31,4 +31,10 @@ router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
   res.render('user/connect');
 });
 
+router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  req.logout();
+  res.redirect('/');
+});
+
+
 module.exports = router;

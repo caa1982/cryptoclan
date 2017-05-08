@@ -11,6 +11,9 @@ const userSchema = new Schema({
   facebookId: Number,
   photo: String,
   linkedinId: String,
+  poloniex: [{apikey: String, apisecrect: String}],
+  bittrex: [{apikey: String, apisecrect: String}],
+  portfolio: Array,
   coins : [{ type: Schema.Types.ObjectId, ref: 'Coin' }]
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
