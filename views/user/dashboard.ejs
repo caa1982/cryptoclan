@@ -1,15 +1,15 @@
 <section class="dashboard mx-auto">
-    <div class="row">
-        <aside class="col sortable">
-            <label for="something">
-	Add Coins: 
-	<input id="something" list="somethingelse">
-	<datalist id="somethingelse">
+    <div class="row text-center">
+        <aside id="asideCoins" class="col sortable">
+            <label for="text-center something">
+	<input id="dropDownCoins" placeholder="Add Coins" list="coins" value="">
+	<datalist id="coins">
 		<% coins.forEach( (coin) => { %>
-    <option><%= coin.name %></options>
+    <option><%= coin.id %></options>
     <% }) %>
 	</datalist>
 </label>
+<br>
         </aside>
 
         <section class="col-7">
