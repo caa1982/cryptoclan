@@ -27,4 +27,8 @@ router.get("/user/notifications", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
   res.render('user/notifications');
 });
 
+router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res)=>{
+  res.render('user/connect');
+});
+
 module.exports = router;
