@@ -13,8 +13,8 @@ const userSchema = new Schema({
   facebookId: Number,
   photo: String,
   linkedinId: String,
-  poloniex: [{apikey: String, apisecrect: String}],
-  bittrex: [{apikey: String, apisecrect: String}],
+  poloniex: {apikey: String, apisecret: String},
+  bittrex: {apikey: String, apisecret: String},
   portfolio: Array,
   coins : Array
 }, {
