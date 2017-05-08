@@ -61,7 +61,7 @@ app.use((req,res,next)=>{
   }
   next();
 })
-app.set('layout', 'layouts/landingPage-layout');
+//app.set('layout', 'layouts/landingPage-layout');
 app.set('views', __dirname + '/views');
 
 
