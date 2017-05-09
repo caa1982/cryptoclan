@@ -60,7 +60,7 @@ module.exports =
                     })
                 });
             });
-        });
+        
 
         User.find({fake:true}, (err,users)=>{
             users.forEach(user=>{
@@ -97,10 +97,10 @@ function updateUserPortfolio(user, coins, total, callback) {
         });
         portfolioHistory.save((err) => {
             if (err) console.log(err);
-        })
+        });
 
         callback(err);
-    })
+    });
 }
 
 function getBittrex(user, callBack) {
