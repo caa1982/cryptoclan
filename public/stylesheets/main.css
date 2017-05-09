@@ -1,5 +1,5 @@
 body{
-    background-color: #40e0d0;
+    background-color: lightgrey;
     height: calc(100vh - 56px);
     height: -o-calc(100vh - 56px); /* opera */
     height: -webkit-calc(100vh - 56px); /* google, safari */
@@ -51,8 +51,27 @@ i {
     margin-bottom: 1%;
 }
 
+#dropDownCoins{
+    margin-bottom: 2%;
+}
+
 .btn{
     cursor: pointer;
+}
+
+input[type="text"] {
+  display: block;
+  margin: 0;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 18px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+}
+
+input[type="text"]:focus {
+  outline: none;
 }
 
 @media(max-width:768px){

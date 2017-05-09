@@ -1,14 +1,9 @@
 //drag and drop
 $(".sortable").sortable({ revert: true });
 
-$("#dropDownCoins")
-    .selectmenu()
-    .selectmenu("menuWidget")
-    .addClass("overflow");
-
 $("#dropDownCoins").on("input", function () {
     var coin = $(this).val();
-    if ($("#coins option").filter(function () {
+    if ($("#dropDown option").filter(function () {
         return this.value === coin;
     }).length) {
         $.ajax({
