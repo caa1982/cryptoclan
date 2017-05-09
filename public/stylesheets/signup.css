@@ -1,10 +1,9 @@
 body{
-    background-color: #151515;
     color: white;
 }
 
-form{
-    width: 45%;
+.jumbotron{
+    width: 65%;
 }
 
 a {
@@ -17,7 +16,8 @@ a:hover{
     text-decoration: none;
 }
 
-a > .fa{
+.register_fa > .fa{
+    font-size: 5vw !important;
     color: white;
 }
 
@@ -26,14 +26,14 @@ a > .fa{
 }
 
 .btn-fb{
-    width: 200px;
+    width: 15vw;
     background-color:#3b5998;
 }
 .btn-fb:hover{
     background-color:#496ebc 
 }
 .btn-lk{
-    width: 200px;   
+    width: 15vw;   
     background-color:#4875B4;
 }
 .btn-lk:hover{
@@ -41,7 +41,10 @@ a > .fa{
 }
 
 .container{
-    height: 100vh;
+    height: calc(100vh - 56px);
+    height: -o-calc(100vh - 56px); /* opera */
+    height: -webkit-calc(100vh - 56px); /* google, safari */
+    height: -moz-calc(100vh - 56px); /* firefox */
     display: flex;
     justify-content: center;
     align-items: center;
