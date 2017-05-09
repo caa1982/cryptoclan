@@ -1,33 +1,31 @@
 <section class="dashboard mx-auto">
     <div class="row text-center">
         <aside id="asideCoins" class="col sortable">
-            <label for="text-center something">
-	<input id="dropDownCoins" placeholder="Add Coins" list="coins" value="">
-	<datalist id="coins">
-		<% coins.forEach( (coin) => { %>
-    <option><%= coin.id %></options>
-    <% }) %>
-	</datalist>
-</label>
-<br>
-<% userCoins.forEach( (coin) => { %>
-    <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
-    <% }) %>
+            <select class="form-control" id="dropDownCoins">
+                <% coins.forEach( (coin) => { %>
+                <option><%= coin.id %></options>
+                <% }) %>
+            </select>
         </aside>
+        <br>
+        <% userCoins.forEach( (coin) => { %>
+            <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
+            <% }) %>
+                </aside>
 
-        <section class="col-7">
-            <div>
-                <textarea id="dashboardTextarea" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
-                <div>
-                    <button type="submit" class="btn btn-success">
+                <section class="col-7">
+                    <div>
+                        <textarea id="dashboardTextarea" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
+                        <div>
+                            <button type="submit" class="btn btn-success">
                         <i class="fa fa-share"></i> Share
                     </button>
-                </div>
-            </div>
-        </section>
+                        </div>
+                    </div>
+                </section>
 
-        <aside class="col sortable">
+                <aside class="col sortable">
 
-        </aside>
+                </aside>
     </div>
 </section>
