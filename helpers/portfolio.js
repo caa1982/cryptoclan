@@ -65,16 +65,18 @@ module.exports =
         User.find({fake:true}, (err,users)=>{
             users.forEach(user=>{
                 let total = 0;
-                async.each(user.portfolio.coins, (coin, callback)=>{
-                    Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
-                        total += coinData ? coinData.price_usd * coin.balance : 0;
-                        callback();
-                    })
-                }, err=>{
-                    updateUserPortfolio(user, user.portfolio.coins, total, err=>{
-                        if (err) {console.log(err)}
-                    })
-                });
+                if(user.portfolio) {
+                    async.each(user.portfolio.coins, (coin, callback)=>{
+                        Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
+                            total += coinData ? coinData.price_usd * coin.balance : 0;
+                            callback();
+                        })
+                    }, err=>{
+                        updateUserPortfolio(user, user.portfolio.coins, total, err=>{
+                            if (err) {console.log(err)}
+                        })
+                    });
+                }
             });
         });
 
