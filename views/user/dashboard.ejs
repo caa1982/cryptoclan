@@ -1,0 +1,31 @@
+<section class="dashboard mx-auto">
+    <div class="row text-center">
+        <aside id="asideCoins" class="col sortable">
+            <select class="form-control" id="dropDownCoins">
+                <% coins.forEach( (coin) => { %>
+                <option><%= coin.id %></options>
+                <% }) %>
+            </select>
+        </aside>
+        <br>
+        <% userCoins.forEach( (coin) => { %>
+            <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
+            <% }) %>
+                </aside>
+
+                <section class="col-7">
+                    <div>
+                        <textarea id="dashboardTextarea" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
+                        <div>
+                            <button type="submit" class="btn btn-success">
+                        <i class="fa fa-share"></i> Share
+                    </button>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="col sortable">
+
+                </aside>
+    </div>
+</section>

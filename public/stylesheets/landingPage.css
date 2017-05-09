@@ -1,0 +1,110 @@
+body{
+    background-color: #40e0d0;
+    height: calc(100vh - 56px);
+    height: -o-calc(100vh - 56px); /* opera */
+    height: -webkit-calc(100vh - 56px); /* google, safari */
+    height: -moz-calc(100vh - 56px); /* firefox */
+}
+
+.navbar-brand{
+  font-size: 20px;
+}
+
+img{
+  width: 32px; 
+  height: auto;
+}
+
+#chart-pie{
+  width: 200px; 
+  height: auto;
+}
+
+.jumbotron{
+  background-color: #151515;
+  color: white;
+}
+
+.well > h3{  
+  color: #40e0d0;
+}
+
+/*Login form */
+#login-dp{
+    min-width: 450px;
+    padding: 14px 14px 0;
+    overflow:hidden;
+    background-color:rgba(0, 0, 0, 0.9);
+    color: #fff !important;
+}
+
+#login-dp a{
+    color: #fff !important;
+}
+
+#login-dp b{
+    font-size: 25px !important;
+    color: red !important;
+}
+
+#login-dp .help-block{
+    font-size:12px    
+}
+
+#login-dp .bottom{
+    width: 100%;
+    clear:both;
+    padding:14px;
+}
+#login-dp .social-buttons{
+    margin:12px 0    
+}
+#login-dp .social-buttons a{
+    width: 49%;
+}
+#login-dp .form-group {
+    margin-bottom: 10px;
+}
+.btn-fb{
+    background-color:#3b5998;
+}
+.btn-fb:hover{
+    border:2px solid white;
+    background-color:#496ebc 
+}
+.btn-lk{
+    background-color:#4875B4;
+}
+.btn-lk:hover{
+    border:2px solid white;
+    background-color:#0077B5;
+}
+.help-block{
+  font-size: 20px !important;
+}
+
+.btn{
+    cursor: pointer;
+}
+
+
+@media(max-width:768px){
+    #login-dp{
+        background-color: inherit;
+        color: #fff;
+    }
+    #login-dp .bottom{
+        background-color: inherit;
+        border-top:0 none;
+    }
+}
+
+a.nostyle:link {
+    text-decoration: inherit;
+    cursor: auto;
+}
+
+a.nostyle:visited {
+    text-decoration: inherit;
+    cursor: auto;
+}

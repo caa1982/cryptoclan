@@ -1,0 +1,73 @@
+<!-- views/auth/signup.ejs -->
+<!--CSS-->
+<link rel="stylesheet" type="text/css" href="stylesheets/signup.css">
+
+<div id="signup-form" class="container">
+  <div class="form-horizontal">
+    <div class="row text-center">
+      <div class="col">
+        <h1>Register</h1>
+      </div>
+    </div>
+    <div class="row social-btn">
+      <div class="col text-center">
+        <a href="/auth/facebook" class="btn btn-fb"><i class="fa fa-facebook-square fa-3x"></i></a>
+        <a href="/auth/linkedin" class="btn btn-lk"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+            <input type="text" name="name" class="form-control" id="name" placeholder="John Doe" required autofocus>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+            <input type="text" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem">
+              <i class="fa fa-repeat"></i>
+            </div>
+            <input type="password" name="passwordRepeat" class="form-control" id="passwordRepeat" placeholder="Password" required>
+            <br><span id="msg-reg"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col">
+        <button type="submit" onclick="parent.history.back();" class="btn btn-outline-danger"><i class="fa fa-home"></i> Home </button>
+      </div>
+      <div class="col">
+        <button type="submit" id="button-register" class="btn btn-outline-success"><i class="fa fa-user-plus"></i> Register</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/javascripts/verify-email.js"></script>

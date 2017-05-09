@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CryptoClan</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+    crossorigin="anonymous">
+  <!--Favicon-->
+  <link rel="shortcut icon" type="image/png" href="/images/CryptoClan.png" />
+  <!--CSS-->
+  <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+  <!--Fonts-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
+  <a href="/" class="navbar-brand">
+        <img src="/images/CryptoClan.png" class="d-inline-block align-top" alt=""> CryptoClan
+        </a>
+  <div class="navbar-nav ml-auto"></div>
+  <div class="collapse justify-content-stretch" id="collapseExample" id="navbar7">
+    <ul class="navbar-nav">
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="Home" href="/user/dashboard"><i class="fa fa-home"> Home</a></i></li>
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="Portfolio" href="/user/portfolio"><i class="fa fa-briefcase"> Portfolio</a></i></li>
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="Map" href="/user/map"><i class="fa fa-map"> Map</i></a></li>
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="Email" href="/user/email"><i class="fa fa-envelope"></a></i></li>
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="Notifications" href='/user/notifications'><i class="fa fa-bell"></a></i></li>
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="Find Friends" href="/user/connect"><i class="fa fa-users"></a></i></li>
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="Settings" href="/user/edit"><i class="fa fa-cog"></a></i></li>
+      <li><a class="nostyle" data-toggle="tooltip" data-placement="bottom" title="LogOut" href="/user/logout"><i class="fa fa-sign-out"></a></i></li>
+    </ul>
+  </div>
+  <div class="navbar-nav">
+    <img id="profilePic" data-toggle="collapse" href="#collapseExample" class="rounded-circle" src="<%=user.photo%>">
+  </div>
+</nav>
+
+<body>
+  <%- body -%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"></script>
+    <script src="/javascripts/main.js"></script>
+</body>
+
+</html>
