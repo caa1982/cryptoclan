@@ -22,9 +22,10 @@ const portfolio = require('./helpers/portfolio');
 
 const coinmarketcap = require('./helpers/coinmarketcap');
 
+require("dotenv").config();
 
 
-mongoose.connect("mongodb://localhost/cryptoclan");
+mongoose.connect(process.env.MONGODB_URI);
 
 
 var app = express();
