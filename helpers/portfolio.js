@@ -9,7 +9,7 @@ const config = require("../configuration");
 
 module.exports =
     function () {
-     setInterval(function () {
+//     setInterval(function () {
 
         User.find({
             $and: [
@@ -59,7 +59,24 @@ module.exports =
                 })
             });
         });
-     }, config.portfolioInterval);
+
+        User.find({fake:true}, (err,users)=>{
+            users.forEach(user=>{
+                let total = 0;
+                async.each(user.portfolio.coins, (coin, callback)=>{
+                    Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
+                        total += coinData ? coinData.price_usd * coin.balance : 0;
+                        callback();
+                    })
+                }, err=>{
+                    updateUserPortfolio(user, user.portfolio.coins, total, err=>{
+                        if (err) {console.log(err)}
+                    })
+                });
+            });
+        });
+
+   //  }, config.portfolioInterval);
     };
 
 
