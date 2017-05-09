@@ -9,54 +9,56 @@ const config = require("../configuration");
 
 module.exports =
     function () {
-//     setInterval(function () {
 
-        User.find({
-            $and: [
-                { "poloniex.apikey": { $exists: true } },
-                { "poloniex.apikey": { $ne: "" } },
-                { "bittrex.apikey": { $exists: true } },
-                { "bittrex.apikey": { $ne: "" } }
-            ]
-        }, (err, users) => {
-            users.forEach(user => {
-                getPoloniex(user, (poloniexCoins, poloniexTotal) => {
-                    getBittrex(user, (bittrexCoins, bittrexTotal) => {
-                        updateUserPortfolio(user, poloniexCoins.concat(bittrexCoins), bittrexTotal + poloniexTotal, (err) => {
+        setInterval(function () {
+
+            User.find({
+                $and: [
+                    { "poloniex.apikey": { $exists: true } },
+                    { "poloniex.apikey": { $ne: "" } },
+                    { "bittrex.apikey": { $exists: true } },
+                    { "bittrex.apikey": { $ne: "" } }
+                ]
+            }, (err, users) => {
+                users.forEach(user => {
+                    getPoloniex(user, (poloniexCoins, poloniexTotal) => {
+                        getBittrex(user, (bittrexCoins, bittrexTotal) => {
+                            updateUserPortfolio(user, poloniexCoins.concat(bittrexCoins), bittrexTotal + poloniexTotal, (err) => {
+                                if (err) console.log(err);
+                            })
+                        })
+                    })
+                });
+            });
+            User.find({
+                $and: [
+                    { "poloniex.apikey": { $exists: true } },
+                    { "poloniex.apikey": { $ne: "" } },
+                    { "bittrex.apikey": { $exists: false } }
+                ]
+            }, (err, users) => {
+                users.forEach(user => {
+                    getPoloniex(user, (poloniexCoins, poloniexTotal) => {
+                        updateUserPortfolio(user, poloniexCoins, poloniexTotal, (err) => {
                             if (err) console.log(err);
                         })
                     })
-                })
+                });
             });
-        });
-        User.find({
-            $and: [
-                { "poloniex.apikey": { $exists: true } },
-                { "poloniex.apikey": { $ne: "" } },
-                { "bittrex.apikey": { $exists: false } }
-            ]
-        }, (err, users) => {
-            users.forEach(user => {
-                getPoloniex(user, (poloniexCoins, poloniexTotal) => {
-                    updateUserPortfolio(user, poloniexCoins, poloniexTotal, (err) => {
-                        if (err) console.log(err);
+            User.find({
+                $and: [
+                    { "poloniex.apikey": { $exists: false } },
+                    { "bittrex.apikey": { $exists: true } },
+                    { "bittrex.apikey": { $ne: "" } }
+                ]
+            }, (err, users) => {
+                users.forEach(user => {
+                    getBittrex(user, (bittrexCoins, bittrexTotal) => {
+                        updateUserPortfolio(user, bittrexCoins, bittrexTotal, (err) => {
+                            if (err) console.log(err);
+                        })
                     })
-                })
-            });
-        });
-        User.find({
-            $and: [
-                { "poloniex.apikey": { $exists: false } },
-                { "bittrex.apikey": { $exists: true } },
-                { "bittrex.apikey": { $ne: "" } }
-            ]
-        }, (err, users) => {
-            users.forEach(user => {
-                getBittrex(user, (bittrexCoins, bittrexTotal) => {
-                    updateUserPortfolio(user, bittrexCoins, bittrexTotal, (err) => {
-                        if (err) console.log(err);
-                    })
-                })
+                });
             });
         });
 
@@ -76,7 +78,8 @@ module.exports =
             });
         });
 
-   //  }, config.portfolioInterval);
+     }, config.portfolioInterval);
+
     };
 
 
@@ -84,20 +87,20 @@ module.exports =
 function updateUserPortfolio(user, coins, total, callback) {
     let time = Date.now();
 
-    let coinIds  = coins.map(coin=>coin.id).filter(coin=>coin);
-    User.findOneAndUpdate({ "_id": user.id }, {$addToSet:{coins:{$each:coinIds}}, portfolio: { coins, total, time } }, (err, user) => {
-            let portfolioHistory = new PortfolioHistory({
-                userId:user.id,
-                portfolio: coins,
-                total,
-                time
-            });
-            portfolioHistory.save((err)=>{
-                if(err) console.log(err);
-            })
-
-            callback(err);
+    let coinIds = coins.map(coin => coin.id).filter(coin => coin);
+    User.findOneAndUpdate({ "_id": user.id }, { $addToSet: { coins: { $each: coinIds } }, portfolio: { coins, total, time } }, (err, user) => {
+        let portfolioHistory = new PortfolioHistory({
+            userId: user.id,
+            portfolio: coins,
+            total,
+            time
+        });
+        portfolioHistory.save((err) => {
+            if (err) console.log(err);
         })
+
+        callback(err);
+    })
 }
 
 function getBittrex(user, callBack) {
@@ -114,7 +117,7 @@ function getBittrex(user, callBack) {
         async.each(bittrexCoins, function (coin, callback) {
             Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
                 totalValue += coinData ? coinData.price_usd * coin.balance : 0;
-                coin.id =  coinData ? coinData.id : "";
+                coin.id = coinData ? coinData.id : "";
                 callback();
             })
         }, function (err) {
@@ -138,7 +141,7 @@ function getPoloniex(user, callBack) {
         async.each(poloniexCoins, function (coin, callback) {
             Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
                 totalValue += coinData ? coinData.price_usd * coin.balance : 0;
-                coin.id =  coinData ? coinData.id : "";
+                coin.id = coinData ? coinData.id : "";
                 callback();
             })
         }, function (err) {
