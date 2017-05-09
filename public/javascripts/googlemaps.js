@@ -1,8 +1,10 @@
 $(document).ready(() => {
     init();
-
     google.maps.event.addDomListener(window, 'load', init);
 });
+
+let dataGoogleMap = {};
+
 function init() {
     const input = document.getElementById('locationName');
     const autocomplete = new google.maps.places.Autocomplete(input);
@@ -42,6 +44,13 @@ function init() {
         }
         location.lat = place.geometry.location.lat();
         location.lng = place.geometry.location.lng();
-        console.log(location);
+        dataGoogleMap = location;
+        sendGoogleMapObject();
     });
+};
+
+function sendGoogleMapObject() {
+     console.log(dataGoogleMap.lat);
+      $("#lat").val(dataGoogleMap.lat);
+      $("#lng").val(dataGoogleMap.lng);
 };

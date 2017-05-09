@@ -74,6 +74,11 @@ input[type="text"]:focus {
   outline: none;
 }
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;

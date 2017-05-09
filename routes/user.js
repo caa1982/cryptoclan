@@ -21,16 +21,15 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOneAndUpdate({ "_id": req.user.id }, { $addToSet: { "coins": req.body.name } }, (err, user) => {
     if (err) {
-      res.status(500).json({ message: err })
+      res.status(500).json({ message: err });
     } else {
-      res.status(200).json({ message: "ok" })
+      res.status(200).json({ message: "ok" });
     }
   });
 });
 
 router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-    console.log(res.locals);
-    res.render('user/edit');
+  res.render('user/edit');
 });
 
 
@@ -59,11 +58,9 @@ router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   res.redirect('/');
 });
 
-
-
 router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) => {
   const password = req.body.password,
-    passwordRepeat = req.body.passwordRepeat;
+        passwordRepeat = req.body.passwordRepeat;
 
   const data = {
     name: req.body.name,
@@ -71,10 +68,9 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     company: req.body.company,
     website: req.body.website,
     bio: req.body.bio,
-    address: req.body.address,
-    city: req.body.city,
-    poloniex: {apikey:req.body.poloniex_apikey, apisecret:req.body.poloniex_apisecret},
-    bittrex: {apikey:req.body.bittrex_apikey, apisecret:req.body.bittrex_apisecret}
+    location: {type: 'Point', coordinates: [req.body.lng, req.body.lat]},
+    poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
+    bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
   }
 
   if (password) {

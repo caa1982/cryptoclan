@@ -8,8 +8,7 @@ const userSchema = new Schema({
   company: String,
   website: String,
   bio: String,
-  address: String,
-  city: String,
+  location: { type: { type: String }, coordinates: [Number] },
   facebookId: Number,
   photo: String,
   linkedinId: String,
@@ -21,6 +20,7 @@ const userSchema = new Schema({
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
+userSchema.index({ location: '2dsphere' });
 
 const User = mongoose.model("User", userSchema);
 
