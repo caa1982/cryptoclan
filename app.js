@@ -10,8 +10,11 @@ const passport      = require("./helpers/passport");
 const flash         = require("connect-flash");
 const auth          = require("./helpers/auth");
 const expressLayouts= require('express-ejs-layouts');
+
 const authRoutes    = require("./routes/auth-routes");
 const userRoutes    = require("./routes/user");
+const apiRoutes     = require("./routes/api");
+
 const mongoose      = require("mongoose");
 const configuration = require("./configuration");
 const nev           = require('email-verification')(mongoose);
@@ -56,6 +59,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "bower_components")));
 
 app.use(expressLayouts);
 app.use((req,res,next)=>{
@@ -72,7 +76,7 @@ app.set('views', __dirname + '/views');
 
 app.use('/', authRoutes);
 app.use('/', userRoutes);
-
+app.use('/api', apiRoutes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

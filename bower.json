@@ -1,0 +1,20 @@
+{
+  "name": "cryptoclan",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Darek Glowinski <dariushg32111@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dglowinski/cryptoclan",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chart.js": "^2.5.0"
+  }
+}

@@ -110,7 +110,7 @@ function getBittrex(user, callBack) {
     let totalValue = 0;
     Bittrex.options({ 'apikey': user.bittrex.apikey, 'apisecret': user.bittrex.apisecret });
     Bittrex.getbalances(function (bittrexData) {
-
+        
         bittrexData = bittrexData.result;
         bittrexData.forEach(coin => {
             if (coin.Balance > 0)
@@ -134,6 +134,7 @@ function getPoloniex(user, callBack) {
     let poloniex = new Poloniex(user.poloniex.apikey, user.poloniex.apisecret);
 
     poloniex.returnBalances(function (err, poloniexData) {
+        if(err) { console.log("Error: "+err); return}
         for (let symbol in poloniexData) {
             if (poloniexData[symbol] > 0) {
                 poloniexCoins.push({ symbol: symbol, balance: poloniexData[symbol], exchange: "poloniex" })
