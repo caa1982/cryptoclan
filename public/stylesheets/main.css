@@ -24,6 +24,7 @@ a.nostyle:visited {
 img{
   width: 32px; 
   height: auto;
+  cursor: pointer;
 }
 
 .dashboard{
@@ -46,6 +47,13 @@ i {
     font-size: 1.2em !important;
 }
 
+#dashboardTextarea{
+    margin-bottom: 1%;
+}
+
+.btn{
+    cursor: pointer;
+}
 
 @media(max-width:768px){
     #login-dp{
@@ -60,4 +68,7 @@ i {
       visibility:hidden;
       height: 0px;
     }
+    #dashboardTextarea{
+    margin-top: 1%;
+}
 }
