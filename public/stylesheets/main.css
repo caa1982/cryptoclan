@@ -74,6 +74,20 @@ input[type="text"]:focus {
   outline: none;
 }
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/*edit page*/
+#editProfilePic{
+    width: 6vw; 
+}
+
+#edit{
+    padding-top: 1vw;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
