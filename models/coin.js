@@ -16,7 +16,6 @@ const coinSchema = new Schema({
     "percent_change_24h": String,
     "percent_change_7d": String,
     "last_updated": String,
-    "price_history": [{price_usd: String, price_btc: String, timestamp: Number}]
 }, {
         timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
     });

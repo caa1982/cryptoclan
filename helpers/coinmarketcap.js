@@ -1,10 +1,11 @@
 const Coin = require("../models/coin");
+const CoinHistory = require("../models/coin_history");
 const request = require('request');
 const config = require("../configuration");
-module.exports =
 
+module.exports =
     function () {
-        setInterval(function () {
+        setInterval( ()=>{
             request.get({
                 url: "https://api.coinmarketcap.com/v1/ticker/",
                 json: true,
@@ -14,18 +15,24 @@ module.exports =
                     console.log('Error:', err);
                 } else {
                     var time = Date.now();
-                    data.body.forEach(function (el) {
+                    data.body.forEach( el =>{
 
                         Coin.update(
                             { id: el.id },
                             el,
                             { upsert: true },
-                            function (err) {
+                            err=> {
                                  if(err)  console.log(err);
-                                Coin.findOneAndUpdate({ id: el.id }, { $push: { "price_history": { price_usd: el.price_usd, price_btc: el.price_btc, timestamp: time } } },
-                                    function (err) {
+                                 let coinHistory = new CoinHistory({
+                                    id: el.id,
+                                    symbol: el.symbol,
+                                    price_usd: el.price_usd,
+                                    price_btc: el.price_btc,
+                                    time
+                                 });
+                                coinHistory.save( err=> {
                                         if(err)  console.log(err);
-                                    });
+                                });
                             }
                         );
                     });

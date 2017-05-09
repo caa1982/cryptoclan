@@ -15,7 +15,7 @@ const userSchema = new Schema({
   linkedinId: String,
   poloniex: {apikey: String, apisecret: String},
   bittrex: {apikey: String, apisecret: String},
-  portfolio: Array,
+  portfolio: Object,
   fake: Boolean,
   coins : Array
 }, {
