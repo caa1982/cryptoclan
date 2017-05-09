@@ -4,7 +4,7 @@ const Schema   = mongoose.Schema;
 const portfolioHistorySchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
   total : Number,
-  time : Number,
+  time :  { type: Number, index: true } ,
   portfolio: Object
 }, {
   timestamps: { createdAt: "created_at" }

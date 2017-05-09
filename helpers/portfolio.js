@@ -9,7 +9,7 @@ const config = require("../configuration");
 
 module.exports =
     function () {
-   //  setInterval(function () {
+     setInterval(function () {
 
         User.find({
             $and: [
@@ -59,7 +59,7 @@ module.exports =
                 })
             });
         });
-   //  }, config.portfolioInterval);
+     }, config.portfolioInterval);
     };
 
 

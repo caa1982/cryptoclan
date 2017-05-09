@@ -11,9 +11,12 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser((user, cb) => {
-  if(mongoose.Types.ObjectId.isValid(user)) {
-    User.findOne({ "_id": user }, (err, user) => {
+
+  if(mongoose.Types.ObjectId.isValid(user._id)) {
+
+    User.findOne({ "_id": user._id }, (err, user) => {
       if (err) { return cb(err); }
+       
         cb(null, user);
     });
   } else {
@@ -30,7 +33,7 @@ passport.deserializeUser((user, cb) => {
         cb(null, dbUser);
       });      
     }
-    console.log(providerIdField, user.id)
+  
      
     //cb(null, user);
   }

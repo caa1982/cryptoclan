@@ -1,28 +1,76 @@
 /*jshint esversion: 6 */
 const mongoose = require('mongoose');
-const bcrypt         = require("bcrypt");
-const bcryptSalt     = 10;
+const bcrypt = require("bcrypt");
+const bcryptSalt = 10;
 const User = require('../models/user');
 const Coin = require('../models/coin');
 const faker = require('faker');
 
 mongoose.connect("mongodb://localhost/cryptoclan");
 
-for(let i=0; i<3; i++) {
-  let user = new User ({
-    email:  faker.internet.email(),
-    name:   faker.name.findName(),
-    company:faker.company.companyName(),
-    website:faker.internet.domainName(),
-    bio:faker.lorem.paragraph(),
-    address: faker.address.streetAddress(true),
-    city: faker.address.city(),
-    photo: faker.image.people(100, 100),
-    fake: true
-  });
+Coin.find({}, (err, cmcCoins) => {
 
-  user.save((err)=>{
-    if(err) console.log(err);
-  })
+  for (let i = 0; i < 3; i++) {
+    let coins = [];
+    let totalValue = 0;
+    if (Math.floor(Math.random() * 2)) {
+      let exchange = "poloniex";
+      let numberOfCoins = Math.floor(Math.random() * 10);
+      
+      for (let i = 0; i < numberOfCoins; i++) {
+        let coinInd = Math.floor(Math.random()*cmcCoins.length);
+        let balance = Math.floor(Math.random()*100)
+        coins.push({
+              symbol: cmcCoins[coinInd].symbol, 
+              balance,
+              exchange});
+        totalValue+= balance* cmcCoins[coinInd].price_usd;
+      }
+    }
 
-}
+     if (Math.floor(Math.random() * 2)) {
+      let exchange = "bittrex";
+      let numberOfCoins = Math.floor(Math.random() * 10);
+      
+      for (let i = 0; i < numberOfCoins; i++) {
+        let coinInd = Math.floor(Math.random()*cmcCoins.length);
+        let balance = Math.floor(Math.random()*100)
+        coins.push({
+              symbol: cmcCoins[coinInd].symbol, 
+              balance,
+              exchange});
+        totalValue+= balance* cmcCoins[coinInd].price_usd;
+      }
+    }
+    let coinClans = [];
+    let numberOfCoinClans = Math.floor(Math.random()*100);
+    for (let i = 0; i < numberOfCoinClans; i++) {
+      coinClans.push(cmcCoins[Math.floor(Math.random()*cmcCoins.length)].id)
+    }
+
+    let newUser = {
+      email: faker.internet.email(),
+      name: faker.name.findName(),
+      company: faker.company.companyName(),
+      website: faker.internet.domainName(),
+      bio: faker.lorem.paragraph(),
+      address: faker.address.streetAddress(true),
+      city: faker.address.city(),
+      photo: faker.image.people(100, 100),
+      fake: true,
+      coins: coinClans
+    }
+    if(coins.length)
+       newUser.portfolio = { coins, total:totalValue, time:Date.now() }
+    let user = new User(newUser);
+
+    user.save((err, user) => {
+      if (err) console.log(err);
+    })
+  }
+
+})
+
+
+
+
