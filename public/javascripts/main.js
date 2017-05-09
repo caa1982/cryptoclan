@@ -1,6 +1,7 @@
 //drag and drop
 $(".sortable").sortable({ revert: true });
 
+
 $("#dropDownCoins").on("input", function () {
     var coin = $(this).val();
     if ($("#dropDown option").filter(function () {
