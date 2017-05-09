@@ -60,7 +60,7 @@ module.exports =
                     })
                 });
             });
-        });
+        
 
         User.find({fake:true}, (err,users)=>{
             users.forEach(user=>{

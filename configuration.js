@@ -8,5 +8,4 @@ module.exports = {
   },
   coinmarketcapInterval: 5*60*1000,
   portfolioInterval: 30*1000
-
 }
