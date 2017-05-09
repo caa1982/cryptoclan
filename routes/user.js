@@ -68,7 +68,8 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     company: req.body.company,
     website: req.body.website,
     bio: req.body.bio,
-    location: {type: 'Point', coordinates: [req.body.lng, req.body.lat]},
+    address: req.body.city,
+    location: {type: 'Point', coordinates: [req.body.lng, req.body.lat], default:[0,0]},
     poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
     bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
   }

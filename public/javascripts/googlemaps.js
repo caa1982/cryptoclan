@@ -51,6 +51,7 @@ function init() {
 
 function sendGoogleMapObject() {
      console.log(dataGoogleMap.lat);
+      $("#city").val(dataGoogleMap.city);
       $("#lat").val(dataGoogleMap.lat);
       $("#lng").val(dataGoogleMap.lng);
 };
