@@ -10,7 +10,7 @@ mongoose.connect("mongodb://localhost/cryptoclan");
 
 Coin.find({}, (err, cmcCoins) => {
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 200; i++) {
     let coins = [];
     let totalValue = 0;
     if (Math.floor(Math.random() * 2)) {
