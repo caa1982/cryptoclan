@@ -1,12 +1,14 @@
 <section class="dashboard mx-auto">
     <div class="row text-center">
         <aside id="asideCoins" class="col sortable">
-            <select class="form-control" id="dropDownCoins">
+            <input id="dropDownCoins" list="dropDown">
+            <datalist id="dropDown">
                 <% coins.forEach( (coin) => { %>
-                <option><%= coin.id %></options>
-                <% }) %>
-            </select>
-        </aside>
+                    <option>
+                        <%= coin.id %>
+                            </options>
+                            <% }) %>
+            </datalist>
         <br>
         <% userCoins.forEach( (coin) => { %>
             <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">

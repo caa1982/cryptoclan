@@ -1,5 +1,5 @@
 body{
-    background-color: #40e0d0;
+    background-image: url("../images/landingpageBackground.jpg");
     height: calc(100vh - 56px);
     height: -o-calc(100vh - 56px); /* opera */
     height: -webkit-calc(100vh - 56px); /* google, safari */
@@ -21,17 +21,17 @@ img{
 }
 
 .jumbotron{
-  background-color: #151515;
+  background: rgba(0, 0, 0, 0.9); 
   color: white;
 }
 
 .well > h3{  
-  color: #40e0d0;
+  color: #00CED1;
 }
 
 /*Login form */
 #login-dp{
-    min-width: 450px;
+    min-width: 30vw;
     padding: 14px 14px 0;
     overflow:hidden;
     background-color:rgba(0, 0, 0, 0.9);
