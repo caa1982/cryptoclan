@@ -78,7 +78,7 @@ router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
-    res.render('user/edit');
+  res.render('user/edit');
 
 });
 
