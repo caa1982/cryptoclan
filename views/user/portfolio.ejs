@@ -225,12 +225,13 @@
     <% } %>
 
         <div class="container">
+        <form method="POST" action="/user/portfolio">
             <div class="jumbotron portfolioInput">
             <div class="row input-group">
             <div class="col-md-5 col-sm-4">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-bitcoin"></i></div>
-            <form method="POST" action="user/portfolio">
+            
                 <input  list="dropDown" class="form-control" type="" name="coinId" value="" placeholder="coin name">
                 <datalist id="dropDown">
                 <% coins.forEach( (coin) => { %>
@@ -251,25 +252,35 @@
             <div class="col-md-2 col-sm-4">
                 <button type="submit" class="btn btn-success">Add a coin</button>
             </div>
+            
+            </div> 
+            </div> 
             </form>
-            </div> 
-            </div> 
         </div>
 
-         <% allCoins.forEach(coin=>{ if(coin.value) { %>
+         <% allCoins.forEach(coin=>{  %>
 
         <div class="row portfolioCoinBox text-nowrap form-group">
             <div class="col my-auto">
                 <h3 id="textCoinPortfolio"><img src="https://files.coinmarketcap.com/static/img/coins/128x128/<%=coin.id%>.png"> <%=coin.id%></h3>
             </div>
             <div class="col my-auto">
-                <h3>$<%= coin.value %></h3>
+                <h3>$<%= coin.value %></h3> <br>
+                <% if(coin.exchange==="wallet") { %>
+                    <div id="edit-coin-container-<%=coin.id%>">
+                    <button class="btn btn-default" onclick="clickEditCoin('<%=coin.id%>', <%=coin.balance%>)">Edit amount</button>
+                    <a class="btn btn-danger"  href="/user/portfolio/<%=coin.id%>/delete">Remove</a>
+                    </div>
+              <%  } else { %>
+                    <%=coin.exchange%>
+              <% } %>
+                
             </div>
             <div class="col my-auto">
-                <canvas style="background-color: whitesmoke; opacity: 0.7;" class="coin-chart" id="<%=coin.id%>" width="150" height="75"></canvas>
+                <canvas id="<%=coin.id%>" style="background-color: whitesmoke; opacity: 0.7;" class="coin-chart chart-<%=coin.id%>" width="150" height="75"></canvas>
             </div>
         </div>
-        <% }}) %>
+        <% }) %>
     <% } %>    
     </div>
 

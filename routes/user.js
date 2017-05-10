@@ -10,28 +10,61 @@ const bcryptSalt = 10;
 const calculatePortfolio = require("../helpers/calculate-portfolio");
 
 router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  if(req.body.coinId) {
-    User.findOneAndUpdate({"_id":req.user.id}, { $push:{"portfolio.coins":{
-                      id:req.body.coinId,
-                      exchange:"wallet",
-                      balance:req.body.amount
-                    }}}, err=>{
-                      if(err) console.log(err)
-                      calculatePortfolio(req.user.id, (total)=>{
-                        User.findOneAndUpdate({"_id":req.user.id}, {"portfolio.total":total}, (err)=>{
-                          res.redirect("/user/portfolio");
-                        });
-                      });
-                    });
+  if (req.body.coinId) {
+    User.findOneAndUpdate({ "_id": req.user.id }, {
+      $push: {
+        "portfolio.coins": {
+          id: req.body.coinId,
+          exchange: "wallet",
+          balance: req.body.amount
+        }
+      }
+    }, err => {
+      if (err) console.log(err)
+      calculatePortfolio(req.user.id, (total) => {
+        console.log('total: ', total);
+
+        User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
+          res.redirect("/user/portfolio");
+        });
+      });
+    });
   } else {
     res.redirect("/user/portfolio");
   }
 });
 
+router.post("/user/portfolio/:coinId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  User.findOneAndUpdate({ "_id": req.user.id, "portfolio.coins.exchange": "wallet", "portfolio.coins.id": req.params.coinId }, { "$set": { "portfolio.coins.$.balance": req.body.balance } }, (err) => {
+    if (err) console.log(err)
+    calculatePortfolio(req.user.id, (total) => {
+      console.log('total: ', total);
+
+      User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
+        res.redirect("/user/portfolio");
+      });
+    });
+
+  })
+});
+
+router.get("/user/portfolio/:coinId/delete", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  User.findOneAndUpdate({ "_id": req.user.id }, { $pull: { "portfolio.coins": { exchange: "wallet", id: req.params.coinId } } }, err => {
+    if (err) console.log(err)
+    calculatePortfolio(req.user.id, (total) => {
+      console.log('total: ', total);
+
+      User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
+        res.redirect("/user/portfolio");
+      });
+    });
+  })
+});
+
 router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   if (req.user.portfolio) {
     Coin.find({}, function (err, coins) {
-      
+
       let pieTotalLabels = [];
       let pieTotalData = [];
 
@@ -51,14 +84,14 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
         Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
           if (cmcCoin) {
             let ind = null;
-            if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
-              allCoins[ind].balance += coin.balance;
-              allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-            } else {
-              coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-              coin.price = cmcCoin.price_usd;
-              allCoins.push(coin);
-            }
+            // if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
+            //   allCoins[ind].balance += coin.balance;
+            //   allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+            // } else {
+            coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+            coin.price = cmcCoin.price_usd;
+            allCoins.push(coin);
+            // }
             pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
             if (coin.exchange === "poloniex") {
               pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
@@ -68,7 +101,7 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
             }
             if (coin.exchange === "wallet") {
               pushData(coin, cmcCoin, pieWalletLabels, pieWalletData);
-            }            
+            }
           }
           callback();
         });

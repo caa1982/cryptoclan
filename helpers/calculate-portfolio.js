@@ -9,7 +9,7 @@ module.exports = function (userId, moduleCallback) {
       let totalValue = 0;
 
       async.each(coins, function (coin, callback) {
-        Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
+        Coin.findOne({ "id": coin.id }, (err, coinData) => {
           totalValue += coinData ? coinData.price_usd * coin.balance : 0;
           callback();
         })
