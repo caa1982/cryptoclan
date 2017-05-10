@@ -11,7 +11,7 @@ const bcryptSalt = 10;
 
 
 router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  if(req.user.portfolio) {
+  if (req.user.portfolio) {
 
     let pieTotalLabels = [];
     let pieTotalData = [];
@@ -22,34 +22,48 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     let pieBittrexLabels = [];
     let pieBittrexData = [];
 
-    async.each(req.user.portfolio.coins, (coin, callback)=>{
-      Coin.findOne({"id":coin.id}, (err, cmcCoin)=>{
-        if(cmcCoin) {
-          coin.value = Math.round(coin.balance*cmcCoin.price_usd*100)/100;
-          coin.price = cmcCoin.price_usd;
-          
-          pieTotalLabels.push(coin.id);
-          pieTotalData.push(Math.round(coin.balance*cmcCoin.price_usd*100)/100);
-          if(coin.exchange==="poloniex") {
-            piePoloniexLabels.push(coin.id);
-            piePoloniexData.push(Math.round(coin.balance*cmcCoin.price_usd*100)/100);
-          }
-          if(coin.exchange==="bittrex") {
-            pieBittrexLabels.push(coin.id);
-            pieBittrexData.push(Math.round(coin.balance*cmcCoin.price_usd*100)/100);
-          }
+    let allCoins = [];
 
-
+    async.each(req.user.portfolio.coins, (coin, callback) => {
+      Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
+        if (cmcCoin) {
+          let ind = null;
+          if ((ind = allCoins.findIndex(el => el.id === coin.id))!==-1) {
+            allCoins[ind].balance+=coin.balance;
+            allCoins[ind].value+= Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+          } else {
+            coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+            coin.price = cmcCoin.price_usd;
+            allCoins.push(coin);
+          }
+          pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
+          if (coin.exchange === "poloniex") {
+            pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
+          }
+          if (coin.exchange === "bittrex") {
+            pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
+          }
         }
-
         callback();
       })
-    }, err=>{
-      res.render('user/portfolio', {pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels});
+    }, err => {
+      allCoins.sort((a,b)=>b.value-a.value);
+      res.render('user/portfolio', { allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels });
     })
   } else {
     res.render('user/portfolio');
   }
+
+  function pushData(coin, cmcCoin, labels, data) {
+    let ind = null;
+    if ((ind = labels.findIndex(el => el === coin.id))!==-1) {
+      data[ind] += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+    } else {
+      labels.push(coin.id);
+      data.push(Math.round(coin.balance * cmcCoin.price_usd * 100) / 100);
+    }
+  }
+
 });
 
 
@@ -107,7 +121,7 @@ router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) => {
   const password = req.body.password,
-        passwordRepeat = req.body.passwordRepeat;
+    passwordRepeat = req.body.passwordRepeat;
 
   const data = {
     name: req.body.name,
@@ -116,7 +130,7 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     website: req.body.website,
     bio: req.body.bio,
     address: req.body.city,
-    location: {type: 'Point', coordinates: [req.body.lng, req.body.lat], default:[0,0]},
+    location: { type: 'Point', coordinates: [req.body.lng, req.body.lat], default: [0, 0] },
     poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
     bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
   }

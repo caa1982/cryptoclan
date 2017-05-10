@@ -6,7 +6,7 @@ $(document).ready(function () {
       url: "http://localhost:3000/api/coin24/"+coinId,
       method: 'GET',
       success: function(data) {
-        plotChart(data, coinId);
+        plotCoinChart(data, coinId);
       },
       error: function (error) {
         console.log('error');
@@ -15,19 +15,31 @@ $(document).ready(function () {
 
   })
 
+ $.ajax({
+      url: "http://localhost:3000/api/portfolio24/",
+      method: 'GET',
+      success: plotValueChart,
+      error: function (error) {
+        console.log('error');
+      }
+    });
+
 })
 
-function plotChart(data, coinId) {
-  var labels = data.map((el, ind)=>ind);
-  var ctx = document.getElementById(coinId);
-  var dataChart = {
+function plotValueChart(data) {
+  let labels = [];
+  data.forEach((d, ind)=>{
+    labels.push(ind);
+  });
+  let ctx = document.getElementById("valueChart");
+   var dataChart = {
     labels: labels, //["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
         {
-            label: coinId,
+            label: "Portfolio Value",
             fill: false,
             lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
+            backgroundColor: "rgba(175,192,92,0.4)",
             borderColor: "rgba(75,192,192,1)",
             borderCapStyle: 'butt',
             borderDash: [],
@@ -58,7 +70,58 @@ function plotChart(data, coinId) {
       scales:
         {
             xAxes: [{
+                display: false
+            }],
+             yAxes: [{
                 display: true
+            }]
+        }
+    }
+ });
+}
+
+function plotCoinChart(data, coinId) {
+  var labels = data.map((el, ind)=>ind);
+  var ctx = document.getElementById(coinId);
+  var dataChart = {
+    labels: labels, //["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: coinId,
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(175,192,92,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: data,// [65, 59, 80, 81, 56, 55, 40],
+            spanGaps: false,
+        }
+    ]
+};
+  var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: dataChart,
+    options: 
+    {
+      legend: {
+    	  display: false
+      },
+      scales:
+        {
+            xAxes: [{
+                display: false
             }],
              yAxes: [{
                 display: false
@@ -67,9 +130,5 @@ function plotChart(data, coinId) {
     }
  });
 
-  //{labels, datasets:[ data ]}
 
- 
-  console.log('coinId: ', coinId);
-  console.log('data: ', data);
 }
