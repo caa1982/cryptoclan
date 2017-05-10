@@ -1,35 +1,40 @@
-
-<section class="dashboard mx-auto">
-    <div class="row text-center">
-        <aside id="asideCoins" class="col sortable">
-            <input id="dropDownCoins" list="dropDown">
-            <datalist id="dropDown">
-                <% coins.forEach( (coin) => { %>
-                    <option>
-                        <%= coin.id %>
-                            </options>
-                            <% }) %>
-            </datalist>
-        <br>
-        <% userCoins.forEach( (coin) => { %>
-            <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
-            <% }) %>
-                </aside>
-
-                <section class="col-7">
-                    <div>
-                        <textarea id="dashboardTextarea" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
-                        <div>
-                            <button type="submit" class="btn btn-success">
+<div id="console">
+    <span>Click on a coin</span>
+</div>
+<section class="conainer dashboard mx-auto">
+    <div class="row">
+        <div class="col text-center">
+            <aside id="asideCoins" class="col">
+                <input id="dropDownCoins" list="dropDown">
+                <datalist id="dropDown">
+                    <% coins.forEach( (coin) => { %>
+                        <option id="<%= coin.id %>">
+                            <%= coin.id %>
+                                </options>
+                                <% }) %>
+                </datalist>
+                <br>
+                <div class="sortable">
+                    <% userCoins.forEach( (coin) => { %>
+                    <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
+                    <% }) %>
+                </div>
+            </aside>
+        </div>
+        <div class="col-6 text-center">
+            <textarea id="dashboardTextarea" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
+            <div>
+                <button type="submit" class="btn btn-success">
                         <i class="fa fa-share"></i> Share
                     </button>
-                        </div>
-                    </div>
-                </section>
+            </div>
+        </div>
+        <div class="col text-center">
+            <aside class="col sortable">
 
-                <aside class="col sortable">
-
-                </aside>
+            </aside>
+        </div>
     </div>
 </section>
 <script src="/javascripts/main.js"></script>
+<script src="/javascripts/dashboardConsole.js"></script>

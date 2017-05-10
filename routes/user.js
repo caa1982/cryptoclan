@@ -113,7 +113,11 @@ router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 
 router.get("/user/map", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  res.render('user/map');
+    User.findOne({ "_id": req.user.id }, "coins", function (err, coins) {
+      res.render('user/map', {
+        coins
+      });
+    });
 });
 
 router.get("/user/email", ensureLogin.ensureLoggedIn("/"), (req, res) => {
