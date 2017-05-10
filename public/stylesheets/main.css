@@ -176,8 +176,29 @@ canvas{
 
 /*Map page*/
 #map_canvas{
-    width: 100%;
-    height: 91vh;
+    width: 90%;
+    height: 60vh;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#map_container{
+    margin: 1%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#jumboMap{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
 }
 
 @media(max-width:768px){

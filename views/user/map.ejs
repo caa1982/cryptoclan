@@ -1,5 +1,32 @@
-<div id="map_container">
-    <div id="map_canvas"></div>
+<div id="map_container" class="container">
+    <div id="jumboMap" class="jumbotron">
+        <div class="row">
+            <div class="col-md-6 col-sm-1">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-bitcoin"></i></div>
+                    <input list="dropDown" class="form-control" type="" name="" value="" placeholder="My Coins">
+                    <datalist id="dropDown">
+                        <% coins.coins.forEach( (coin) => { %>
+                            <option>
+                                <%= coin %>
+                                    </options>
+                                    <% }) %>
+                    </datalist>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-1">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-users"></i></div>
+                    <input class="form-control" type="" name="" value="" placeholder="Friends">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div id="map_canvas"></div>
+        </div>
+    </div>
+</div>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBALrBTq-TwdILcvBVfkKNzvWmbXzDHiN0&libraries=places"></script>
 <script src="/javascripts/drawGoogleMap.js"></script>
