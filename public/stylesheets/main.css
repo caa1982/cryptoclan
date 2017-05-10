@@ -96,7 +96,7 @@ input[type="text"]:focus {
     border-radius: 25px;
     padding: 1%;
     margin: 1%;
-    background: grey; 
+    background: #C0C0C0; 
 }
 
 .connectCoins{
