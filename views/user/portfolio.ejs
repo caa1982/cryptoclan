@@ -201,8 +201,14 @@
                 <p>Total value: $<%=Math.round(100*user.portfolio.total)/100%></p>
             </div>
         </div>
-    
-         <% user.portfolio.coins.forEach(coin=>{ if(coin.value) { %>
+        <div class="row text-nowrap text-center">
+            <div class="col">
+                Portfolio 24h value
+                <br>
+                <canvas id="valueChart" width="400" heigt="200"></canvas>
+            </div>
+        </div>
+         <% allCoins.forEach(coin=>{ if(coin.value) { %>
 
         <div class="row text-nowrap text-center">
             <div class="col">
@@ -212,7 +218,7 @@
                 <p>$<%= coin.value %></p>
             </div>
             <div class="col">
-                <p><canvas  class="coin-chart" id="<%=coin.id%>" width="150" height="75"></canvas></p>
+                <p><canvas style="background-color:white" class="coin-chart" id="<%=coin.id%>" width="150" height="75"></canvas></p>
             </div>
         </div>
         <% }}) %>
