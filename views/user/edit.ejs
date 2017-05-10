@@ -1,86 +1,123 @@
-<form class="container" action="/user/<%=user.id%>" method="POST">
-  <div class="tab-pane" id="edit">
+<form class="container" id="editForm" action="/user/<%=user.id%>" method="POST" novalidate>
+  <div class="jumbotron my-auto tab-pane" id="edit">
     <div class="text-center">
       <br>
-      <img class="rounded-circle" src="<%=user.photo%>">
+      <img id="editProfilePic" class="rounded-circle" src="<%=user.photo%>">
     </div>
     <form role="form">
       <div class="form-group">
         <input type="file" class="form-control-file" name="file" id="exampleInputFile" aria-describedby="fileHelp">
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Name</label>
-        <div class="col-lg-9">
-          <input class="form-control" name="name" type="text" value="<%=user.name%>">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+            <input class="form-control" name="name" type="text" placeholder="Name" value="<%=user.name%>">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Email</label>
-        <div class="col-lg-9">
-          <input class="form-control" name="email" type="email" value="<%=user.email%>">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-envelope"></i></div>
+            <input class="form-control" name="email" type="email" placeholder="Email" value="<%=user.email%>">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Company</label>
-        <div class="col-lg-9">
-          <input class="form-control" name="company" type="text" value="<%=user.company%>">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-briefcase"></i></div>
+            <input class="form-control" name="JobTitle" type="text" placeholder="Job Title" value="<%=user.JobTitle%>">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Website</label>
-        <div class="col-lg-9">
-          <input class="form-control" name="website" type="url" value="<%=user.website%>">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-building"></i></div>
+            <input class="form-control" name="company" type="text" placeholder="Company" value="<%=user.company%>">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Bio</label>
-        <div class="col-lg-9">
-          <textarea class="form-control" name="bio" type="url"><%=user.bio%></textarea>
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-internet-explorer"></i></div>
+            <input class="form-control" name="website" type="url" placeholder="Website" value="<%=user.website%>">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Address</label>
-        <div class="col-lg-9">
-          <input class="form-control" name="address" type="text" value="<%=user.address%>" placeholder="Street">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-file"></i></div>
+            <textarea class="form-control" name="bio" placeholder="Bio" type="url"><%=user.bio%></textarea>
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">City</label>
-        <div class="col-lg-9">
-          <input class="form-control" type="text" name="city" value="<%=user.city%>" placeholder="City">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-globe"></i></div>
+            <input id="locationName" name="locationName" class="form-control" name="address" type="text" value="<%=user.address%>" placeholder="City">
+            <input id="city" name="city" class="hidden form-control" name="address" type="text" value="<%=user.address%>" placeholder="City">
+            <input id="lat" name="lat" class="hidden form-control" type="number" value="">
+            <input id="lng" name="lng" class="hidden form-control" type="number" value="">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Bittrex Api</label>
-        <div class="col-lg-9">
-          <input class="form-control" placeholder="Bittrex Api Key" name="bittrex_apikey" type="text" value="<%=user.bittrex.apikey%>"></input>
-          <input class="form-control" placeholder="Bittrex Api Secret" name="bittrex_apisecret" type="text" value="<%=user.bittrex.apisecret%>"></input>
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user-secret"></i></div>
+            <input class="form-control" placeholder="Bittrex Api Key" name="bittrex_apikey" type="text" value="<%=user.bittrex.apikey%>"></input>
+          </div>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user-secret"></i></div>
+            <input class="form-control" placeholder="Bittrex Api Secret" name="bittrex_apisecret" type="text" value="<%=user.bittrex.apisecret%>"></input>
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Poloniex Api</label>
-        <div class="col-lg-9">
-          <input class="form-control" placeholder="Poloniex Api Key" name="poloniex_apikey" type="text" value="<%=user.poloniex.apikey%>"></input>
-          <input class="form-control" placeholder="Poloniex Api Secret" name="poloniex_apisecret" type="text" value="<%=user.poloniex.apisecret%>"></input>
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user-secret"></i></div>
+            <input class="form-control" placeholder="Poloniex Api Key" name="poloniex_apikey" type="text" value="<%=user.poloniex.apikey%>"></input>
+          </div>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user-secret"></i></div>
+            <input class="form-control" placeholder="Poloniex Api Secret" name="poloniex_apisecret" type="text" value="<%=user.poloniex.apisecret%>"></input>
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Password</label>
-        <div class="col-lg-9">
-          <input class="form-control" name="password" type="password">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-group"></i></div>
+            <input class="form-control" name="clan" type="text" placeholder="Clan" value="<%=user.clan%>">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
-        <div class="col-lg-9">
-          <input class="form-control" name="passwordRepeat" type="password" value="">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+            <input class="form-control" name="password" type="password" placeholder="Password">
+          </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-lg-3 col-form-label form-control-label"></label>
-        <div class="col-lg-9">
-         <!-- <input type="reset" class="btn btn-outline-danger" value="Cancel"> -->
-          <input type="submit" class="btn btn-outline-success" value="Save Changes">
+        <div class="col">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+            <input class="form-control" name="passwordRepeat" type="password" placeholder="Reapeat Password">
+          </div>
+        </div>
+      </div>
+      <div class="form-group text-center row">
+        <div class="col">
+          <input type="submit" class="btn btn-success" value="Save Changes">
         </div>
       </div>
     </form>
@@ -92,3 +129,5 @@
   </div>
   <% } %>
     <p>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBALrBTq-TwdILcvBVfkKNzvWmbXzDHiN0&libraries=places"></script>
+      <script src="/javascripts/googlemaps.js"></script>

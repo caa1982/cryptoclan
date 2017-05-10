@@ -5,12 +5,12 @@ const bcryptSalt = 10;
 const User = require('../models/user');
 const Coin = require('../models/coin');
 const faker = require('faker');
-
-mongoose.connect("mongodb://localhost/cryptoclan");
+require("dotenv").config();
+mongoose.connect(process.env.MONGODB_URI);
 
 Coin.find({}, (err, cmcCoins) => {
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 200; i++) {
     let coins = [];
     let totalValue = 0;
     if (Math.floor(Math.random() * 2)) {

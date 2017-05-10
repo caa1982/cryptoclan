@@ -74,6 +74,41 @@ input[type="text"]:focus {
   outline: none;
 }
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/*edit page*/
+#editProfilePic{
+    width: 6vw; 
+}
+
+#edit{
+    padding-top: 1vw;
+}
+
+/*connect page*/
+.connectProfile{
+    border: 2px solid;
+    color: whitesmoke;
+    border-color: black;
+    border-radius: 25px;
+    padding: 1%;
+    margin: 1%;
+    background: #C0C0C0; 
+}
+
+.connectCoins{
+    vertical-align: middle;
+    width: 16px !important;
+}
+
+span
+{
+    font-size: 12px !important;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
