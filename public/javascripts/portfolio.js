@@ -147,12 +147,7 @@ function clickEditCoin(id, balance) {
   </div>
   `)
   $(`#edit-coin-cancel-${id}`).click(() => {
-   // $("#edit-coin-div-"+id).html("");
     $("#edit-coin-div-"+id).remove();
-
-  })
-  $(`edit-coin-save-${id}`).click(()=>{
-
   })
 
 }

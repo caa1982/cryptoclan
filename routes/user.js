@@ -229,5 +229,12 @@ router.get("/user/clan_join", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   res.render('user/clan_join');
 });
 
+router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  User.findOne({"_id":req.params.userId}, (err,showUser)=>{
+    console.log('showUser: ', showUser);
+    res.render("user/show", {showUser});
+  })
+});
+
 
 module.exports = router;
