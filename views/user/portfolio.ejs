@@ -335,14 +335,13 @@
                 <h3 id="textCoinPortfolio"><img src="https://files.coinmarketcap.com/static/img/coins/128x128/<%=coin.id%>.png"> <%=coin.id%></h3>
             </div>
             <div class="col my-auto">
-                <h3>$<%= coin.value %></h3> <br>
+                <span><%=coin.exchange%></span>
+                <h3>$<%= coin.value %></h3>
                 <% if(coin.exchange==="wallet") { %>
                     <div id="edit-coin-container-<%=coin.id%>">
                     <button class="btn btn-default" onclick="clickEditCoin('<%=coin.id%>', <%=coin.balance%>)">Edit amount</button>
                     <a class="btn btn-danger"  href="/user/portfolio/<%=coin.id%>/delete">Remove</a>
                     </div>
-              <%  } else { %>
-                    <%=coin.exchange%>
               <% } %>
                 
             </div>
