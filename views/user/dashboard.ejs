@@ -4,7 +4,7 @@
 <section class="conainer dashboard mx-auto">
     <div class="row">
         <div class="col text-center">
-            <aside id="asideCoins" class="col sortable">
+            <aside id="asideCoins" class="col">
                 <input id="dropDownCoins" list="dropDown">
                 <datalist id="dropDown">
                     <% coins.forEach( (coin) => { %>
@@ -14,9 +14,11 @@
                                 <% }) %>
                 </datalist>
                 <br>
-                <% userCoins.forEach( (coin) => { %>
+                <div class="sortable">
+                    <% userCoins.forEach( (coin) => { %>
                     <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
                     <% }) %>
+                </div>
             </aside>
         </div>
         <div class="col-6 text-center">
