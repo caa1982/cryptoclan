@@ -12,6 +12,9 @@ const bcryptSalt = 10;
 
 router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   if (req.user.portfolio) {
+       Coin.find({}, function (err, coins) {
+      coins;
+
 
     let pieTotalLabels = [];
     let pieTotalData = [];
@@ -25,13 +28,16 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
     let allCoins = [];
 
+ 
+    
     async.each(req.user.portfolio.coins, (coin, callback) => {
+
       Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
         if (cmcCoin) {
           let ind = null;
-          if ((ind = allCoins.findIndex(el => el.id === coin.id))!==-1) {
-            allCoins[ind].balance+=coin.balance;
-            allCoins[ind].value+= Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+          if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
+            allCoins[ind].balance += coin.balance;
+            allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
           } else {
             coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
             coin.price = cmcCoin.price_usd;
@@ -47,19 +53,23 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
           }
         }
         callback();
-      })
+      });
     }, err => {
 
-      allCoins.sort((a,b)=>b.value-a.value);
-      res.render('user/portfolio', { allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels });
+      allCoins.sort((a, b) => b.value - a.value);
+      res.render('user/portfolio', { coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels });
     })
+
+
+    });
+
   } else {
     res.render('user/portfolio');
   }
 
   function pushData(coin, cmcCoin, labels, data) {
     let ind = null;
-    if ((ind = labels.findIndex(el => el === coin.id))!==-1) {
+    if ((ind = labels.findIndex(el => el === coin.id)) !== -1) {
       data[ind] += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
     } else {
       labels.push(coin.id);
@@ -116,7 +126,7 @@ router.get("/user/notifications", ensureLogin.ensureLoggedIn("/"), (req, res) =>
 router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.find({}, function (err, users) {
     users,
-    res.render('user/addFriends');
+      res.render('user/addFriends');
   });
 });
 
