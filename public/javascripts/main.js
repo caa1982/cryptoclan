@@ -12,11 +12,9 @@ $(document).ready(function() {
                 type: "POST",
                 data: { name: coin },
                 success: function (response) {
-                    console.log("success", response)
-                    console.log(coin)
                     $("#dropDownCoins").val("");
                     $("#asideCoins").append(
-                        $(`<img src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`
+                        $(`<img id="${coin}" src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`
                         ));
                                     },
                 error: function () {
