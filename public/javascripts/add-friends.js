@@ -44,7 +44,7 @@ function listUsers(users) {
                   <div>
                       ${user.name}
                   </div>
-                  `;
+                  `;                    
       if(user.job) html+= `
                   <div>
                       ${user.job}
@@ -68,8 +68,8 @@ function listUsers(users) {
       html += `       
                   </div>
                   <div>
-                      <button type="button" onclick="connectUser('${user.id}')" class="btn btn-primary"> Connect</button>
-                      <a href="/user/${user.id} type="button" class="btn btn-success">See Profile</a>
+                      <button type="button" onclick="connectUser('${user._id}')" class="btn btn-primary"> Connect</button>
+                      <a href="/user/${user._id}" type="button" class="btn btn-success">See Profile</a>
                   </div>
               </div>
               
