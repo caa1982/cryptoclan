@@ -90,6 +90,9 @@ input[type="text"]:focus {
 
 /*connect page*/
 .connectProfile{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
     border: 2px solid;
     color: whitesmoke;
     border-color: black;
@@ -104,9 +107,77 @@ input[type="text"]:focus {
     width: 16px !important;
 }
 
-span
-{
-    font-size: 12px !important;
+/*portfolio page*/
+.portfolio{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
+    width: 100%;
+}
+
+#containerPortfolio{
+    padding:1%;
+}
+
+#valueChart{
+    height: 23vw !important;
+}
+
+#totalValueText{
+    font-size: 4vw;
+}
+
+.styleChart{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
+    background: transparent;
+    padding: 1%;  
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block !important;
+}
+
+.portfolioCoinBox{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
+    padding: 1%;
+    margin: 1%;
+    background: transparent; 
+}
+
+.portfolioInput{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
+    padding: 2%;
+    margin: 2%;
+    background: transparent; 
+}
+
+canvas{ 
+  width:100%;
+}
+
+/*Map page*/
+#map_canvas{
+    width: 100%;
+    height: 91vh;
 }
 
 @media(max-width:768px){
@@ -125,4 +196,6 @@ span
     #dashboardTextarea{
     margin-top: 1%;
 }
+
+
 }

@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
 
+
     "start": "nodemon --ignore 'public/javascripts/*.js' ./bin/www"
+
 
   },
   "dependencies": {
