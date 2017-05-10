@@ -21,29 +21,39 @@ router.get("/coin24/:coinId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 });
 
 router.post("/user_search", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  console.log('req.body.coins: ', req.body.coins);
-  console.log('req.body.city: ', req.body.city);
-  console.log('req.body.name: ', req.body.name);
-  if (req.body.name || req.body.city || req.body.coins) {
-    let query = {};
-
-    if (req.body.name) query.name = new RegExp(req.body.name, "i");
-    if (req.body.city) query.city = new RegExp(req.body.city, "i");
-    let coinsArr =  typeof req.body.coins === 'string' ? [req.body.coins] : req.body.coins
-    if (req.body.coins) query.coins = { $in: coinsArr };
-    console.log('query: ', query);
-
-    User.find(query, (err, users) => {
-
-      console.log('users: ', users);
-      if (err) {
-        res.status(500).json({ message: "DB error" });
-      } else {
-        res.status(200).json(users);
-      }
+  console.log('req.body.mycoins: ', req.body.mycoins);
+  if (req.body.mycoins==="1") {
+    
+    User.findOne({"_id":req.user.id}, (err, user)=>{
+      User.find({coins: {$in: user.coins}}, (err,users)=>{
+         if (err) {
+          res.status(500).json({ message: "DB error" });
+        } else {
+          res.status(200).json(users);
+        }
+      })
     })
+
   } else {
-    res.status(200).json([]);
+    console.log("here1")
+    if (req.body.name || req.body.city || req.body.coins) {
+      let query = {};
+
+      if (req.body.name) query.name = new RegExp(req.body.name, "i");
+      if (req.body.city) query.city = new RegExp(req.body.city, "i");
+      let coinsArr = typeof req.body.coins === 'string' ? [req.body.coins] : req.body.coins
+      if (req.body.coins) query.coins = { $in: coinsArr };
+
+      User.find(query, (err, users) => {
+        if (err) {
+          res.status(500).json({ message: "DB error" });
+        } else {
+          res.status(200).json(users);
+        }
+      })
+    } else {
+      res.status(200).json([]);
+    }
   }
 })
 

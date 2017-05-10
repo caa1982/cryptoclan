@@ -1,20 +1,34 @@
 $(document).ready(function () {
-  $('#search-button').click(function () {
-    console.log("here")
+  $("#search-button-my-coins").click(function () {
+
     var data = {
+      mycoins: 1,
+      name: $("#name").val(),
+      city: $("#city").val(),
+    }
+    ajax(data);
+  });
+  $('#search-button').click(function () {
+
+    var data = {
+      mycoins:0,
       name: $("#name").val(),
       city: $("#city").val(),
       coins: $("#coins").val()
     }
-    $.ajax({
+    ajax(data);
+  });
+});
+
+function ajax(data) {
+  $.ajax({
       url: "http://localhost:3000/api/user_search",
       method: "POST",
       data,
       success: listUsers,
       error: function (err) { console.log(err) }
     });
-  });
-});
+}
 
 function listUsers(users) {
   var html = "";
@@ -41,7 +55,7 @@ function listUsers(users) {
                   </div>`;
                   
       html+=`<div class="form-group">`;
-      
+
       var classes = ["badge-warning", "badge-info", "badge-danger"]
       var btnInd = 0;
       user.coins.forEach(coin => {
@@ -67,7 +81,7 @@ function listUsers(users) {
     <div class="row text-center">
       Users not found
     </div>
-    `
+    `;
   }
   $("#search-results").html(html);
 }

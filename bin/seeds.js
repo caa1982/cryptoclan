@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 Coin.find({}, (err, cmcCoins) => {
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     let coins = [];
     let totalValue = 0;
     if (Math.floor(Math.random() * 2)) {
