@@ -18,9 +18,7 @@ $(document).ready(function() {
                     $("#asideCoins").append(
                         $(`<img src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`
                         ));
-
-
-                },
+                                    },
                 error: function () {
                     console.log("error");
                 }
