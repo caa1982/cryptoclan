@@ -22,6 +22,7 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     let pieBittrexLabels = [];
     let pieBittrexData = [];
 
+
     let allCoins = [];
 
     async.each(req.user.portfolio.coins, (coin, callback) => {
@@ -42,11 +43,13 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
           }
           if (coin.exchange === "bittrex") {
             pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
+
           }
         }
         callback();
       })
     }, err => {
+
       allCoins.sort((a,b)=>b.value-a.value);
       res.render('user/portfolio', { allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels });
     })
@@ -111,7 +114,10 @@ router.get("/user/notifications", ensureLogin.ensureLoggedIn("/"), (req, res) =>
 });
 
 router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  res.render('user/connect');
+  User.find({}, function (err, users) {
+    users,
+    res.render('user/addFriends');
+  });
 });
 
 router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res) => {
