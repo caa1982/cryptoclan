@@ -20,13 +20,22 @@ router.get("/coin24/:coinId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   })
 });
 
+router.post("/console_coin", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  Coin.findOne({ "id": req.body.coin }, (err, coin) => {
+    if (err) {
+      res.status(500).json({ message: "DB error" });
+    } else {
+      res.status(200).json(coin);
+    }
+  })
+});
+
 router.post("/user_search", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  console.log('req.body.mycoins: ', req.body.mycoins);
-  if (req.body.mycoins==="1") {
-    
-    User.findOne({"_id":req.user.id}, (err, user)=>{
-      User.find({coins: {$in: user.coins}}, (err,users)=>{
-         if (err) {
+  if (req.body.mycoins === "1") {
+
+    User.findOne({ "_id": req.user.id }, (err, user) => {
+      User.find({ coins: { $in: user.coins } }, (err, users) => {
+        if (err) {
           res.status(500).json({ message: "DB error" });
         } else {
           res.status(200).json(users);
