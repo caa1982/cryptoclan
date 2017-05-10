@@ -11,7 +11,6 @@ const userSchema = new Schema({
   bio: String,
   address: String,
   city:String,
-  job: String,
   location: { 'type': {type: String, enum: "Point", default: "Point"}, coordinates: { type: [Number],   default: [0,0]} },
   facebookId: Number,
   photo: String,
