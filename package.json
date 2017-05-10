@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+
+
+    "start": "nodemon --ignore 'public/javascripts/*.js' ./bin/www"
+
+
   },
   "dependencies": {
     "async": "^2.4.0",

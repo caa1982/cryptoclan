@@ -60,27 +60,27 @@ module.exports =
                     })
                 });
             });
-        
 
-        User.find({fake:true}, (err,users)=>{
-            users.forEach(user=>{
-                let total = 0;
-                if(user.portfolio) {
-                    async.each(user.portfolio.coins, (coin, callback)=>{
-                        Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
-                            total += coinData ? coinData.price_usd * coin.balance : 0;
-                            callback();
-                        })
-                    }, err=>{
-                        updateUserPortfolio(user, user.portfolio.coins, total, err=>{
-                            if (err) {console.log(err)}
-                        })
-                    });
-                }
+
+            User.find({ fake: true }, (err, users) => {
+                users.forEach(user => {
+                    let total = 0;
+                    if (user.portfolio) {
+                        async.each(user.portfolio.coins, (coin, callback) => {
+                            Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
+                                total += coinData ? coinData.price_usd * coin.balance : 0;
+                                callback();
+                            })
+                        }, err => {
+                            updateUserPortfolio(user, user.portfolio.coins, total, err => {
+                                if (err) { console.log(err) }
+                            })
+                        });
+                    }
+                });
             });
-        });
 
-     }, config.portfolioInterval);
+        }, config.portfolioInterval);
 
     };
 
@@ -110,21 +110,23 @@ function getBittrex(user, callBack) {
     let totalValue = 0;
     Bittrex.options({ 'apikey': user.bittrex.apikey, 'apisecret': user.bittrex.apisecret });
     Bittrex.getbalances(function (bittrexData) {
-        
+
         bittrexData = bittrexData.result;
-        bittrexData.forEach(coin => {
-            if (coin.Balance > 0)
-                bittrexCoins.push({ symbol: coin.Currency, balance: coin.Balance, exchange: "bittrex" })
-        })
-        async.each(bittrexCoins, function (coin, callback) {
-            Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
-                totalValue += coinData ? coinData.price_usd * coin.balance : 0;
-                coin.id = coinData ? coinData.id : "";
-                callback();
+        if (bittrexData.length) {
+            bittrexData.forEach(coin => {
+                if (coin.Balance > 0)
+                    bittrexCoins.push({ symbol: coin.Currency, balance: coin.Balance, exchange: "bittrex" })
             })
-        }, function (err) {
-            callBack(bittrexCoins, totalValue)
-        });
+            async.each(bittrexCoins, function (coin, callback) {
+                Coin.findOne({ "symbol": coin.symbol }, (err, coinData) => {
+                    totalValue += coinData ? coinData.price_usd * coin.balance : 0;
+                    coin.id = coinData ? coinData.id : "";
+                    callback();
+                })
+            }, function (err) {
+                callBack(bittrexCoins, totalValue)
+            });
+        }
     });
 }
 
@@ -134,7 +136,7 @@ function getPoloniex(user, callBack) {
     let poloniex = new Poloniex(user.poloniex.apikey, user.poloniex.apisecret);
 
     poloniex.returnBalances(function (err, poloniexData) {
-        if(err) { console.log("Error: "+err); return}
+        if (err) { console.log("Error: " + err); return }
         for (let symbol in poloniexData) {
             if (poloniexData[symbol] > 0) {
                 poloniexCoins.push({ symbol: symbol, balance: poloniexData[symbol], exchange: "poloniex" })

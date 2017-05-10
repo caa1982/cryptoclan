@@ -49,14 +49,15 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
           }
           if (coin.exchange === "bittrex") {
             pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
-
           }
         }
         callback();
       });
     }, err => {
 
+
       allCoins.sort((a, b) => b.value - a.value);
+      allCoins = allCoins.map(coin=>{coin.value = Math.round(100*coin.value)/100; return coin; });
       res.render('user/portfolio', { coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels });
     })
 
@@ -146,7 +147,7 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     website: req.body.website,
     bio: req.body.bio,
     address: req.body.city,
-    location: { type: 'Point', coordinates: [req.body.lng, req.body.lat], default: [0, 0] },
+    location: { type: 'Point', coordinates: [req.body.lng?req.body.lng:0, req.body.lat?req.body.lat:0], default: [0, 0] },
     poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
     bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
   }
