@@ -230,7 +230,8 @@
             <div class="col-md-5 col-sm-4">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-bitcoin"></i></div>
-                <input  list="dropDown" class="form-control" type="" name="" value="" placeholder="coin name">
+            <form method="POST" action="user/portfolio">
+                <input  list="dropDown" class="form-control" type="" name="coinId" value="" placeholder="coin name">
                 <datalist id="dropDown">
                 <% coins.forEach( (coin) => { %>
                     <option>
@@ -240,15 +241,17 @@
                 </datalist>
                 </div>
             </div>  
+
             <div class="col-md-5 col-sm-4">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-balance-scale"></i></div>
-                <input class="form-control" type="" name="" value="" placeholder="Amount">
+                <input class="form-control" type="" name="amount" value="" placeholder="Amount">
                 </div>
             </div>
             <div class="col-md-2 col-sm-4">
-                <button type="button" class="btn btn-success">Add a coin</button>
+                <button type="submit" class="btn btn-success">Add a coin</button>
             </div>
+            </form>
             </div> 
             </div> 
         </div>

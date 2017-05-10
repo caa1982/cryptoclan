@@ -7,59 +7,78 @@ const Coin = require("../models/coin");
 const PortfolioHistories = require("../models/portfolio_history");
 const async = require("async");
 const bcryptSalt = 10;
+const calculatePortfolio = require("../helpers/calculate-portfolio");
 
-
+router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  if(req.body.coinId) {
+    User.findOneAndUpdate({"_id":req.user.id}, { $push:{"portfolio.coins":{
+                      id:req.body.coinId,
+                      exchange:"wallet",
+                      balance:req.body.amount
+                    }}}, err=>{
+                      if(err) console.log(err)
+                      calculatePortfolio(req.user.id, (total)=>{
+                        User.findOneAndUpdate({"_id":req.user.id}, {"portfolio.total":total}, (err)=>{
+                          res.redirect("/user/portfolio");
+                        });
+                      });
+                    });
+  } else {
+    res.redirect("/user/portfolio");
+  }
+});
 
 router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   if (req.user.portfolio) {
-       Coin.find({}, function (err, coins) {
-      coins;
+    Coin.find({}, function (err, coins) {
+      
+      let pieTotalLabels = [];
+      let pieTotalData = [];
 
+      let piePoloniexLabels = [];
+      let piePoloniexData = [];
 
-    let pieTotalLabels = [];
-    let pieTotalData = [];
+      let pieBittrexLabels = [];
+      let pieBittrexData = [];
 
-    let piePoloniexLabels = [];
-    let piePoloniexData = [];
+      let pieWalletLabels = [];
+      let pieWalletData = [];
 
-    let pieBittrexLabels = [];
-    let pieBittrexData = [];
+      let allCoins = [];
 
+      async.each(req.user.portfolio.coins, (coin, callback) => {
 
-    let allCoins = [];
-
- 
-    
-    async.each(req.user.portfolio.coins, (coin, callback) => {
-
-      Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
-        if (cmcCoin) {
-          let ind = null;
-          if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
-            allCoins[ind].balance += coin.balance;
-            allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-          } else {
-            coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-            coin.price = cmcCoin.price_usd;
-            allCoins.push(coin);
+        Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
+          if (cmcCoin) {
+            let ind = null;
+            if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
+              allCoins[ind].balance += coin.balance;
+              allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+            } else {
+              coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+              coin.price = cmcCoin.price_usd;
+              allCoins.push(coin);
+            }
+            pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
+            if (coin.exchange === "poloniex") {
+              pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
+            }
+            if (coin.exchange === "bittrex") {
+              pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
+            }
+            if (coin.exchange === "wallet") {
+              pushData(coin, cmcCoin, pieWalletLabels, pieWalletData);
+            }            
           }
-          pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
-          if (coin.exchange === "poloniex") {
-            pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
-          }
-          if (coin.exchange === "bittrex") {
-            pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
-          }
-        }
-        callback();
-      });
-    }, err => {
+          callback();
+        });
+      }, err => {
 
 
-      allCoins.sort((a, b) => b.value - a.value);
-      allCoins = allCoins.map(coin=>{coin.value = Math.round(100*coin.value)/100; return coin; });
-      res.render('user/portfolio', { coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels });
-    })
+        allCoins.sort((a, b) => b.value - a.value);
+        allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
+        res.render('user/portfolio', { coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
+      })
 
 
     });
@@ -147,7 +166,7 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     website: req.body.website,
     bio: req.body.bio,
     address: req.body.city,
-    location: { type: 'Point', coordinates: [req.body.lng?req.body.lng:0, req.body.lat?req.body.lat:0], default: [0, 0] },
+    location: { type: 'Point', coordinates: [req.body.lng ? req.body.lng : 0, req.body.lat ? req.body.lat : 0], default: [0, 0] },
     poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
     bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
   }
