@@ -104,6 +104,41 @@ input[type="text"]:focus {
     width: 16px !important;
 }
 
+/*connect page*/
+.portfolio{
+    width: 100%;
+}
+
+/*portfolio page*/
+#valueChart{
+    height: 23vw !important;
+}
+
+#totalValueText{
+    font-size: 4vw;
+}
+
+.styleChart{
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
+    background: #C0C0C0; 
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block !important;
+}
+
+.portfolioCoinBox{
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
+    padding: 1%;
+    margin: 1%;
+    background: #C0C0C0; 
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
