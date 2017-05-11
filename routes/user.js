@@ -196,9 +196,15 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     name: req.body.name,
     email: req.body.email,
     company: req.body.company,
+    job: req.body.job,
     website: req.body.website,
     bio: req.body.bio,
     address: req.body.city,
+    facebook: req.body.facebook,
+    twitter: req.body.twitter,
+    google: req.body.google,
+    linkedin: req.body.linkedin,
+    clan: req.body.clan,
     location: { type: 'Point', coordinates: [req.body.lng ? req.body.lng : 0, req.body.lat ? req.body.lat : 0], default: [0, 0] },
     poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
     bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
@@ -219,10 +225,6 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     if (err) { next(err); return; }
     res.redirect("/user/dashboard");
   })
-});
-
-router.get("/user/clan_join", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  res.render('user/clan_join');
 });
 
 router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {

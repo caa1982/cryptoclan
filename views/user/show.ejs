@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="showContainer">
     <div class="jumbotron my-auto" id="profile">
         <div class="row text-center">
             <div class="col">
@@ -8,77 +8,92 @@
         <div class="row text-center">
             <div class="col">
                 <h1>
-                    <%= showUser.name %>
+                    <%= showUser.name%>
                 </h1>
             </div>
         </div>
+        <br>
+        <div class="row">
+            <div class="col text-center">
+                <h4>
+                    <%= showUser.job%>
+                </h4>
+            </div>
+            <div class="col text-center">
+                <h4>
+                    <%= showUser.company%>
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <h4>
+                    <%= showUser.address %>
+                </h4>
+            </div>
+            <div class="col text-center">
+                <h4>
+                    <%=showUser.email%>
+                </h4>
+            </div>
+        </div>
+        <br>
         <div class="row text-center">
             <div class="col">
                 <h2>
-                    <%= showUser.JobTitle %>
+                    <%=showUser.clan%>
                 </h2>
             </div>
         </div>
+        <br>
         <div class="row text-center">
             <div class="col">
-                <h2>
-                    <%= showUser.clan %>
-                </h2>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col">
-                <h3>
-                    <%= showUser.email %>
-                </h3>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col">
-                <h3>
-                    <%= showUser.city %>
-                </h3>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col">
-                <h3>
-                    <%= showUser.company %>
-                </h3>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col">
-                <a href="<%= showUser.website %>" target="_blank">
-                    <%= showUser.website %>
+                <a href="https://<%= showUser.website %>" target="_blank">
+                    <%=showUser.website%>
                 </a>
             </div>
         </div>
         <div class="row text-center">
             <div class="col">
                 <p>
-                    <%= showUser.bio %>
+                    <%=showUser.bio%>
                 </p>
             </div>
         </div>
         <div class="row text-center">
+            <% showUser.coins.forEach( (coin) => { %>
+                <div class="col">
+                    <span class="badge badge-pill badge-info"><img class="connectCoins" src="https://files.coinmarketcap.com/static/img/coins/16x16/<%= coin %>.png"> <%= coin %></span>
+                </div>
+                <% }) %>
+        </div>
+        <br>
+        <div class="row text-center">
+            <% if(showUser.facebok !== "") { %>
             <div class="col">
-                 <a class="btn btn-block"><span class="fa fa-facebook-square fa-4x"></span></a>
+                <a href="https://<%=showUser.facebook%>" target="_blank" class="nostyle"><span class="fa fa-facebook-square fa-4x"></span></a>
             </div>
+             <% } %>
+             <% if(showUser.linkedin !== "") { %>
             <div class="col">
-                  <a class="btn btn-block"><span class="fa fa-google-plus-square fa-4x"></span></a>
+                <a href="https://<%=showUser.linkedin%>" target="_blank" class="nostyle"><span class="fa fa-linkedin-square fa-4x"></span></a>
             </div>
+             <% } %>
+              <% if(showUser.google !== "") { %>
             <div class="col">
-                  <a class="btn btn-block"><span class="fa fa-linkedin-square fa-4x"></span></a>
+                <a href="https://<%=showUser.google%>" target="_blank" class="nostyle"><span class="fa fa-google-plus-square fa-4x"></span></a>
             </div>
-             <div class="col">
-                <a class="btn btn-block"><span class="fa fa-twitter-square fa-4x"></span></a>
+             <% } %>
+             <% if(showUser.twitter !== "") { %>
+            <div class="col">
+                <a href="https://<%=showUser.twitter%>" target="_blank" class="nostyle"><span class="fa fa-twitter-square fa-4x"></span></a>
             </div>
+             <% } %>
         </div>
         <div class="row text-center">
             <div class="col">
                 <br>
-                 <a class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
+                <a class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
             </div>
         </div>
     </div>
