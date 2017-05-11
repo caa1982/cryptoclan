@@ -1,1 +1,85 @@
-<%= showUser.name %>
+<div class="container">
+    <div class="jumbotron my-auto" id="profile">
+        <div class="row text-center">
+            <div class="col">
+                <img id="showProfilePic" class="rounded-circle" src="<%=user.photo%>">
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h1>
+                    <%= showUser.name %>
+                </h1>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h2>
+                    <%= showUser.JobTitle %>
+                </h2>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h2>
+                    <%= showUser.clan %>
+                </h2>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h3>
+                    <%= showUser.email %>
+                </h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h3>
+                    <%= showUser.city %>
+                </h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h3>
+                    <%= showUser.company %>
+                </h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <a href="<%= showUser.website %>" target="_blank">
+                    <%= showUser.website %>
+                </a>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <p>
+                    <%= showUser.bio %>
+                </p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                 <a class="btn btn-block"><span class="fa fa-facebook-square fa-4x"></span></a>
+            </div>
+            <div class="col">
+                  <a class="btn btn-block"><span class="fa fa-google-plus-square fa-4x"></span></a>
+            </div>
+            <div class="col">
+                  <a class="btn btn-block"><span class="fa fa-linkedin-square fa-4x"></span></a>
+            </div>
+             <div class="col">
+                <a class="btn btn-block"><span class="fa fa-twitter-square fa-4x"></span></a>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <br>
+                 <a class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
+            </div>
+        </div>
+    </div>
+</div>

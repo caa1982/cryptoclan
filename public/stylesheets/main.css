@@ -220,6 +220,13 @@ canvas{
     border-radius: 25px;
 }
 
+/*Show profile*/
+
+#showProfilePic{
+    width: 100px;
+    height: 100px;
+}
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;

@@ -176,10 +176,6 @@ router.get("/user/email", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   res.render('user/email');
 });
 
-router.get("/user/notifications", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  res.render('user/notifications');
-});
-
 router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.find({}, function (err, users) {
     users,
