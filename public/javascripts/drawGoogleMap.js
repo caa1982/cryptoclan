@@ -25,7 +25,7 @@ function ajax(data) {
 
 
 
-function googleMap(users) {  
+function googleMap(users) {
     var latlng = new google.maps.LatLng(0, 0);
     var myOptions = {
         zoom: 2,
@@ -40,20 +40,20 @@ function googleMap(users) {
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"),
         myOptions);
-    
-      if (users) {
-        
+
+    if (users) {
+
         users.forEach(user => {
-            var pin = new google.maps.LatLng(user.location.coordinates[1], user.location.coordinates[0]);
+            if (user.location.coordinates[0] && user.location.coordinates[1] !== 0) {
 
-            var marker = new google.maps.Marker({
-                position: pin,
-                map: map,
-                title: user.name
-            });
+                var pin = new google.maps.LatLng(user.location.coordinates[1], user.location.coordinates[0]);
 
+                var marker = new google.maps.Marker({
+                    position: pin,
+                    map: map,
+                    title: user.name
+                });
+            }
         });
-       
     }
-
 }
