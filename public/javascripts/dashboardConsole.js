@@ -9,7 +9,7 @@ $("#asideCoins").on("click", "img", function(){
 
 function ajax(data) {
   $.ajax({
-      url: "http://localhost:3000/api/console_coin",
+      url: "/api/console_coin",
       method: "POST",
       data,
       success: consoleCoin,
