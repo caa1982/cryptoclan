@@ -11,11 +11,17 @@ const bcryptSalt = 10;
 
 
 router.get("/connect/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.findOneAndUpdate({"_id":req.user.id}, { $addToSet: { "connections": req.params.userId } }, err=>{
+  User.findOneAndUpdate({"_id":req.user.id}, { $addToSet: { "following": req.params.userId } }, err=>{
     if (err) {
       res.status(500).json({ message: "DB error" });
     } else {
-      res.status(200).json({});
+      User.findOneAndUpdate({"_id":req.params.userId}, { $addToSet: { "followers": req.user.id } }, err=>{
+        if (err) {
+          res.status(500).json({ message: "DB error" });
+        } else {
+          res.status(200).json({});
+        }
+      });
     }
   })
 });
@@ -63,9 +69,10 @@ router.post("/user_search", ensureLogin.ensureLoggedIn("/"), (req, res) => {
           res.status(500).json({ message: "DB error" });
         } else {
           users.forEach(user=>{
-            if(req.user.connections.find(con=>con === user.id)) 
-              user._doc.$addToSetisFriend = true;
+            if(req.user.following.length && req.user.following.find(con=>con === user.id)) 
+              user._doc.isFriend = true;
           })
+          users = users.filter(user=>user.id!==req.user.id)
           res.status(200).json(users);
         }
       })

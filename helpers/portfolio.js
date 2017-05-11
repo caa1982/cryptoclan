@@ -11,13 +11,13 @@ const calculatePortfolio = require("./calculate-portfolio");
 module.exports =
     function () {
 
-     //   setInterval(function () {
+        setInterval(function () {
             async.series([
                 updatePoloniex,
                 updateBittrex,
                 calculateAndLogPortfolio
             ]);
-     //   }, config.portfolioInterval);
+        }, config.portfolioInterval);
     }
 
 
@@ -118,15 +118,19 @@ function updateExchangeCoins(user, coins, exchange, callback) {
 
     let coinIds = coins.map(coin => coin.id).filter(coin => coin);
     coins = coins.filter(coin=>coin.id);
-    User.findOneAndUpdate({ "_id": user.id }, { $pull: { "portfolio.coins": { exchange } } }, err => {
-        User.findOneAndUpdate({ "_id": user.id }, {
-            $addToSet: { coins: { $each: coinIds } },
-            $push: { "portfolio.coins": {$each:coins} }
-        },
-            (err, user) => {
-                callback(err);
-            });
-    })
+    if(coins.length) {
+        User.findOneAndUpdate({ "_id": user.id }, { $pull: { "portfolio.coins": { exchange } } }, err => {
+            User.findOneAndUpdate({ "_id": user.id }, {
+                $addToSet: { coins: { $each: coinIds } },
+                $push: { "portfolio.coins": {$each:coins} }
+            },
+                (err, user) => {
+                    callback(err);
+                });
+        })
+    } else {
+        callback(err);
+    }
 }
 
 function getBittrex(user, callBack) {

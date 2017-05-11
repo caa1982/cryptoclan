@@ -1,0 +1,15 @@
+<div class="row">
+<div class="col-3"></div>
+<div class="col-6 text-center">
+<img src="<%=recipient.photo%>"> <%=recipient.name%>
+<p>
+  <form method="POST" action="/user/message/<%=recipient.id%>">
+    <textarea id="dashboardTextarea" name="message" rows="2" class="form-control" placeholder="Write your message here"></textarea>
+    <div>
+        <button type="submit" class="btn btn-success">
+                <i class="fa fa-share"></i> Send message
+            </button>
+    </div>
+  </form>
+  </div>
+  </div>
