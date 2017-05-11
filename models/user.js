@@ -19,7 +19,8 @@ const userSchema = new Schema({
   bittrex: {apikey: String, apisecret: String},
   portfolio: Object,
   fake: Boolean,
-  coins : Array
+  coins : Array,
+  connections: Array
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });

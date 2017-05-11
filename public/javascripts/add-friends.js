@@ -6,7 +6,7 @@ $(document).ready(function () {
       name: $("#name").val(),
       city: $("#city").val(),
     }
-    ajax(data);
+    ajaxSearch(data);
   });
   $('#search-button').click(function () {
 
@@ -16,11 +16,11 @@ $(document).ready(function () {
       city: $("#city").val(),
       coins: $("#coins").val()
     }
-    ajax(data);
+    ajaxSearch(data);
   });
 });
 
-function ajax(data) {
+function ajaxSearch(data) {
   $.ajax({
       url: "http://localhost:3000/api/user_search",
       method: "POST",
@@ -32,6 +32,7 @@ function ajax(data) {
 
 function listUsers(users) {
   var html = "";
+  console.dir(users);
   if (users.length) {
     
     users.forEach(function (user, ind) {
@@ -63,17 +64,17 @@ function listUsers(users) {
         btnInd++;
         btnInd %= 3;
       });
-
-
-      html += `       
+      html += `   </div>
+                  <div>`;
+                  console.log('user.isFriend: ', user.isFriend);
+      if(!user.isFriend) {
+        html+=` <button type="button" id="connect-button-${user._id}" onclick="connectUser('${user._id}')" class="btn btn-primary">Connect</button>`;
+      } else {
+        html+="Connected";
+      }
+      html+= ` <a href="/user/${user._id}" type="button" class="btn btn-success">See Profile</a>
                   </div>
-                  <div>
-                      <button type="button" onclick="connectUser('${user._id}')" class="btn btn-primary"> Connect</button>
-                      <a href="/user/${user._id}" type="button" class="btn btn-success">See Profile</a>
-                  </div>
-              </div>
-              
-        `;
+              </div>`;
     });
     html+="</div>";
   } else {
@@ -84,4 +85,16 @@ function listUsers(users) {
     `;
   }
   $("#search-results").html(html);
+}
+
+function connectUser(id) {
+   $.ajax({
+      url: "http://localhost:3000/api/connect/"+id,
+      method: "GET",
+      success: function() {
+        $("#connect-button-"+id).after("Connected");
+        $("#connect-button-"+id).hide();
+      },
+      error: function (err) { console.log(err) }
+    });
 }

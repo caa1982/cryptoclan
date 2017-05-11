@@ -1,23 +1,66 @@
 <div id="containerPortfolio" class="container h-100 d-flex align-items-center justify-content-center">
     <div class="portfolio jumbotron my-auto text-center">
-
+<% if(user.portfolio) { %>
+        <div class="row text-nowrap text-center form-group">
+            <div class="col">
+                <% if(user.portfolio.public) { %>
+                    <button class="btn btn-success" id="button-toggle-share">Make portfolio private</button>
+                <% } else { %>
+                    <button class="btn btn-primary" id="button-toggle-share">Make portfolio public</button>
+                <% } %>  
+            </div>
+        </div>
          <div class="row text-nowrap text-center form-group">
             <div class="col">
                 <p id="totalValueText">Total value: $<%=Math.round(100*user.portfolio.total)/100%></p>
             </div>
         </div>
+       
         <div class="row text-nowrap text-cente form-group">
             <div class="col">
                 Portfolio 24h value
                 <canvas id="valueChart"></canvas>
             </div>
         </div>
-
+<% } %>
     <% if(!user.portfolio) { %>
-        <div class="row text-center form-group">
+  <!--      <div class="row text-center form-group">
             <div class="col">
                 You don't have a portfolio. Please go to <a href="/user/edit">Settings</a> and enter your Poloniex and Bittrex API keys
+            </div> -
+        </div> -->
+          <div class="container">
+        <form method="POST" action="/user/portfolio">
+            <div class="jumbotron portfolioInput">
+            <div class="row input-group">
+            <div class="col-md-5 col-sm-4">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-bitcoin"></i></div>
+            
+                <input  list="dropDown" class="form-control" type="" name="coinId" value="" placeholder="coin name">
+                <datalist id="dropDown">
+                <% coins.forEach( (coin) => { %>
+                    <option>
+                        <%= coin.id %>
+                            </options>
+                            <% }) %>
+                </datalist>
+                </div>
+            </div>  
+
+            <div class="col-md-5 col-sm-4">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-balance-scale"></i></div>
+                <input class="form-control" type="" name="amount" value="" placeholder="Amount">
+                </div>
             </div>
+            <div class="col-md-2 col-sm-4">
+                <button type="submit" class="btn btn-success">Add a coin</button>
+            </div>
+            
+            </div> 
+            </div> 
+            </form>
         </div>
 
 

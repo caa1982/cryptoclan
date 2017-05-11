@@ -18,12 +18,11 @@ router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
           exchange: "wallet",
           balance: req.body.amount
         }
-      }
+      },
+      $addToSet: { "coins": req.body.coinId }
     }, err => {
       if (err) console.log(err)
       calculatePortfolio(req.user.id, (total) => {
-        console.log('total: ', total);
-
         User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
           res.redirect("/user/portfolio");
         });
@@ -38,8 +37,6 @@ router.post("/user/portfolio/:coinId", ensureLogin.ensureLoggedIn("/"), (req, re
   User.findOneAndUpdate({ "_id": req.user.id, "portfolio.coins.exchange": "wallet", "portfolio.coins.id": req.params.coinId }, { "$set": { "portfolio.coins.$.balance": req.body.balance } }, (err) => {
     if (err) console.log(err)
     calculatePortfolio(req.user.id, (total) => {
-      console.log('total: ', total);
-
       User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
         res.redirect("/user/portfolio");
       });
@@ -52,7 +49,6 @@ router.get("/user/portfolio/:coinId/delete", ensureLogin.ensureLoggedIn("/"), (r
   User.findOneAndUpdate({ "_id": req.user.id }, { $pull: { "portfolio.coins": { exchange: "wallet", id: req.params.coinId } } }, err => {
     if (err) console.log(err)
     calculatePortfolio(req.user.id, (total) => {
-      console.log('total: ', total);
 
       User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
         res.redirect("/user/portfolio");
@@ -62,9 +58,9 @@ router.get("/user/portfolio/:coinId/delete", ensureLogin.ensureLoggedIn("/"), (r
 });
 
 router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  if (req.user.portfolio) {
-    Coin.find({}, function (err, coins) {
 
+  Coin.find({}, function (err, coins) {
+    if (req.user.portfolio) {
       let pieTotalLabels = [];
       let pieTotalData = [];
 
@@ -84,14 +80,11 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
         Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
           if (cmcCoin) {
             let ind = null;
-            // if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
-            //   allCoins[ind].balance += coin.balance;
-            //   allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-            // } else {
+
             coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
             coin.price = cmcCoin.price_usd;
             allCoins.push(coin);
-            // }
+
             pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
             if (coin.exchange === "poloniex") {
               pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
@@ -106,19 +99,17 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
           callback();
         });
       }, err => {
-
-
         allCoins.sort((a, b) => b.value - a.value);
         allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
         res.render('user/portfolio', { coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
       })
+    } else {
+      res.render('user/portfolio', { coins });
+    }
+
+  });
 
 
-    });
-
-  } else {
-    res.render('user/portfolio');
-  }
 
   function pushData(coin, cmcCoin, labels, data) {
     let ind = null;
@@ -138,9 +129,14 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   Coin.find({}, function (err, coins) {
     User.findOne({ "_id": req.user.id }, "coins", function (err, userCoins) {
-      res.render('user/dashboard', {
-        coins,
-        userCoins: userCoins.coins
+      User.find({"_id":{$in:req.user.connections}}, (err, connections)=>{
+        console.log('req.user.connections: ', req.user.connections);
+        console.log('connections: ', connections);
+        res.render('user/dashboard', {
+          coins,
+          userCoins: userCoins.coins,
+          connections
+        });
       });
     });
   });
@@ -165,11 +161,11 @@ router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 
 router.get("/user/map", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-    User.findOne({ "_id": req.user.id }, "coins", function (err, coins) {
-      res.render('user/map', {
-        coins
-      });
+  User.findOne({ "_id": req.user.id }, "coins", function (err, coins) {
+    res.render('user/map', {
+      coins
     });
+  });
 });
 
 router.get("/user/email", ensureLogin.ensureLoggedIn("/"), (req, res) => {
@@ -230,9 +226,8 @@ router.get("/user/clan_join", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 });
 
 router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.findOne({"_id":req.params.userId}, (err,showUser)=>{
-    console.log('showUser: ', showUser);
-    res.render("user/show", {showUser});
+  User.findOne({ "_id": req.params.userId }, (err, showUser) => {
+    res.render("user/show", { showUser });
   })
 });
 

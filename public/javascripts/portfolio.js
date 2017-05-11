@@ -24,6 +24,29 @@ $(document).ready(function () {
     }
   });
 
+  if($("#button-toggle-share")) {
+    $("#button-toggle-share").click(function(){
+        $.ajax({
+        url: "http://localhost:3000/api/toggle_public",
+        method: 'GET',
+        success: function(data) {
+          $("#button-toggle-share").toggleClass("btn-success");
+          $("#button-toggle-share").toggleClass("btn-primary");
+
+          if(data.public) {
+            $("#button-toggle-share").html("Make portfolio private");
+          } else { 
+            $("#button-toggle-share").html("Make portfolio public");
+          }
+        },
+        error: function (error) {
+          console.log('error');
+        }
+  });
+    })
+  }
+
+
 })
 
 function plotValueChart(data) {

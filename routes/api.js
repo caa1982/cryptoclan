@@ -9,6 +9,30 @@ const CoinLog = require("../models/coin_history");
 const async = require("async");
 const bcryptSalt = 10;
 
+
+router.get("/connect/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  User.findOneAndUpdate({"_id":req.user.id}, { $addToSet: { "connections": req.params.userId } }, err=>{
+    if (err) {
+      res.status(500).json({ message: "DB error" });
+    } else {
+      res.status(200).json({});
+    }
+  })
+});
+
+router.get("/toggle_public", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+
+  let toggle = !req.user.portfolio.public;
+ 
+  User.findOneAndUpdate({"_id":req.user.id}, {"portfolio.public":toggle}, err=>{
+    if (err) {
+      res.status(500).json({ message: "DB error" });
+    } else {
+      res.status(200).json({public:toggle});
+    }
+  });
+});
+
 router.get("/coin24/:coinId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   let time24 = Date.now() - 24 * 60 * 60 * 1000;
   CoinLog.find({ "id": req.params.coinId, time: { $gt: time24 } }, (err, log) => {
@@ -38,13 +62,17 @@ router.post("/user_search", ensureLogin.ensureLoggedIn("/"), (req, res) => {
         if (err) {
           res.status(500).json({ message: "DB error" });
         } else {
+          users.forEach(user=>{
+            if(req.user.connections.find(con=>con === user.id)) 
+              user._doc.$addToSetisFriend = true;
+          })
           res.status(200).json(users);
         }
       })
     })
 
   } else {
-    console.log("here1")
+
     if (req.body.name || req.body.city || req.body.coins) {
       let query = {};
 
