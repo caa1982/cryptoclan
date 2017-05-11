@@ -11,6 +11,16 @@ $(document).ready(function () {
         }
     });
 
+    $("#dropDownMyFollower").on("input", function () {
+        follower = $(this).val();
+        if ($("#dropDown option").filter(function () {
+            return this.value === follower;
+        }).length) {
+            var data = { follower: follower };
+            ajax(data);
+        }
+    });
+
 });
 
 var coin;
@@ -44,6 +54,7 @@ function googleMap(users) {
     if (users) {
 
         users.forEach(user => {
+            console.log(user.following)
             if (user.location.coordinates[0] && user.location.coordinates[1] !== 0) {
 
                 var contentString = `<h5>${user.name}<h5>`

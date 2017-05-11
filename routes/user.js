@@ -172,7 +172,7 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
           if (messages.length) {
             async.each(messages, (message, callback) => {
-              
+
               message.time = dateFormat(message.created_at, "ddd mmmm d yyyy, HH:MM");
               if (message.senderId === req.user.id) {
                 message.isOwn = true;
@@ -231,146 +231,153 @@ router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.get("/user/map", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOne({ "_id": req.user.id }, "coins", function (err, coins) {
-    res.render('user/map', {
-      coins
+    User.findOne({ "_id": req.user.id }, "following", function (err, following) {
+      console.log(following.following)
+      User.find({'_id': { $in: following.following} }, function (err, users) {
+        console.log(users)
+          res.render('user/map', {
+            coins,
+            users
+          });
+        });
+      });
     });
   });
-});
 
-router.get("/user/email", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  res.render('user/email');
-});
-
-router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.find({}, function (err, users) {
-    users,
-      res.render('user/addFriends');
+  router.get("/user/email", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+    res.render('user/email');
   });
-});
 
-router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
+  router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+    User.find({}, function (err, users) {
+      users,
+        res.render('user/addFriends');
+    });
+  });
 
-router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) => {
-  const password = req.body.password,
-    passwordRepeat = req.body.passwordRepeat;
+  router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
 
-  const data = {
-    name: req.body.name,
-    email: req.body.email,
-    company: req.body.company,
-    job: req.body.job,
-    website: req.body.website,
-    bio: req.body.bio,
-    address: req.body.city,
-    facebook: req.body.facebook,
-    twitter: req.body.twitter,
-    google: req.body.google,
-    linkedin: req.body.linkedin,
-    location: { type: 'Point', coordinates: [req.body.lng ? req.body.lng : 0, req.body.lat ? req.body.lat : 0], default: [0, 0] },
-    poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
-    bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
-  }
+  router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) => {
+    const password = req.body.password,
+      passwordRepeat = req.body.passwordRepeat;
 
-  if (password) {
-    if (password !== passwordRepeat) {
-      res.render("/user/edit", { message: "Passwords don't match" });
-      return;
-    } else {
-      const salt = bcrypt.genSaltSync(bcryptSalt);
-      const hashPass = bcrypt.hashSync(password, salt);
-      data.password = hashPass;
-    }
-  }
-
-  User.findOneAndUpdate({ "_id": req.params.userId }, data, (err, user) => {
-    if (err) { next(err); return; }
-    res.redirect("/user/dashboard");
-  })
-});
-
-router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-
-  User.findOne({ "_id": req.params.userId }, (err, showUser) => {
-    res.render("user/show", { showUser });
-
-  })
-});
-
-router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.findOne({ "_id": req.params.userId }, (err, showUser) => {
-
-    if (showUser.porfolio !== "") {
-
-      Coin.find({}, function (err, coins) {
-
-        let pieTotalLabels = [];
-        let pieTotalData = [];
-
-        let piePoloniexLabels = [];
-        let piePoloniexData = [];
-
-        let pieBittrexLabels = [];
-        let pieBittrexData = [];
-
-        let pieWalletLabels = [];
-        let pieWalletData = [];
-
-        let allCoins = [];
-
-        async.each(showUser.portfolio.coins, (coin, callback) => {
-          Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
-            if (cmcCoin) {
-              let ind = null;
-              // if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
-              //   allCoins[ind].balance += coin.balance;
-              //   allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-              // } else {
-              coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-              coin.price = cmcCoin.price_usd;
-              allCoins.push(coin);
-              // }
-              pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
-              if (coin.exchange === "poloniex") {
-                pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
-              }
-              if (coin.exchange === "bittrex") {
-                pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
-              }
-              if (coin.exchange === "wallet") {
-                pushData(coin, cmcCoin, pieWalletLabels, pieWalletData);
-              }
-            }
-            callback();
-          });
-        }, err => {
-
-
-          allCoins.sort((a, b) => b.value - a.value);
-          allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
-          res.render('user/publicPortfolio', { showUser, coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
-        })
-
-
-      });
-
-    } else {
-      res.render('user/publicPortfolio');
+    const data = {
+      name: req.body.name,
+      email: req.body.email,
+      company: req.body.company,
+      job: req.body.job,
+      website: req.body.website,
+      bio: req.body.bio,
+      address: req.body.city,
+      facebook: req.body.facebook,
+      twitter: req.body.twitter,
+      google: req.body.google,
+      linkedin: req.body.linkedin,
+      location: { type: 'Point', coordinates: [req.body.lng ? req.body.lng : 0, req.body.lat ? req.body.lat : 0], default: [0, 0] },
+      poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
+      bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
     }
 
-    function pushData(coin, cmcCoin, labels, data) {
-      let ind = null;
-      if ((ind = labels.findIndex(el => el === coin.id)) !== -1) {
-        data[ind] += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+    if (password) {
+      if (password !== passwordRepeat) {
+        res.render("/user/edit", { message: "Passwords don't match" });
+        return;
       } else {
-        labels.push(coin.id);
-        data.push(Math.round(coin.balance * cmcCoin.price_usd * 100) / 100);
+        const salt = bcrypt.genSaltSync(bcryptSalt);
+        const hashPass = bcrypt.hashSync(password, salt);
+        data.password = hashPass;
       }
     }
+
+    User.findOneAndUpdate({ "_id": req.params.userId }, data, (err, user) => {
+      if (err) { next(err); return; }
+      res.redirect("/user/dashboard");
+    })
   });
-});
+
+  router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+
+    User.findOne({ "_id": req.params.userId }, (err, showUser) => {
+      res.render("user/show", { showUser });
+
+    })
+  });
+
+  router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+    User.findOne({ "_id": req.params.userId }, (err, showUser) => {
+
+      if (showUser.porfolio !== "") {
+
+        Coin.find({}, function (err, coins) {
+
+          let pieTotalLabels = [];
+          let pieTotalData = [];
+
+          let piePoloniexLabels = [];
+          let piePoloniexData = [];
+
+          let pieBittrexLabels = [];
+          let pieBittrexData = [];
+
+          let pieWalletLabels = [];
+          let pieWalletData = [];
+
+          let allCoins = [];
+
+          async.each(showUser.portfolio.coins, (coin, callback) => {
+            Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
+              if (cmcCoin) {
+                let ind = null;
+                // if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
+                //   allCoins[ind].balance += coin.balance;
+                //   allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+                // } else {
+                coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+                coin.price = cmcCoin.price_usd;
+                allCoins.push(coin);
+                // }
+                pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
+                if (coin.exchange === "poloniex") {
+                  pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
+                }
+                if (coin.exchange === "bittrex") {
+                  pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
+                }
+                if (coin.exchange === "wallet") {
+                  pushData(coin, cmcCoin, pieWalletLabels, pieWalletData);
+                }
+              }
+              callback();
+            });
+          }, err => {
 
 
-module.exports = router;
+            allCoins.sort((a, b) => b.value - a.value);
+            allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
+            res.render('user/publicPortfolio', { showUser, coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
+          })
+
+
+        });
+
+      } else {
+        res.render('user/publicPortfolio');
+      }
+
+      function pushData(coin, cmcCoin, labels, data) {
+        let ind = null;
+        if ((ind = labels.findIndex(el => el === coin.id)) !== -1) {
+          data[ind] += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+        } else {
+          labels.push(coin.id);
+          data.push(Math.round(coin.balance * cmcCoin.price_usd * 100) / 100);
+        }
+      }
+    });
+  });
+
+
+  module.exports = router;

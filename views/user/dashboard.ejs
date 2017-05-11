@@ -4,7 +4,7 @@
 <section class="conainer dashboard mx-auto">
     <div class="row">
         <div class="col text-center">
-            <aside id="asideCoins" class="col">
+            <div id="asideCoins" class="col">
                 <input id="dropDownCoins" list="dropDown">
                 <datalist id="dropDown">
                     <% coins.forEach( (coin) => { %>
@@ -16,57 +16,52 @@
                 <br>
                 <div class="coinsDasboard sortable">
                     <% userCoins.forEach( (coin) => { %>
-                    <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
-                    <% }) %>
+                        <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
+                        <% }) %>
                 </div>
-            </aside>
+            </div>
         </div>
-        
+
         <div class="col-6 text-center">
-          <form method="POST" action="/user/post">
-            <textarea id="dashboardTextarea" name="message" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
-            <div>
-                <button type="submit" class="btn btn-success">
+            <form method="POST" action="/user/post">
+                <textarea id="dashboardTextarea" name="message" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
+                <div>
+                    <button type="submit" class="btn btn-success">
                         <i class="fa fa-share"></i> Share
                     </button>
-            </div>
-          </form>
-          <% messages.forEach(message=>{ %>
-            <div class="row">
-                <div class="col-9 text-left">
-                    <% if(message.isOwn) { %>
-                        <img style="width:50px;height:50px" src="<%=user.photo%>">
-                        <i>You wrote:</i>
-                    <% } else if (message.private) { %>
-                        <img style="width:50px;height:50px" src="<%=message.sender.photo%>">
-                        <i><%=message.sender.name %> sent you a message:</i> 
-                        <a href="/user/message/<%=message.senderId%>" class="btn btn-success">Reply</a>
-                    <% } else { %> 
-                        <img style="width:50px;height:50px" src="<%=message.sender.photo%>">
-                        <i><%=message.sender.name %> wrote:</i>
-                    <% } %>
                 </div>
-                <div class="col-3 text-right">
-                    <%=message.time%>
+            </form>
+            <% messages.forEach(message=>{ %>
+                <div class="row">
+                    <div class="col-9 text-left">
+                        <% if(message.isOwn) { %>
+                            <img style="width:50px;height:50px" src="<%=user.photo%>">
+                            <i>You wrote:</i>
+                            <% } else if (message.private) { %>
+                                <img style="width:50px;height:50px" src="<%=message.sender.photo%>">
+                                <i><%=message.sender.name %> sent you a message:</i>
+                                <a href="/user/message/<%=message.senderId%>" class="btn btn-success">Reply</a>
+                                <% } else { %>
+                                    <img style="width:50px;height:50px" src="<%=message.sender.photo%>">
+                                    <i><%=message.sender.name %> wrote:</i>
+                                    <% } %>
+                    </div>
+                    <div class="col-3 text-right">
+                        <%=message.time%>
+                    </div>
                 </div>
-            </div>
-            <div class="jumbotron row">
-                <%=message.text%>
-            </div>
-           
-          <% }) %>
+                <div class="jumbotron row">
+                    <%=message.text%>
+                </div>
+
+                <% }) %>
 
         </div>
-        
-        <div class="col text-center">
-            <aside class="col sortable">
-            <% connections.forEach(connection=>{ %>
-              <div class="row">
-                  <a href="/user/<%=connection.id%>" class="btn nostyle"><img class="rounded-circle" style="width:64px;height:64px" src="<%=connection.photo%>"></a>
-              </div>
-                <% }) %>
-              </div>
-            </aside>
+        <div class="row">
+            <aside class="col sortable text-center">
+                <% connections.forEach(connection=>{ %>
+                    <a href="/user/<%=connection.id%>" class="nostyle"><img class="rounded-circle" style="width:64px;height:64px" src="<%=connection.photo%>"></a>
+                    <% }) %>
         </div>
     </div>
 </section>
