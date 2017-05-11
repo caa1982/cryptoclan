@@ -30,19 +30,9 @@
             </div>
         </div>
         <div class="col text-center">
-            <aside class="col">
+            <aside class="col sortable">
             <% connections.forEach(connection=>{ %>
-              <div class="row">
-                <img style="width:100px;height:100px" src="<%=connection.photo%>"> <%=connection.name%> 
-              </div>
-              <div class="row">
-                <a href="user/<%=connection.id%>" class="btn btn-warning">Profile</a>
-                <% if(connection.profile && connection.profile.public) { %>
-                    <a href="user/portfolio/<%=connection.id%>">class="btn btn-primary">Portfolio</a>
-                <% } %>
-                &nbsp;<button class="btn btn-success">Message</button>
-              </div>
-
+                <a class="nostyle" href="user/<%=connection.id%>"><img style="width:64px;height:64px" class="rounded-circle" src="<%=connection.photo%>"></a>
             <% }) %>
             </aside>
         </div>

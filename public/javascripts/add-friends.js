@@ -68,9 +68,9 @@ function listUsers(users) {
                   <div>`;
                   console.log('user.isFriend: ', user.isFriend);
       if(!user.isFriend) {
-        html+=` <button type="button" id="connect-button-${user._id}" onclick="connectUser('${user._id}')" class="btn btn-primary">Connect</button>`;
+        html+=` <button type="button" id="connect-button-${user._id}" onclick="connectUser('${user._id}')" class="btn btn-primary">follow</button>`;
       } else {
-        html+="Connected";
+        html+="followed";
       }
       html+= ` <a href="/user/${user._id}" type="button" class="btn btn-success">See Profile</a>
                   </div>
@@ -92,7 +92,7 @@ function connectUser(id) {
       url: "http://localhost:3000/api/connect/"+id,
       method: "GET",
       success: function() {
-        $("#connect-button-"+id).after("Connected");
+        $("#connect-button-"+id).after("followed");
         $("#connect-button-"+id).hide();
       },
       error: function (err) { console.log(err) }
