@@ -6,18 +6,27 @@ const userSchema = new Schema({
   password: String,
   name: String,
   company: String,
+  job: String,
   website: String,
   bio: String,
   address: String,
-  location: { type: { type: String }, coordinates: [Number] },
+  city:String,
+  location: { 'type': {type: String, enum: "Point", default: "Point"}, coordinates: { type: [Number],   default: [0,0]} },
   facebookId: Number,
   photo: String,
   linkedinId: String,
+  facebook: String,
+  linkedin: String,
+  twitter: String,
+  google: String,
+  clan: String,
   poloniex: {apikey: String, apisecret: String},
   bittrex: {apikey: String, apisecret: String},
   portfolio: Object,
   fake: Boolean,
-  coins : Array
+  coins : [String],
+  followers: [Schema.Types.ObjectId],
+  following: [Schema.Types.ObjectId]
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });

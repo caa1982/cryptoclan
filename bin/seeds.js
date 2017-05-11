@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 Coin.find({}, (err, cmcCoins) => {
 
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 100; i++) {
     let coins = [];
     let totalValue = 0;
     if (Math.floor(Math.random() * 2)) {
@@ -43,7 +43,7 @@ Coin.find({}, (err, cmcCoins) => {
       }
     }
     let coinClans = [];
-    let numberOfCoinClans = Math.floor(Math.random()*100);
+    let numberOfCoinClans = Math.floor(Math.random()*10);
     for (let i = 0; i < numberOfCoinClans; i++) {
       coinClans.push(cmcCoins[Math.floor(Math.random()*cmcCoins.length)].id)
     }
@@ -56,12 +56,13 @@ Coin.find({}, (err, cmcCoins) => {
       bio: faker.lorem.paragraph(),
       address: faker.address.streetAddress(true),
       city: faker.address.city(),
-      photo: faker.image.people(100, 100),
+      job: faker.name.jobTitle(),
+      photo: "https://randomuser.me/api/portraits/"+(Math.floor(Math.random()*2)?"wo":"")+"men/"+Math.floor(Math.random()*100)+".jpg",
       fake: true,
       coins: coinClans
     }
     if(coins.length)
-       newUser.portfolio = { coins, total:totalValue, time:Date.now() }
+       newUser.portfolio = { coins, total:totalValue, public:true, time:Date.now() }
     let user = new User(newUser);
 
     user.save((err, user) => {

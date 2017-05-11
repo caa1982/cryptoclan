@@ -1,0 +1,110 @@
+<div class="container" id="showContainer">
+    <div class="jumbotron my-auto" id="profile">
+        <div class="row text-center">
+            <div class="col">
+                <img id="showProfilePic" class="rounded-circle" src="<%=showUser.photo%>">
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h1>
+                    <%= showUser.name%>
+                </h1>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col text-center">
+                <h4>
+                    <%= showUser.job%>
+                </h4>
+            </div>
+            <div class="col text-center">
+                <h4>
+                    <%= showUser.company%>
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <h4>
+                    <%= showUser.address %>
+                </h4>
+            </div>
+            <div class="col text-center">
+                <h4>
+                    <%=showUser.email%>
+                </h4>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col">
+                <h2>
+                    <%=showUser.clan%>
+                </h2>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col">
+                <a href="https://<%= showUser.website %>" target="_blank">
+                    <%=showUser.website%>
+                </a>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <p>
+                    <%=showUser.bio%>
+                </p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <% showUser.coins.forEach( (coin) => { %>
+                <div class="col">
+                    <span class="badge badge-pill badge-info"><img class="connectCoins" src="https://files.coinmarketcap.com/static/img/coins/16x16/<%= coin %>.png"> <%= coin %></span>
+                </div>
+                <% }) %>
+        </div>
+        <br>
+        <div class="row text-center">
+            <% if(showUser.facebook !== "") { %>
+                <div class="col">
+                    <a href="https://<%=showUser.facebook%>" target="_blank" class="nostyle"><span class="fa fa-facebook-square fa-4x"></span></a>
+                </div>
+                <% } %>
+                    <% if(showUser.linkedin !== "") { %>
+                        <div class="col">
+                            <a href="https://<%=showUser.linkedin%>" target="_blank" class="nostyle"><span class="fa fa-linkedin-square fa-4x"></span></a>
+                        </div>
+                        <% } %>
+                            <% if(showUser.google !== "") { %>
+                                <div class="col">
+                                    <a href="https://<%=showUser.google%>" target="_blank" class="nostyle"><span class="fa fa-google-plus-square fa-4x"></span></a>
+                                </div>
+                                <% } %>
+                                    <% if(showUser.twitter !== "") { %>
+                                        <div class="col">
+                                            <a href="https://<%=showUser.twitter%>" target="_blank" class="nostyle"><span class="fa fa-twitter-square fa-4x"></span></a>
+                                        </div>
+                                        <% } %>
+        </div>
+        <br>
+        <div class="row text-center">
+            
+            <div class="col">
+
+                <br>
+                <% if(showUser.portfolio && showUser.portfolio.public) { %>
+                <a href="/user/portfolio/<%=showUser._id%>" class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
+                <% } %>
+                <a href="/user/message/<%=showUser._id%>" class="btn btn-success">Message</a>
+
+            </div>
+            <div class="col">
+                <a href="message/<%=showUser._id%>" class="btn btn-danger"><span class="fa fa-envelope"></span> Send a Message</a>
+            </div>
+        </div>
+    </div>
+</div>
