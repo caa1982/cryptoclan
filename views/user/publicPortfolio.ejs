@@ -1,0 +1,330 @@
+<div id="containerPortfolio" class="container h-100 d-flex align-items-center justify-content-center">
+    <div class="portfolio jumbotron my-auto text-center">
+
+         <div class="row text-nowrap text-center form-group">
+            <div class="col">
+                <p id="totalValueText">Total value: $<%=Math.round(100*showUser.portfolio.total)/100%></p>
+            </div>
+        </div>
+        <div class="row text-nowrap text-cente form-group">
+            <div class="col">
+                Portfolio 24h value
+                <canvas id="valueChart"></canvas>
+            </div>
+        </div>
+
+    <% if(!showUser.portfolio) { %>
+        <div class="row text-center form-group">
+            <div class="col">
+                You don't have a portfolio. Please go to <a href="/user/edit">Settings</a> and enter your Poloniex and Bittrex API keys
+            </div>
+        </div>
+
+
+    <% } else { %>
+
+  
+     <script src="/chart.js/dist/Chart.min.js"></script>
+      <div class="row styleChart form-group">
+     <div class="col">
+     <canvas id="pieChart" width="350" height="350"></canvas>
+    </div>
+      </div> 
+     <script>
+     var ctx = document.getElementById("pieChart");
+
+     var data = {
+        labels: [
+            <% pieTotalLabels.forEach(label=>{ %>
+                "<%=label%>",
+            <% }) %>
+        ],
+        datasets: [
+            {
+                data: [<%=pieTotalData%>],
+                backgroundColor: [
+
+                'rgba(255, 199, 132, 0.7)',
+                'rgba(154, 162, 235, 0.7)',
+                'rgba(55, 206, 86, 0.7)',
+                'rgba(75, 192, 92, 0.7)',
+                'rgba(153, 202, 255, 0.7)',
+                'rgba(55, 159, 164, 0.7)',
+                 'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 159, 64, 0.7)'
+                ],
+                hoverBackgroundColor: [
+
+
+                'rgba(255, 199, 132, 1)',
+                'rgba(154, 162, 235, 1)',
+                'rgba(55, 206, 86, 1)',
+                'rgba(75, 192, 92, 1)',
+                'rgba(153, 202, 255, 1)',
+                'rgba(55, 159, 164, 1)',
+                 'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ]
+            }]
+    };
+        var myPieChart = new Chart(ctx,{
+            type: 'doughnut',
+            data: data,
+            options: {
+                responsive: false
+            }
+        });
+        
+    
+        </script>
+     
+<div class="container">
+<% if(piePoloniexLabels.length!==0 && pieBittrexLabels.length!==0) { %>
+<div class="row styleChart form-group">
+     <div class="col">
+     <canvas id="pieChartPoloniex" width="200" height="200"></canvas>
+    </div>
+      </div> 
+     <script>
+     var ctxp = document.getElementById("pieChartPoloniex");
+     var data = {
+        labels: [
+            <% piePoloniexLabels.forEach(label=>{ %>
+                "<%=label%>",
+            <% }) %>
+        ],
+        datasets: [
+            {
+                data: [<%=piePoloniexData%>],
+                backgroundColor: [
+
+                'rgba(255, 199, 132, 0.7)',
+                'rgba(154, 162, 235, 0.7)',
+                'rgba(55, 206, 86, 0.7)',
+                'rgba(75, 192, 92, 0.7)',
+                'rgba(153, 202, 255, 0.7)',
+                'rgba(55, 159, 164, 0.7)',
+                 'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 159, 64, 0.7)'
+                ],
+                hoverBackgroundColor: [
+
+
+                'rgba(255, 199, 132, 1)',
+                'rgba(154, 162, 235, 1)',
+                'rgba(55, 206, 86, 1)',
+                'rgba(75, 192, 92, 1)',
+                'rgba(153, 202, 255, 1)',
+                'rgba(55, 159, 164, 1)',
+                 'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ]
+            }]
+    };
+        var myPieChart = new Chart(ctxp,{
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: false,
+                title: {
+            display: true,
+            text: 'Poloniex'
+        },
+                legend: {
+                    display: false
+                },
+            }
+        });
+        
+    
+        </script>
+<div class="row styleChart form-group">
+     <div class="col">
+     <canvas  id="pieChartBittrex" width="200" height="200"></canvas>
+    </div>
+      </div> 
+
+     <script>
+     var ctxb = document.getElementById("pieChartBittrex");
+     var data = {
+        labels: [
+            <% pieBittrexLabels.forEach(label=>{ %>
+                "<%=label%>",
+            <% }) %>
+        ],
+        datasets: [
+            {
+                data: [<%=pieBittrexData%>],
+                backgroundColor: [
+
+                'rgba(255, 199, 132, 0.7)',
+                'rgba(154, 162, 235, 0.7)',
+                'rgba(55, 206, 86, 0.7)',
+                'rgba(75, 192, 92, 0.7)',
+                'rgba(153, 202, 255, 0.7)',
+                'rgba(55, 159, 164, 0.7)',
+                 'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 159, 64, 0.7)'
+                ],
+                hoverBackgroundColor: [
+
+
+                'rgba(255, 199, 132, 1)',
+                'rgba(154, 162, 235, 1)',
+                'rgba(55, 206, 86, 1)',
+                'rgba(75, 192, 92, 1)',
+                'rgba(153, 202, 255, 1)',
+                'rgba(55, 159, 164, 1)',
+                 'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ]
+            }]
+    };
+        var myPieChart = new Chart(ctxb,{
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: false,
+                title: {
+            display: true,
+            text: 'Bittrex'
+        },
+                legend: {
+                    display: false
+                }
+            },
+                            
+        });
+        
+    
+        </script>
+    <% } %>
+<% if(pieWalletLabels.length!==0 && (pieBittrexLabels.length!==0 || piePoloniexLabels.length!==0) ) { %>
+<div class="row styleChart form-group">
+     <div class="col">
+     <canvas  id="pieChartWallet" width="200" height="200"></canvas>
+    </div>
+      </div> 
+
+     <script>
+     var ctxb = document.getElementById("pieChartWallet");
+     var data = {
+        labels: [
+            <% pieWalletLabels.forEach(label=>{ %>
+                "<%=label%>",
+            <% }) %>
+        ],
+        datasets: [
+            {
+                data: [<%=pieWalletData%>],
+                backgroundColor: [
+
+                'rgba(255, 199, 132, 0.7)',
+                'rgba(154, 162, 235, 0.7)',
+                'rgba(55, 206, 86, 0.7)',
+                'rgba(75, 192, 92, 0.7)',
+                'rgba(153, 202, 255, 0.7)',
+                'rgba(55, 159, 164, 0.7)',
+                 'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 159, 64, 0.7)'
+                ],
+                hoverBackgroundColor: [
+
+
+                'rgba(255, 199, 132, 1)',
+                'rgba(154, 162, 235, 1)',
+                'rgba(55, 206, 86, 1)',
+                'rgba(75, 192, 92, 1)',
+                'rgba(153, 202, 255, 1)',
+                'rgba(55, 159, 164, 1)',
+                 'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+                ]
+            }]
+    };
+        var myPieChart = new Chart(ctxb,{
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: false,
+                title: {
+            display: true,
+            text: 'Wallet'
+        },
+                legend: {
+                    display: false
+                }
+            },
+                            
+        });
+        
+    
+        </script>
+ <% } %>
+</div>
+         <% allCoins.forEach(coin=>{  %>
+
+        <div class="row portfolioCoinBox text-nowrap form-group">
+            <div class="col my-auto">
+                <h3 id="textCoinPortfolio"><img src="https://files.coinmarketcap.com/static/img/coins/128x128/<%=coin.id%>.png"> <%=coin.id%></h3>
+            </div>
+            <div class="col my-auto">
+                <span><%=coin.exchange%></span>
+                <h3>$<%= coin.value %></h3>
+                <% if(coin.exchange==="wallet") { %>
+                    <div id="edit-coin-container-<%=coin.id%>">
+                    <button class="btn btn-default" onclick="clickEditCoin('<%=coin.id%>', <%=coin.balance%>)">Edit amount</button>
+                    <a class="btn btn-danger"  href="/user/portfolio/<%=coin.id%>/delete">Remove</a>
+                    </div>
+              <% } %>
+                
+            </div>
+            <div class="col my-auto">
+                <canvas id="<%=coin.id%>" style="background-color: whitesmoke; opacity: 0.7;" class="coin-chart chart-<%=coin.id%>" width="150" height="75"></canvas>
+            </div>
+        </div>
+        <% }) %>
+    <% } %>    
+    </div>
+
+</div>
+<script src="/javascripts/portfolio.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

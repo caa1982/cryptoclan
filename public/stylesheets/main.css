@@ -220,6 +220,32 @@ canvas{
     border-radius: 25px;
 }
 
+/*Show profile*/
+
+#showProfilePic{
+    width: 100px;
+    height: 100px;
+}
+
+#showContainer{
+     margin: 1%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#profile{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
+    border: 2px solid;
+    border-color: black;
+    border-radius: 25px;
+    padding: 2%;
+}
+
+
 @media(max-width:768px){
     #login-dp{
         background-color: inherit;
