@@ -2,7 +2,7 @@
     <div class="jumbotron my-auto" id="profile">
         <div class="row text-center">
             <div class="col">
-                <img id="showProfilePic" class="rounded-circle" src="<%=user.photo%>">
+                <img id="showProfilePic" class="rounded-circle" src="<%=showUser.photo%>">
             </div>
         </div>
         <div class="row text-center">
@@ -93,7 +93,7 @@
         <div class="row text-center">
             <div class="col">
                 <br>
-                <a class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
+                <a href="portfolio/<%=showUser._id%>" class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
             </div>
         </div>
     </div>
