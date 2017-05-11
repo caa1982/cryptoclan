@@ -269,7 +269,6 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     twitter: req.body.twitter,
     google: req.body.google,
     linkedin: req.body.linkedin,
-    clan: req.body.clan,
     location: { type: 'Point', coordinates: [req.body.lng ? req.body.lng : 0, req.body.lat ? req.body.lat : 0], default: [0, 0] },
     poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
     bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }

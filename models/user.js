@@ -19,7 +19,6 @@ const userSchema = new Schema({
   linkedin: String,
   twitter: String,
   google: String,
-  clan: String,
   poloniex: {apikey: String, apisecret: String},
   bittrex: {apikey: String, apisecret: String},
   portfolio: Object,

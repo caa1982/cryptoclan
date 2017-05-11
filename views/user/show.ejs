@@ -40,14 +40,6 @@
         <br>
         <div class="row text-center">
             <div class="col">
-                <h2>
-                    <%=showUser.clan%>
-                </h2>
-            </div>
-        </div>
-        <br>
-        <div class="row text-center">
-            <div class="col">
                 <a href="https://<%= showUser.website %>" target="_blank">
                     <%=showUser.website%>
                 </a>
@@ -99,11 +91,8 @@
                 <% if(showUser.portfolio && showUser.portfolio.public) { %>
                 <a href="/user/portfolio/<%=showUser._id%>" class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
                 <% } %>
-                <a href="/user/message/<%=showUser._id%>" class="btn btn-success">Message</a>
+                <a href="/user/message/<%=showUser._id%>" class="btn btn-success"><span class="fa fa-envelope"></span> Send a Message</a>
 
-            </div>
-            <div class="col">
-                <a href="message/<%=showUser._id%>" class="btn btn-danger"><span class="fa fa-envelope"></span> Send a Message</a>
             </div>
         </div>
     </div>
