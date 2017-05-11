@@ -3,11 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-
-
     "start": "nodemon --ignore 'public/javascripts/*.js' ./bin/www"
-
-
   },
   "dependencies": {
     "async": "^2.4.0",
@@ -16,6 +12,7 @@
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
+    "dateformat": "^2.0.0",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
     "ejs": "~2.5.6",

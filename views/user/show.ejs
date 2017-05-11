@@ -94,7 +94,13 @@
         <div class="row text-center">
             
             <div class="col">
-                <a href="portfolio/<%=showUser._id%>" class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
+
+                <br>
+                <% if(showUser.portfolio && showUser.portfolio.public) { %>
+                <a href="/user/portfolio/<%=showUser._id%>" class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
+                <% } %>
+                <a href="/user/message/<%=showUser._id%>" class="btn btn-success">Message</a>
+
             </div>
             <div class="col">
                 <a href="message/<%=showUser._id%>" class="btn btn-danger"><span class="fa fa-envelope"></span> Send a Message</a>

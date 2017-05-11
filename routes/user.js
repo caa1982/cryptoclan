@@ -1,13 +1,49 @@
 const express = require("express");
 const router = express.Router();
 const ensureLogin = require("connect-ensure-login");
-const User = require("../models/user");
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const User = require("../models/user");
 const Coin = require("../models/coin");
+const Message = require("../models/message");
 const PortfolioHistories = require("../models/portfolio_history");
+const dateFormat = require("dateformat");
+
+const calculatePortfolio = require("../helpers/calculate-portfolio");
 const async = require("async");
 const bcryptSalt = 10;
-const calculatePortfolio = require("../helpers/calculate-portfolio");
+
+router.get("/user/message/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  User.findOne({ "_id": req.params.userId }, (err, recipient) => {
+    if (err) console.log(err);
+    res.render("user/message", { recipient });
+  })
+});
+
+router.post("/user/message/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  let message = new Message({
+    senderId: req.user.id,
+    text: req.body.message,
+    recipientIds: [req.params.userId],
+    private: true
+  })
+  message.save(err => {
+    if (err) console.log(err)
+    res.redirect('/user/dashboard')
+  })
+});
+
+router.post("/user/post", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  let message = new Message({
+    senderId: req.user.id,
+    text: req.body.message,
+    recipientIds: req.user.followers.concat(req.user.id)
+  })
+  message.save(err => {
+    if (err) console.log(err)
+    res.redirect('/user/dashboard')
+  })
+});
 
 router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   if (req.body.coinId) {
@@ -23,7 +59,7 @@ router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     }, err => {
       if (err) console.log(err)
       calculatePortfolio(req.user.id, (total) => {
-        User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
+        User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, err => {
           res.redirect("/user/portfolio");
         });
       });
@@ -37,7 +73,7 @@ router.post("/user/portfolio/:coinId", ensureLogin.ensureLoggedIn("/"), (req, re
   User.findOneAndUpdate({ "_id": req.user.id, "portfolio.coins.exchange": "wallet", "portfolio.coins.id": req.params.coinId }, { "$set": { "portfolio.coins.$.balance": req.body.balance } }, (err) => {
     if (err) console.log(err)
     calculatePortfolio(req.user.id, (total) => {
-      User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
+      User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, err => {
         res.redirect("/user/portfolio");
       });
     });
@@ -50,7 +86,7 @@ router.get("/user/portfolio/:coinId/delete", ensureLogin.ensureLoggedIn("/"), (r
     if (err) console.log(err)
     calculatePortfolio(req.user.id, (total) => {
 
-      User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, (err) => {
+      User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, err => {
         res.redirect("/user/portfolio");
       });
     });
@@ -128,12 +164,47 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   Coin.find({}, function (err, coins) {
-    User.findOne({ "_id": req.user.id }, "coins", function (err, userCoins) {
-      User.find({"_id":{$in:req.user.connections}}, (err, connections)=>{
-        res.render('user/dashboard', {
-          coins,
-          userCoins: userCoins.coins,
-          connections
+
+    User.findOne({ "_id": req.user.id }, "coins", (err, userCoins) => {
+      User.find({ "_id": { $in: req.user.following } }, (err, connections) => {
+
+        Message.find({ recipientIds: req.user.id }).sort('-created_at').exec((err, messages) => {
+
+          if (messages.length) {
+            async.each(messages, (message, callback) => {
+              
+              message.time = dateFormat(message.created_at, "ddd mmmm d yyyy, HH:MM");
+              if (message.senderId === req.user.id) {
+                message.isOwn = true;
+                callback();
+              } else {
+                if (message.private) {
+                  User.findOne({ "_id": message.senderId }, (err, sender) => {
+                    message.sender = sender;
+                    callback();
+                  })
+                } else {
+                  message.sender = connections.find(con => con.id === message.senderId);
+                  callback();
+                }
+              }
+            }, err => {
+              res.render('user/dashboard', {
+                coins,
+                userCoins: userCoins.coins,
+                connections,
+                messages
+              });
+            })
+          } else {
+            res.render('user/dashboard', {
+              coins,
+              userCoins: userCoins.coins,
+              connections,
+              messages
+            });
+          }
+
         });
       });
     });
@@ -230,75 +301,75 @@ router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 });
 
 router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.findOne({"_id":req.params.userId}, (err,showUser)=>{
-    
-  if (showUser.porfolio !== "") {
+  User.findOne({ "_id": req.params.userId }, (err, showUser) => {
 
-    Coin.find({}, function (err, coins) {
+    if (showUser.porfolio !== "") {
 
-      let pieTotalLabels = [];
-      let pieTotalData = [];
+      Coin.find({}, function (err, coins) {
 
-      let piePoloniexLabels = [];
-      let piePoloniexData = [];
+        let pieTotalLabels = [];
+        let pieTotalData = [];
 
-      let pieBittrexLabels = [];
-      let pieBittrexData = [];
+        let piePoloniexLabels = [];
+        let piePoloniexData = [];
 
-      let pieWalletLabels = [];
-      let pieWalletData = [];
+        let pieBittrexLabels = [];
+        let pieBittrexData = [];
 
-      let allCoins = [];
+        let pieWalletLabels = [];
+        let pieWalletData = [];
 
-      async.each(showUser.portfolio.coins, (coin, callback) => {
-        Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
-          if (cmcCoin) {
-            let ind = null;
-            // if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
-            //   allCoins[ind].balance += coin.balance;
-            //   allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-            // } else {
-            coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-            coin.price = cmcCoin.price_usd;
-            allCoins.push(coin);
-            // }
-            pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
-            if (coin.exchange === "poloniex") {
-              pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
+        let allCoins = [];
+
+        async.each(showUser.portfolio.coins, (coin, callback) => {
+          Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
+            if (cmcCoin) {
+              let ind = null;
+              // if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
+              //   allCoins[ind].balance += coin.balance;
+              //   allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+              // } else {
+              coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+              coin.price = cmcCoin.price_usd;
+              allCoins.push(coin);
+              // }
+              pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
+              if (coin.exchange === "poloniex") {
+                pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
+              }
+              if (coin.exchange === "bittrex") {
+                pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
+              }
+              if (coin.exchange === "wallet") {
+                pushData(coin, cmcCoin, pieWalletLabels, pieWalletData);
+              }
             }
-            if (coin.exchange === "bittrex") {
-              pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
-            }
-            if (coin.exchange === "wallet") {
-              pushData(coin, cmcCoin, pieWalletLabels, pieWalletData);
-            }
-          }
-          callback();
-        });
-      }, err => {
+            callback();
+          });
+        }, err => {
 
 
-        allCoins.sort((a, b) => b.value - a.value);
-        allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
-        res.render('user/publicPortfolio', { showUser, coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
-      })
+          allCoins.sort((a, b) => b.value - a.value);
+          allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
+          res.render('user/publicPortfolio', { showUser, coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
+        })
 
 
-    });
+      });
 
-  } else {
-    res.render('user/publicPortfolio');
-  }
-
-  function pushData(coin, cmcCoin, labels, data) {
-    let ind = null;
-    if ((ind = labels.findIndex(el => el === coin.id)) !== -1) {
-      data[ind] += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
     } else {
-      labels.push(coin.id);
-      data.push(Math.round(coin.balance * cmcCoin.price_usd * 100) / 100);
+      res.render('user/publicPortfolio');
     }
-  }
+
+    function pushData(coin, cmcCoin, labels, data) {
+      let ind = null;
+      if ((ind = labels.findIndex(el => el === coin.id)) !== -1) {
+        data[ind] += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
+      } else {
+        labels.push(coin.id);
+        data.push(Math.round(coin.balance * cmcCoin.price_usd * 100) / 100);
+      }
+    }
   });
 });
 
