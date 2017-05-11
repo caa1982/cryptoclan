@@ -1,8 +1,8 @@
 $(document).ready(function () {
     googleMap();
-
+    
     $("#dropDownMyCoin").on("input", function () {
-        var coin = $(this).val();
+        coin = $(this).val();
         if ($("#dropDown option").filter(function () {
             return this.value === coin;
         }).length) {
@@ -12,6 +12,8 @@ $(document).ready(function () {
     });
 
 });
+
+var coin;
 
 function ajax(data) {
     $.ajax({
@@ -45,13 +47,17 @@ function googleMap(users) {
 
         users.forEach(user => {
             if (user.location.coordinates[0] && user.location.coordinates[1] !== 0) {
-
+              
+                var img = `https://files.coinmarketcap.com/static/img/coins/16x16/${coin}.png`;
+                var html = "<h2>hi<h2>";
                 var pin = new google.maps.LatLng(user.location.coordinates[1], user.location.coordinates[0]);
 
                 var marker = new google.maps.Marker({
                     position: pin,
                     map: map,
-                    title: user.name
+                    title: user.name,
+                    icon: img,
+                    html: html
                 });
             }
         });
