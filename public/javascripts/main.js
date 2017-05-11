@@ -13,7 +13,7 @@ $(document).ready(function() {
                 data: { name: coin },
                 success: function (response) {
                     $("#dropDownCoins").val("");
-                    $("#asideCoins").append(
+                    $(".coinsDasboard").append(
                         $(`<img id="${coin}" src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`
                         ));
                                     },
