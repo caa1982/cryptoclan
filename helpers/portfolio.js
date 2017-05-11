@@ -45,40 +45,7 @@ function calculateAndLogPortfolio(callback) {
         })
     })
 }
-// User.find({
-//     $and: [
-//         { "poloniex.apikey": { $exists: true } },
-//         { "poloniex.apikey": { $ne: "" } },
-//         { "bittrex.apikey": { $exists: true } },
-//         { "bittrex.apikey": { $ne: "" } }
-//     ]
-// }, (err, users) => {
-//     users.forEach(user => {
-//         getPoloniex(user, (poloniexCoins, poloniexTotal) => {
-//             getBittrex(user, (bittrexCoins, bittrexTotal) => {
-//                 updateUserPortfolio(user, poloniexCoins.concat(bittrexCoins), bittrexTotal + poloniexTotal, (err) => {
-//                     if (err) console.log(err);
-//                 })
-//             })
-//         })
-//     });
-// });
 
-// User.find({
-//     $and: [
-//         { "poloniex.apikey": { $exists: true } },
-//         { "poloniex.apikey": { $ne: "" } },
-//         { "bittrex.apikey": { $exists: false } }
-//     ]
-// }, (err, users) => {
-//     users.forEach(user => {
-//         getPoloniex(user, (poloniexCoins, poloniexTotal) => {
-//             updateUserPortfolio(user, poloniexCoins, poloniexTotal, (err) => {
-//                 if (err) console.log(err);
-//             })
-//         })
-//     });
-// });
 function updateBittrex(callback) {
     User.find({
         $and: [
@@ -139,7 +106,7 @@ function getBittrex(user, callBack) {
     Bittrex.getbalances(function (bittrexData) {
 
         bittrexData = bittrexData.result;
-        if (bittrexData.length) {
+        if (bittrexData) {
             bittrexData.forEach(coin => {
                 if (coin.Balance > 0)
                     bittrexCoins.push({ symbol: coin.Currency, balance: coin.Balance, exchange: "bittrex" })
