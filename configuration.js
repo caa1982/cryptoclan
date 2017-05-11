@@ -11,4 +11,5 @@ module.exports = {
   coinmarketcapInterval: 5*60*1000,
   portfolioInterval: 30*1000
 }
+
   // "start": "nodemon --ignore 'public/javascripts/*.js' ./bin/www"
