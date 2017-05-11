@@ -14,7 +14,7 @@
                                 <% }) %>
                 </datalist>
                 <br>
-                <div class="sortable">
+                <div class="coinsDasboard sortable">
                     <% userCoins.forEach( (coin) => { %>
                     <img id="<%= coin %>" src="https://files.coinmarketcap.com/static/img/coins/128x128/<%= coin %>.png">
                     <% }) %>
@@ -59,8 +59,9 @@
         </div>
         
         <div class="col text-center">
-            <aside class="col">
+            <aside class="col sortable">
             <% connections.forEach(connection=>{ %>
+
               <div class="row">
                 <img style="width:100px;height:100px" src="<%=connection.photo%>"> <%=connection.name%> 
               </div>
@@ -71,6 +72,7 @@
                 <% } %>
                 &nbsp;<a href="/user/message/<%=connection.id%>" class="btn btn-success">Message</a>
               </div>
+
 
             <% }) %>
             </aside>

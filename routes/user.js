@@ -164,6 +164,7 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   Coin.find({}, function (err, coins) {
+
     User.findOne({ "_id": req.user.id }, "coins", (err, userCoins) => {
       User.find({ "_id": { $in: req.user.following } }, (err, connections) => {
 
@@ -203,6 +204,7 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
               messages
             });
           }
+
         });
       });
     });
