@@ -69,31 +69,35 @@
         </div>
         <br>
         <div class="row text-center">
-            <% if(showUser.facebok !== "") { %>
-            <div class="col">
-                <a href="https://<%=showUser.facebook%>" target="_blank" class="nostyle"><span class="fa fa-facebook-square fa-4x"></span></a>
-            </div>
-             <% } %>
-             <% if(showUser.linkedin !== "") { %>
-            <div class="col">
-                <a href="https://<%=showUser.linkedin%>" target="_blank" class="nostyle"><span class="fa fa-linkedin-square fa-4x"></span></a>
-            </div>
-             <% } %>
-              <% if(showUser.google !== "") { %>
-            <div class="col">
-                <a href="https://<%=showUser.google%>" target="_blank" class="nostyle"><span class="fa fa-google-plus-square fa-4x"></span></a>
-            </div>
-             <% } %>
-             <% if(showUser.twitter !== "") { %>
-            <div class="col">
-                <a href="https://<%=showUser.twitter%>" target="_blank" class="nostyle"><span class="fa fa-twitter-square fa-4x"></span></a>
-            </div>
-             <% } %>
+            <% if(showUser.facebook !== "") { %>
+                <div class="col">
+                    <a href="https://<%=showUser.facebook%>" target="_blank" class="nostyle"><span class="fa fa-facebook-square fa-4x"></span></a>
+                </div>
+                <% } %>
+                    <% if(showUser.linkedin !== "") { %>
+                        <div class="col">
+                            <a href="https://<%=showUser.linkedin%>" target="_blank" class="nostyle"><span class="fa fa-linkedin-square fa-4x"></span></a>
+                        </div>
+                        <% } %>
+                            <% if(showUser.google !== "") { %>
+                                <div class="col">
+                                    <a href="https://<%=showUser.google%>" target="_blank" class="nostyle"><span class="fa fa-google-plus-square fa-4x"></span></a>
+                                </div>
+                                <% } %>
+                                    <% if(showUser.twitter !== "") { %>
+                                        <div class="col">
+                                            <a href="https://<%=showUser.twitter%>" target="_blank" class="nostyle"><span class="fa fa-twitter-square fa-4x"></span></a>
+                                        </div>
+                                        <% } %>
         </div>
+        <br>
         <div class="row text-center">
+            
             <div class="col">
-                <br>
                 <a href="portfolio/<%=showUser._id%>" class="btn btn-success"><span class="fa fa-briefcase"></span> See Porfolio</a>
+            </div>
+            <div class="col">
+                <a href="message/<%=showUser._id%>" class="btn btn-danger"><span class="fa fa-envelope"></span> Send a Message</a>
             </div>
         </div>
     </div>
