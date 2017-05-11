@@ -32,7 +32,7 @@
         <div class="col text-center">
             <aside class="col sortable">
             <% connections.forEach(connection=>{ %>
-                <a class="nostyle" href="user/<%=connection.id%>"><img style="width:64px;height:64px" class="rounded-circle" src="<%=connection.photo%>"></a>
+                <a class="nostyle" href="<%=connection.id%>"><img style="width:64px;height:64px" class="rounded-circle" src="<%=connection.photo%>"></a>
             <% }) %>
             </aside>
         </div>
