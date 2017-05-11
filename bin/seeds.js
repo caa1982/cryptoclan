@@ -62,7 +62,7 @@ Coin.find({}, (err, cmcCoins) => {
       coins: coinClans
     }
     if(coins.length)
-       newUser.portfolio = { coins, total:totalValue, time:Date.now() }
+       newUser.portfolio = { coins, total:totalValue, public:true, time:Date.now() }
     let user = new User(newUser);
 
     user.save((err, user) => {
