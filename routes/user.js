@@ -235,10 +235,9 @@ router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOne({"_id":req.params.userId}, (err,showUser)=>{
-    console.log("here")
+    
   if (showUser.porfolio !== "") {
-    console.log("here2")
-    console.log(showUser.portfolio)
+
     Coin.find({}, function (err, coins) {
 
       let pieTotalLabels = [];
