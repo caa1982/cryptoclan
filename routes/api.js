@@ -11,7 +11,7 @@ const bcryptSalt = 10;
 
 
 router.get("/connect/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.findOneAndUpdate({"_id":req.user.id}, { $addToSet: { "connections": req.params.userId } }, err=>{
+  User.findOneAndUpdate({ "_id": req.user.id }, { $addToSet: { "connections": req.params.userId } }, err => {
     if (err) {
       res.status(500).json({ message: "DB error" });
     } else {
@@ -23,12 +23,12 @@ router.get("/connect/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 router.get("/toggle_public", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
   let toggle = !req.user.portfolio.public;
- 
-  User.findOneAndUpdate({"_id":req.user.id}, {"portfolio.public":toggle}, err=>{
+
+  User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.public": toggle }, err => {
     if (err) {
       res.status(500).json({ message: "DB error" });
     } else {
-      res.status(200).json({public:toggle});
+      res.status(200).json({ public: toggle });
     }
   });
 });
@@ -41,7 +41,20 @@ router.get("/coin24/:coinId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     } else {
       res.status(200).json(log.map(el => el.price_usd));
     }
-  })
+  });
+});
+
+router.post("/send_MyCoinMap", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  console.log(req.body.coin);
+  User.find({}, function (err, users) {
+    users = users.filter(user=>user.coins.includes(req.body.coin))
+        console.log("hi");
+        if (err) {
+          res.status(500).json({ message: "DB error" });
+        } else {
+          res.status(200).json(users);
+        }
+  });
 });
 
 router.post("/console_coin", ensureLogin.ensureLoggedIn("/"), (req, res) => {
@@ -62,8 +75,8 @@ router.post("/user_search", ensureLogin.ensureLoggedIn("/"), (req, res) => {
         if (err) {
           res.status(500).json({ message: "DB error" });
         } else {
-          users.forEach(user=>{
-            if(req.user.connections.find(con=>con === user.id)) 
+          users.forEach(user => {
+            if (req.user.connections.find(con => con === user.id))
               user._doc.$addToSetisFriend = true;
           })
           res.status(200).json(users);

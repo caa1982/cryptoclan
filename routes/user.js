@@ -130,8 +130,6 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   Coin.find({}, function (err, coins) {
     User.findOne({ "_id": req.user.id }, "coins", function (err, userCoins) {
       User.find({"_id":{$in:req.user.connections}}, (err, connections)=>{
-        console.log('req.user.connections: ', req.user.connections);
-        console.log('connections: ', connections);
         res.render('user/dashboard', {
           coins,
           userCoins: userCoins.coins,
