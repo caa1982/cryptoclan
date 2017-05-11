@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 function ajaxSearch(data) {
   $.ajax({
-      url: "http://localhost:3000/api/user_search",
+      url: "/api/user_search",
       method: "POST",
       data,
       success: listUsers,
@@ -89,7 +89,7 @@ function listUsers(users) {
 
 function connectUser(id) {
    $.ajax({
-      url: "http://localhost:3000/api/connect/"+id,
+      url: "/api/connect/"+id,
       method: "GET",
       success: function() {
         $("#connect-button-"+id).after("followed");

@@ -1,5 +1,7 @@
+require("dotenv").config();
+
 module.exports = {
-  baseUrl: "http://localhost:3000",
+  baseUrl: process.env.BASE_URI,
   
   verificationEmail: {
     tempUserCollection: 'tempusers',

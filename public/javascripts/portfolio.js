@@ -3,7 +3,7 @@ $(document).ready(function () {
   $(".coin-chart").each(function (idx, item) {
     let coinId = $(item).attr('id');
     $.ajax({
-      url: "http://localhost:3000/api/coin24/" + coinId,
+      url: "/api/coin24/" + coinId,
       method: 'GET',
       success: function (data) {
         plotCoinChart(data, coinId);
@@ -16,7 +16,7 @@ $(document).ready(function () {
   })
 
   $.ajax({
-    url: "http://localhost:3000/api/portfolio24/",
+    url: "/api/portfolio24/",
     method: 'GET',
     success: plotValueChart,
     error: function (error) {
@@ -27,7 +27,7 @@ $(document).ready(function () {
   if($("#button-toggle-share")) {
     $("#button-toggle-share").click(function(){
         $.ajax({
-        url: "http://localhost:3000/api/toggle_public",
+        url: "/api/toggle_public",
         method: 'GET',
         success: function(data) {
           $("#button-toggle-share").toggleClass("btn-success");
