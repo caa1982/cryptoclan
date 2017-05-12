@@ -23,7 +23,7 @@
         </div>
 
         <div class="col-6 text-center">
-            <form method="POST" action="/user/post">
+            <form  class="inputBoxDashboard" method="POST" action="/user/post">
                 <textarea id="dashboardTextarea" name="message" rows="2" class="form-control" placeholder="Share Articles, videos and Pictures"></textarea>
                 <div>
                     <button type="submit" class="btn btn-success">
@@ -36,7 +36,7 @@
             <div class="row messageBoxDashboard">
                     <div class="col-6 text-left">
                         <% if(message.isOwn) { %>
-                            <a href="<%=user.id%>" class="nostyle"><img style="width:50px;height:50px" src="<%=user.photo%>"></a>
+                            <a href="<%=user.id%>" class="nostyle"><img class="rounded-circle" style="width:50px;height:50px" src="<%=user.photo%>"></a>
                             <i>You wrote:</i>
                             <% } else if (message.private) { %>
                                 <img style="width:50px;height:50px" src="<%=message.sender.photo%>">
@@ -58,9 +58,9 @@
                 <% }) %>
 
         </div>
-        <div class="col text-center">
+        <div class="col sortable text-center">
             <% connections.forEach(connection=>{ %>
-                <a href="/user/<%=connection.id%>" class="nostyle"><img class="rounded-circle" style="width:64px;height:64px" src="<%=connection.photo%>"></a>
+                <a href="/user/<%=connection.id%>" class="imgRightMargin nostyle"><img class="rounded-circle" style="width:64px;height:64px" src="<%=connection.photo%>"></a>
                 <% }) %>
         </div>
     </div>

@@ -57,7 +57,20 @@ i {
   box-shadow: inset 0 0 15px #000000;
   border: 2px solid;
   border-radius: 15px;
-  word-wrap: break-word;
+  padding: 1%;
+}
+
+.imgRightMargin{
+    margin: 1%;
+}
+
+.inputBoxDashboard{
+    -moz-box-shadow: inset 0 0 15px #000000;
+    -webkit-box-shadow: inset 0 0 15px #000000;
+    box-shadow: inset 0 0 15px #000000;
+    border: 2px solid;
+    border-radius: 15px;
+    padding: 3%;
 }
 
 #dropDownCoins{
