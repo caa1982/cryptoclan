@@ -305,12 +305,6 @@
             <div class="col my-auto">
                 <span><%=coin.exchange%></span>
                 <h3>$<%= coin.value %></h3>
-                <% if(coin.exchange==="wallet") { %>
-                    <div id="edit-coin-container-<%=coin.id%>">
-                    <button class="btn btn-default" onclick="clickEditCoin('<%=coin.id%>', <%=coin.balance%>)">Edit amount</button>
-                    <a class="btn btn-danger"  href="/user/portfolio/<%=coin.id%>/delete">Remove</a>
-                    </div>
-              <% } %>
                 
             </div>
             <div class="col my-auto">
