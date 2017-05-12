@@ -66,7 +66,7 @@ function listUsers(users) {
       });
       html += `   </div>
                   <div>`;
-                  console.log('user.isFriend: ', user.isFriend);
+      console.log('user.isFriend: ', user.isFriend);
       if(!user.isFriend) {
         html+=` <button type="button" id="connect-button-${user._id}" onclick="connectUser('${user._id}')" class="btn btn-primary">follow</button>`;
       } else {

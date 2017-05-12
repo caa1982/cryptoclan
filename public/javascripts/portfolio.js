@@ -13,10 +13,13 @@ $(document).ready(function () {
       }
     });
 
-  })
-
+  });
+  let idUser = "";
+  if ($("#value-chart-user").length) {
+    idUser = $("#value-chart-user").val();
+  }
   $.ajax({
-    url: "/api/portfolio24/",
+    url: "/api/portfolio24/" + idUser,
     method: 'GET',
     success: plotValueChart,
     error: function (error) {
@@ -24,30 +27,28 @@ $(document).ready(function () {
     }
   });
 
-  if($("#button-toggle-share")) {
-    $("#button-toggle-share").click(function(){
-        $.ajax({
+  if ($("#button-toggle-share")) {
+    $("#button-toggle-share").click(function () {
+      $.ajax({
         url: "/api/toggle_public",
         method: 'GET',
-        success: function(data) {
+        success: function (data) {
           $("#button-toggle-share").toggleClass("btn-success");
           $("#button-toggle-share").toggleClass("btn-primary");
 
-          if(data.public) {
+          if (data.public) {
             $("#button-toggle-share").html("Make portfolio private");
-          } else { 
+          } else {
             $("#button-toggle-share").html("Make portfolio public");
           }
         },
         error: function (error) {
           console.log('error');
         }
-  });
-    })
+      });
+    });
   }
-
-
-})
+});
 
 function plotValueChart(data) {
   let labels = [];
@@ -153,7 +154,7 @@ function plotCoinChart(data, coinId) {
         }
       }
     });
-  })
+  });
 
 
 
@@ -168,9 +169,9 @@ function clickEditCoin(id, balance) {
   <button id="edit-coin-cancel-${id}" class="btn btn-default">Cancel</button>
   </form>
   </div>
-  `)
+  `);
   $(`#edit-coin-cancel-${id}`).click(() => {
-    $("#edit-coin-div-"+id).remove();
-  })
+    $("#edit-coin-div-" + id).remove();
+  });
 
 }

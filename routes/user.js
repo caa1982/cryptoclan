@@ -1,24 +1,26 @@
-const express = require("express");
-const router = express.Router();
-const ensureLogin = require("connect-ensure-login");
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const User = require("../models/user");
-const Coin = require("../models/coin");
-const Message = require("../models/message");
-const PortfolioHistories = require("../models/portfolio_history");
-const dateFormat = require("dateformat");
+const express           = require("express");
+const router            = express.Router();
+const ensureLogin       = require("connect-ensure-login");
+const mongoose          = require("mongoose");
+const bcrypt            = require("bcrypt");
+const async             = require("async");
+const dateFormat        = require("dateformat");
 
-const calculatePortfolio = require("../helpers/calculate-portfolio");
-const portfolio = require('../helpers/portfolio');
-const async = require("async");
+const User              = require("../models/user");
+const Coin              = require("../models/coin");
+const Message           = require("../models/message");
+const PortfolioHistories= require("../models/portfolio_history");
+
+const calculatePortfolio= require("../helpers/calculate-portfolio");
+const portfolio         = require('../helpers/portfolio');
+
 const bcryptSalt = 10;
 
 router.get("/user/message/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOne({ "_id": req.params.userId }, (err, recipient) => {
     if (err) console.log(err);
     res.render("user/message", { recipient });
-  })
+  });
 });
 
 router.post("/user/message/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
@@ -27,11 +29,11 @@ router.post("/user/message/:userId", ensureLogin.ensureLoggedIn("/"), (req, res)
     text: req.body.message,
     recipientIds: [req.params.userId],
     private: true
-  })
+  });
   message.save(err => {
-    if (err) console.log(err)
-    res.redirect('/user/dashboard')
-  })
+    if (err) console.log(err);
+    res.redirect('/user/dashboard');
+  });
 });
 
 router.post("/user/post", ensureLogin.ensureLoggedIn("/"), (req, res) => {
@@ -39,11 +41,11 @@ router.post("/user/post", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     senderId: req.user.id,
     text: req.body.message,
     recipientIds: req.user.followers.concat(req.user.id)
-  })
+  });
   message.save(err => {
-    if (err) console.log(err)
-    res.redirect('/user/dashboard')
-  })
+    if (err) console.log(err);
+    res.redirect('/user/dashboard');
+  });
 });
 
 router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
@@ -58,7 +60,7 @@ router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
       },
       $addToSet: { "coins": req.body.coinId }
     }, err => {
-      if (err) console.log(err)
+      if (err) console.log(err);
       calculatePortfolio(req.user.id, (total) => {
         User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, err => {
           res.redirect("/user/portfolio");
@@ -72,30 +74,28 @@ router.post("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.post("/user/portfolio/:coinId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOneAndUpdate({ "_id": req.user.id, "portfolio.coins.exchange": "wallet", "portfolio.coins.id": req.params.coinId }, { "$set": { "portfolio.coins.$.balance": req.body.balance } }, (err) => {
-    if (err) console.log(err)
+    if (err) console.log(err);
     calculatePortfolio(req.user.id, (total) => {
       User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, err => {
         res.redirect("/user/portfolio");
       });
     });
-
-  })
+  });
 });
 
 router.get("/user/portfolio/:coinId/delete", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOneAndUpdate({ "_id": req.user.id }, { $pull: { "portfolio.coins": { exchange: "wallet", id: req.params.coinId } } }, err => {
-    if (err) console.log(err)
+    if (err) console.log(err);
     calculatePortfolio(req.user.id, (total) => {
 
       User.findOneAndUpdate({ "_id": req.user.id }, { "portfolio.total": total }, err => {
         res.redirect("/user/portfolio");
       });
     });
-  })
+  });
 });
 
 router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-
   Coin.find({}, function (err, coins) {
     if (req.user.portfolio) {
       let pieTotalLabels = [];
@@ -122,7 +122,7 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
             coin.price = cmcCoin.price_usd;
             allCoins.push(coin);
 
-            pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
+            pushData(coin, cmcCoin, pieTotalLabels, pieTotalData);
             if (coin.exchange === "poloniex") {
               pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
             }
@@ -139,14 +139,11 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
         allCoins.sort((a, b) => b.value - a.value);
         allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
         res.render('user/portfolio', { coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
-      })
+      });
     } else {
       res.render('user/portfolio', { coins });
     }
-
   });
-
-
 
   function pushData(coin, cmcCoin, labels, data) {
     let ind = null;
@@ -157,11 +154,7 @@ router.get("/user/portfolio", ensureLogin.ensureLoggedIn("/"), (req, res) => {
       data.push(Math.round(coin.balance * cmcCoin.price_usd * 100) / 100);
     }
   }
-
 });
-
-
-
 
 router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   Coin.find({}, function (err, coins) {
@@ -183,7 +176,7 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
                   User.findOne({ "_id": message.senderId }, (err, sender) => {
                     message.sender = sender;
                     callback();
-                  })
+                  });
                 } else {
                   message.sender = connections.find(con => con.id === message.senderId);
                   callback();
@@ -196,7 +189,7 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
                 connections,
                 messages
               });
-            })
+            });
           } else {
             res.render('user/dashboard', {
               coins,
@@ -205,7 +198,6 @@ router.get("/user/dashboard", ensureLogin.ensureLoggedIn("/"), (req, res) => {
               messages
             });
           }
-
         });
       });
     });
@@ -223,12 +215,8 @@ router.post("/send_save", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 });
 
 router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-
   res.render('user/edit');
-
 });
-
-
 
 router.get("/user/map", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOne({ "_id": req.user.id }, "coins", function (err, coins) {
@@ -243,10 +231,7 @@ router.get("/user/email", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 });
 
 router.get("/user/connect", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  User.find({}, function (err, users) {
-    users,
       res.render('user/addFriends');
-  });
 });
 
 router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res) => {
@@ -256,7 +241,7 @@ router.get("/user/logout", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 
 router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) => {
   const password = req.body.password,
-    passwordRepeat = req.body.passwordRepeat;
+        passwordRepeat = req.body.passwordRepeat;
 
   const data = {
     name: req.body.name,
@@ -274,7 +259,7 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     location: { type: 'Point', coordinates: [req.body.lng ? req.body.lng : 0, req.body.lat ? req.body.lat : 0], default: [0, 0] },
     poloniex: { apikey: req.body.poloniex_apikey, apisecret: req.body.poloniex_apisecret },
     bittrex: { apikey: req.body.bittrex_apikey, apisecret: req.body.bittrex_apisecret }
-  }
+  };
 
   if (password) {
     if (password !== passwordRepeat) {
@@ -292,16 +277,13 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
     portfolio.getAPIs(()=>{
        res.redirect("/user/dashboard");
     });
-   
-  })
+  });
 });
 
 router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-
   User.findOne({ "_id": req.params.userId }, (err, showUser) => {
     res.render("user/show", { showUser });
-
-  })
+  });
 });
 
 router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
@@ -329,15 +311,12 @@ router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res
           Coin.findOne({ "id": coin.id }, (err, cmcCoin) => {
             if (cmcCoin) {
               let ind = null;
-              // if ((ind = allCoins.findIndex(el => el.id === coin.id)) !== -1) {
-              //   allCoins[ind].balance += coin.balance;
-              //   allCoins[ind].value += Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
-              // } else {
+
               coin.value = Math.round(coin.balance * cmcCoin.price_usd * 100) / 100;
               coin.price = cmcCoin.price_usd;
               allCoins.push(coin);
-              // }
-              pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
+
+              pushData(coin, cmcCoin, pieTotalLabels, pieTotalData);
               if (coin.exchange === "poloniex") {
                 pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
               }
@@ -351,14 +330,10 @@ router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res
             callback();
           });
         }, err => {
-
-
           allCoins.sort((a, b) => b.value - a.value);
           allCoins = allCoins.map(coin => { coin.value = Math.round(100 * coin.value) / 100; return coin; });
           res.render('user/publicPortfolio', { showUser, coins, allCoins, pieTotalData, pieTotalLabels, piePoloniexData, piePoloniexLabels, pieBittrexData, pieBittrexLabels, pieWalletData, pieWalletLabels });
-        })
-
-
+        });
       });
 
     } else {
@@ -376,6 +351,5 @@ router.get("/user/portfolio/:userId", ensureLogin.ensureLoggedIn("/"), (req, res
     }
   });
 });
-
 
 module.exports = router;
