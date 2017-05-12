@@ -371,7 +371,10 @@ router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
                 pushData(coin, cmcCoin, pieTotalLabels, pieTotalData)
                 if (coin.exchange === "poloniex") {
                   pushData(coin, cmcCoin, piePoloniexLabels, piePoloniexData);
-                }
+                }      } else {
+        res.render('user/publicPortfolio');
+      }
+
                 if (coin.exchange === "bittrex") {
                   pushData(coin, cmcCoin, pieBittrexLabels, pieBittrexData);
                 }
@@ -425,9 +428,6 @@ router.get("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
     } else {
       res.render('user/publicPortfolio');
     }
-      } else {
-        res.render('user/publicPortfolio');
-      }
 
       function pushData(coin, cmcCoin, labels, data) {
         let ind = null;

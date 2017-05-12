@@ -9,6 +9,7 @@
     "async": "^2.4.0",
     "bcrypt": "^1.0.2",
     "body-parser": "~1.17.1",
+    "chance": "^1.0.8",
     "connect-ensure-login": "^0.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
@@ -23,6 +24,7 @@
     "faker": "^4.1.0",
     "mongoose": "^4.9.7",
     "morgan": "~1.8.1",
+    "node-geocoder": "^3.16.0",
     "node.bittrex.api": "^0.2.4",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -30,6 +32,7 @@
     "passport-linkedin": "^1.0.0",
     "passport-local": "^1.0.0",
     "poloniex-api-node": "^1.0.2",
+    "random-world": "^1.2.0",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {

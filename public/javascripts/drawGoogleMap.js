@@ -27,11 +27,16 @@ var coin;
 
 function person(data) {
     $.ajax({
-        url: "http://localhost:3000/api/send_MyPersonMap",
+        url: "/api/send_MyPersonMap",
         method: "POST",
         data,
-        success: function (users) { googleUserMap(users) },
-        error: function (err) { console.log(err) }
+        success: function (users) { 
+            console.log("here1")
+            googleUserMap(users)
+         },
+        error: function (err) { console.log(err);
+            console.log("here2")
+     }
     });
 }
 
@@ -40,8 +45,10 @@ function users(data) {
         url: "/api/send_MyCoinMap",
         method: "POST",
         data,
-        success: function (users) { googleMap(users) },
-        error: function (err) { console.log(err) }
+        success: function (users) { googleMap(users) 
+        console.log("here3")},
+        error: function (err) { console.log(err) 
+        console.log("here4")}
     });
 }
 
@@ -67,13 +74,13 @@ function googleUserMap(users){
             if (users.location.coordinates[0] && users.location.coordinates[1] !== 0) {
 
                 var contentString = `<h5>${users.name}<h5>`
-                + `<h5>${users.address}<h5>` + `<h5>${users.job}<h5>` +
+                + `<h5>${users.address}<h5>` + `<h5>${users.city}<h5>` + `<h5>${users.job}<h5>` +
                 `<a href="/user/${users._id}">Profile</a>` 
                 ;
                 
-                var img = `https://files.coinmarketcap.com/static/img/coins/16x16/../CryptoClan_16x.png`;
+                var img = `/images/CryptoClan_x16.png`;
 
-                var pin = new google.maps.LatLng(users.location.coordinates[0], users.location.coordinates[1]);
+                var pin = new google.maps.LatLng(users.location.coordinates[1], users.location.coordinates[0]);
 
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
@@ -117,7 +124,7 @@ function googleMap(users) {
             if (user.location.coordinates[0] && user.location.coordinates[1] !== 0) {
 
                 var contentString = `<h5>${user.name}<h5>`
-                + `<h5>${user.address}<h5>` + `<h5>${user.job}<h5>` +
+                + `<h5>${user.address}<h5>` + `<h5>${user.city}<h5>` + `<h5>${user.job}<h5>` +
                 `<a href="/user/${user._id}">Profile</a>` 
                 ;
                 
