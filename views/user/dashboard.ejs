@@ -36,7 +36,7 @@
             <div class="row messageBoxDashboard">
                     <div class="col-6 text-left">
                         <% if(message.isOwn) { %>
-                            <img style="width:50px;height:50px" src="<%=user.photo%>">
+                            <a href="<%=user.id%>" class="nostyle"><img style="width:50px;height:50px" src="<%=user.photo%>"></a>
                             <i>You wrote:</i>
                             <% } else if (message.private) { %>
                                 <img style="width:50px;height:50px" src="<%=message.sender.photo%>">
