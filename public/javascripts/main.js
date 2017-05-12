@@ -1,5 +1,5 @@
 //drag and drop
-$(document).ready(function() {
+$(document).ready(function () {
     $(".sortable").sortable({ revert: true });
 
     $("#dropDownCoins").on("input", function () {
@@ -16,7 +16,7 @@ $(document).ready(function() {
                     $(".coinsDasboard").append(
                         $(`<img id="${coin}" src=https://files.coinmarketcap.com/static/img/coins/128x128/${coin}.png>`
                         ));
-                                    },
+                },
                 error: function () {
                     console.log("error");
                 }
@@ -24,4 +24,6 @@ $(document).ready(function() {
 
         }
     });
+
+    $('.collapse').collapse('show');
 });
