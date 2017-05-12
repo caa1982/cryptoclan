@@ -38,11 +38,11 @@
                             <a href="<%=user.id%>" class="nostyle"><img class="rounded-circle" style="width:50px;height:50px" src="<%=user.photo%>"></a>
                             <i>You wrote:</i>
                             <% } else if (message.private) { %>
-                                <a href="/user/<%=connection.id%>" class="imgRightMargin nostyle"><img style="width:50px;height:50px" src="<%=message.sender.photo%>"></a>
+                                <a href="/user/<%=message.senderId%>" class=" nostyle"><img style="width:50px;height:50px" src="<%=message.sender.photo%>"></a>
                                 <i><%=message.sender.name %> sent you a message:</i>
                                 <a href="/user/message/<%=message.senderId%>" class="btn btn-success">Reply</a>
                                 <% } else { %>
-                                    <a href="/user/<%=connection.id%>" class="imgRightMargin nostyle"><img style="width:50px;height:50px" src="<%=message.sender.photo%>"></a>
+                                    <a href="/user/<%=message.senderId%>" class=" nostyle"><img style="width:50px;height:50px" src="<%=message.sender.photo%>"></a>
                                     <i><%=message.sender.name %> wrote:</i>
                                     <% } %>
                     </div>
