@@ -232,9 +232,7 @@ router.get("/user/edit", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 router.get("/user/map", ensureLogin.ensureLoggedIn("/"), (req, res) => {
   User.findOne({ "_id": req.user.id }, "coins", function (err, coins) {
     User.findOne({ "_id": req.user.id }, "following", function (err, following) {
-      console.log(following.following)
       User.find({'_id': { $in: following.following} }, function (err, users) {
-        console.log(users)
           res.render('user/map', {
             coins,
             users

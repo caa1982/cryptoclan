@@ -53,14 +53,22 @@ router.get("/coin24/:coinId", ensureLogin.ensureLoggedIn("/"), (req, res) => {
 });
 
 router.post("/send_MyCoinMap", ensureLogin.ensureLoggedIn("/"), (req, res) => {
-  console.log(req.body.coin);
   User.find({}, function (err, users) {
-    users = users.filter(user=>user.coins.includes(req.body.coin))
-        console.log("hi");
+    users = users.filter(user=>user.coins.includes(req.body.coin));
         if (err) {
           res.status(500).json({ message: "DB error" });
         } else {
           res.status(200).json(users);
+        }
+  });
+});
+
+router.post("/send_MyPersonMap", ensureLogin.ensureLoggedIn("/"), (req, res) => {
+  User.findOne({ "name": req.body.follower }, (err, person) => {
+        if (err) {
+          res.status(500).json({ message: "DB error" });
+        } else {
+          res.status(200).json(person);
         }
   });
 });
