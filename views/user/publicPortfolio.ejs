@@ -1,3 +1,4 @@
+<script src="/javascripts/chart.js/dist/Chart.min.js"></script>
 <div id="containerPortfolio" class="container h-100 d-flex align-items-center justify-content-center">
     <div class="portfolio jumbotron my-auto text-center">
 
@@ -10,6 +11,7 @@
             <div class="col">
                 Portfolio 24h value
                 <canvas id="valueChart"></canvas>
+                <input type="hidden" id="value-chart-user" value="<%=showUser.id%>">
             </div>
         </div>
 
@@ -24,7 +26,7 @@
     <% } else { %>
 
   
-     <script src="/chart.js/dist/Chart.min.js"></script>
+ 
       <div class="row styleChart form-group">
      <div class="col">
      <canvas id="pieChart" width="350" height="350"></canvas>

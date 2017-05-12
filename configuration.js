@@ -1,5 +1,7 @@
+require("dotenv").config();
+
 module.exports = {
-  baseUrl: "http://localhost:3000",
+  baseUrl: process.env.BASE_URI,
   
   verificationEmail: {
     tempUserCollection: 'tempusers',
@@ -10,4 +12,4 @@ module.exports = {
   portfolioInterval: 30*1000
 }
 
-//mongo ds115131.mlab.com:15131/cryptoclan -u iamzim123 -p Sesame123
+  // "start": "nodemon --ignore 'public/javascripts/*.js' ./bin/www"

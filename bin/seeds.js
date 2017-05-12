@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGODB_URI);
 
 Coin.find({}, (err, cmcCoins) => {
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 50; i++) {
     let coins = [];
     let totalValue = 0;
     if (Math.floor(Math.random() * 2)) {
@@ -21,6 +21,7 @@ Coin.find({}, (err, cmcCoins) => {
         let coinInd = Math.floor(Math.random()*cmcCoins.length);
         let balance = Math.floor(Math.random()*100)
         coins.push({
+             id: cmcCoins[coinInd].id,
               symbol: cmcCoins[coinInd].symbol, 
               balance,
               exchange});
@@ -36,6 +37,7 @@ Coin.find({}, (err, cmcCoins) => {
         let coinInd = Math.floor(Math.random()*cmcCoins.length);
         let balance = Math.floor(Math.random()*100)
         coins.push({
+              id: cmcCoins[coinInd].id,
               symbol: cmcCoins[coinInd].symbol, 
               balance,
               exchange});
@@ -57,6 +59,7 @@ Coin.find({}, (err, cmcCoins) => {
       address: faker.address.streetAddress(true),
       city: faker.address.city(),
       job: faker.name.jobTitle(),
+      location: {type:"Point", coordinates:[faker.address.longitude(), faker.address.latitude()]},
       photo: "https://randomuser.me/api/portraits/"+(Math.floor(Math.random()*2)?"wo":"")+"men/"+Math.floor(Math.random()*100)+".jpg",
       fake: true,
       coins: coinClans

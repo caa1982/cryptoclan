@@ -5,6 +5,7 @@ const User          = require("../models/user");
 const FbStrategy    = require('passport-facebook').Strategy;
 const LinkedInStrategy    = require('passport-linkedin').Strategy;
 const mongoose      = require("mongoose");
+require("dotenv").config();
 
 passport.serializeUser((user, cb) => {
   cb(null, user);
@@ -65,7 +66,7 @@ passport.use(new LocalStrategy({
 passport.use(new FbStrategy({
   clientID: "408192872894889",
   clientSecret: "4427a7287727fd5d4676fd3697122932",
-  callbackURL: "http://localhost:3000/auth/facebook/callback",
+  callbackURL: process.env.BASE_URI+"/auth/facebook/callback",
   profileFields: ['id', 'displayName', 'photos', "email"]
 }, (accessToken, refreshToken, profile, done) => {
 
@@ -98,7 +99,7 @@ passport.use(new FbStrategy({
 passport.use(new LinkedInStrategy({
     consumerKey: "7727j909q0ro86",
     consumerSecret: "MohL4wKqv3GRWf24",
-    callbackURL: "http://localhost:3000/auth/linkedin/callback",
+    callbackURL: process.env.BASE_URI+"/auth/linkedin/callback",
     profileFields: ['id', 'first-name', 'last-name', 'email-address', 'pictureUrl']
   },
   function(token, tokenSecret, profile, done) {

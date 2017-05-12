@@ -37,7 +37,7 @@ function person(data) {
 
 function users(data) {
     $.ajax({
-        url: "http://localhost:3000/api/send_MyCoinMap",
+        url: "/api/send_MyCoinMap",
         method: "POST",
         data,
         success: function (users) { googleMap(users) },

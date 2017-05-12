@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 function ajaxSearch(data) {
   $.ajax({
-      url: "http://localhost:3000/api/user_search",
+      url: "/api/user_search",
       method: "POST",
       data,
       success: listUsers,
@@ -66,7 +66,7 @@ function listUsers(users) {
       });
       html += `   </div>
                   <div>`;
-                  console.log('user.isFriend: ', user.isFriend);
+      console.log('user.isFriend: ', user.isFriend);
       if(!user.isFriend) {
         html+=` <button type="button" id="connect-button-${user._id}" onclick="connectUser('${user._id}')" class="btn btn-outline-primary">follow</button>`;
       } else {
@@ -89,7 +89,7 @@ function listUsers(users) {
 
 function connectUser(id) {
    $.ajax({
-      url: "http://localhost:3000/api/connect/"+id,
+      url: "/api/connect/"+id,
       method: "GET",
       success: function() {
         $("#connect-button-"+id).after("followed");
