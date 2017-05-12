@@ -73,7 +73,7 @@ function googleUserMap(users){
                 
                 var img = `https://files.coinmarketcap.com/static/img/coins/16x16/bitcoin.png`;
 
-                var pin = new google.maps.LatLng(users.location.coordinates[1], users.location.coordinates[0]);
+                var pin = new google.maps.LatLng(users.location.coordinates[0], users.location.coordinates[1]);
 
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
@@ -95,7 +95,6 @@ function googleUserMap(users){
 }
 
 function googleMap(users) {
-    console.log(users)
     var latlng = new google.maps.LatLng(0, 0);
     var myOptions = {
         zoom: 2,
@@ -114,7 +113,7 @@ function googleMap(users) {
     if (users) {
 
         users.forEach(user => {
-            console.log(user.following)
+            console.log(user.location.coordinates[0], user.location.coordinates[1])
             if (user.location.coordinates[0] && user.location.coordinates[1] !== 0) {
 
                 var contentString = `<h5>${user.name}<h5>`

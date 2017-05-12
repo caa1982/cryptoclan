@@ -62,8 +62,8 @@
             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-globe"></i></div>
             <input id="locationName" name="locationName" class="form-control" name="address" type="text" value="<%=user.address%>" placeholder="City">
             <input id="city" name="city" class="hidden form-control" name="address" type="text" value="<%=user.address%>" placeholder="City">
-            <input id="lat" name="lat" class="hidden form-control" type="number" value="">
-            <input id="lng" name="lng" class="hidden form-control" type="number" value="">
+            <input id="lat" name="lat" class="hidden form-control" type="number" value="<%=user.location.coordinates[1]%>">
+            <input id="lng" name="lng" class="hidden form-control" type="number" value="<%=user.location.coordinates[0]%>">
           </div>
         </div>
       </div>
