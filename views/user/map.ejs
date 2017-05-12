@@ -17,7 +17,14 @@
             <div class="col-md-6 col-sm-1">
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-users"></i></div>
-                    <input class="form-control" type="" name="" value="" placeholder="Friends">
+                    <input id="dropDownMyFollower" class="form-control" list="dropDownUsers" type="" name="" value="" placeholder="People I follow">
+                    <datalist id="dropDownUsers">
+                        <% users.forEach( (person) => { %>
+                            <option>
+                                <%= person.name %>
+                                    </options>
+                                    <% }) %>
+                    </datalist>
                 </div>
             </div>
         </div>
@@ -27,7 +34,7 @@
         </div>
     </div>
 </div>
-</div>
+
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBALrBTq-TwdILcvBVfkKNzvWmbXzDHiN0&libraries=places"></script>
 <script src="/javascripts/drawGoogleMap.js"></script>
