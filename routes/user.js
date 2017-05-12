@@ -10,6 +10,7 @@ const PortfolioHistories = require("../models/portfolio_history");
 const dateFormat = require("dateformat");
 
 const calculatePortfolio = require("../helpers/calculate-portfolio");
+const portfolio = require('../helpers/portfolio');
 const async = require("async");
 const bcryptSalt = 10;
 
@@ -288,7 +289,10 @@ router.post("/user/:userId", ensureLogin.ensureLoggedIn("/"), (req, res, next) =
 
   User.findOneAndUpdate({ "_id": req.params.userId }, data, (err, user) => {
     if (err) { next(err); return; }
-    res.redirect("/user/dashboard");
+    portfolio.getAPIs(()=>{
+       res.redirect("/user/dashboard");
+    });
+   
   })
 });
 

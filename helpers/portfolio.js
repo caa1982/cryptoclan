@@ -8,24 +8,26 @@ const config = require("../configuration");
 const calculatePortfolio = require("./calculate-portfolio");
 
 
-module.exports =
-    function () {
+module.exports = {
+    runInterval: function () {
+        setInterval(()=>{getAPIs(()=>{})}, config.portfolioInterval);
+    },
+    getAPIs
+}
 
-        setInterval(function () {
-            async.series([
-                updatePoloniex,
-                updateBittrex,
-                calculateAndLogPortfolio
-            ]);
-        }, config.portfolioInterval);
-    }
+function getAPIs(callback) {
+    async.series([
+        updatePoloniex, 
+        updateBittrex,
+        calculateAndLogPortfolio
+    ], callback);
+}
 
-
-function calculateAndLogPortfolio(callback) {
+function calculateAndLogPortfolio(callbackMain) {
     let time = Date.now();
 
     User.find({ "portfolio.coins": { $exists: true, $not: { $size: 0 } } }, (err, users) => {
-        users.forEach(user => {
+        async.each(users, (user,callback)=>{
             calculatePortfolio(user.id, total => {
                 User.findOneAndUpdate({ "_id": user.id }, { "portfolio.total": total }, err => {
                     let log = new PortfolioHistory({
@@ -35,47 +37,53 @@ function calculateAndLogPortfolio(callback) {
                         portfolio: user.portfolio
                     });
                     log.save(err => {
-                        if (err) console.log(err)
-                       // callbackK();
-
+                        if (err) console.log(err)               
+                        return callback();
                     })
                 });
-
             })
+        }, err=>{
+            return callbackMain();
         })
+
     })
 }
 
-function updateBittrex(callback) {
+function updateBittrex(callbackMain) {
     User.find({
         $and: [
             { "bittrex.apikey": { $exists: true } },
             { "bittrex.apikey": { $ne: "" } }
         ]
     }, (err, users) => {
-        users.forEach(user => {
-            getBittrex(user, coins => {
+         async.each(users, (user, callback)=>{
+             getBittrex(user, coins => {
                 updateExchangeCoins(user, coins, "bittrex", () => {
                     callback();
                 })
             })
+        }, err=>{
+            return callbackMain();
         });
     });
 }
 
-function updatePoloniex(callback) {
+function updatePoloniex(callbackMain) {
     User.find({
         $and: [
             { "poloniex.apikey": { $exists: true } },
             { "poloniex.apikey": { $ne: "" } }
         ]
     }, (err, users) => {
-        users.forEach(user => {
-            getPoloniex(user, coins => {
+        async.each(users, (user, callback)=>{
+             getPoloniex(user, coins => {
                 updateExchangeCoins(user, coins, "poloniex", () => {
                     callback();
                 })
             })
+        }, err=>{
+            return callbackMain();
+            
         });
     });
 }
@@ -83,20 +91,21 @@ function updatePoloniex(callback) {
 
 function updateExchangeCoins(user, coins, exchange, callback) {
 
-    let coinIds = coins.map(coin => coin.id).filter(coin => coin);
-    coins = coins.filter(coin=>coin.id);
-    if(coins.length) {
+
+    if (coins) {
+        let coinIds = coins.map(coin => coin.id).filter(coin => coin);
+        coins = coins.filter(coin => coin.id);
         User.findOneAndUpdate({ "_id": user.id }, { $pull: { "portfolio.coins": { exchange } } }, err => {
             User.findOneAndUpdate({ "_id": user.id }, {
                 $addToSet: { coins: { $each: coinIds } },
-                $push: { "portfolio.coins": {$each:coins} }
+                $push: { "portfolio.coins": { $each: coins } }
             },
                 (err, user) => {
                     callback(err);
                 });
         })
     } else {
-        callback(err);
+        callback();
     }
 }
 
@@ -129,7 +138,7 @@ function getPoloniex(user, callBack) {
     let poloniex = new Poloniex(user.poloniex.apikey, user.poloniex.apisecret);
 
     poloniex.returnBalances(function (err, poloniexData) {
-        if (err) { console.log("Error: " + err); return }
+        if (err) { console.log("Error: " + err); return callBack()}
         for (let symbol in poloniexData) {
             if (poloniexData[symbol] > 0) {
                 poloniexCoins.push({ symbol: symbol, balance: poloniexData[symbol], exchange: "poloniex" })

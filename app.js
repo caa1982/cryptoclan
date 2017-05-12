@@ -96,6 +96,7 @@ app.use(function(err, req, res, next) {
 });
 
 coinmarketcap();
-portfolio();
+portfolio.runInterval();
+
 
 module.exports = app;
