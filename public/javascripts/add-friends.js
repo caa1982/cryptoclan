@@ -60,7 +60,7 @@ function listUsers(users) {
       var classes = ["badge-warning", "badge-info", "badge-danger"]
       var btnInd = 0;
       user.coins.forEach(coin => {
-        html += `<span class="badge ${classes[btnInd]}"><img class="connectCoins" src="https://files.coinmarketcap.com/static/img/coins/16x16/${coin}.png"> ${coin}</span>`;
+        html += `<span class="badge addFreindsBadge badge-pill ${classes[btnInd]}"><img class="connectCoins" src="https://files.coinmarketcap.com/static/img/coins/16x16/${coin}.png"> ${coin}</span>`;
         btnInd++;
         btnInd %= 3;
       });
@@ -68,11 +68,11 @@ function listUsers(users) {
                   <div>`;
                   console.log('user.isFriend: ', user.isFriend);
       if(!user.isFriend) {
-        html+=` <button type="button" id="connect-button-${user._id}" onclick="connectUser('${user._id}')" class="btn btn-primary">follow</button>`;
+        html+=` <button type="button" id="connect-button-${user._id}" onclick="connectUser('${user._id}')" class="btn btn-outline-primary">follow</button>`;
       } else {
         html+="followed";
       }
-      html+= ` <a href="/user/${user._id}" type="button" class="btn btn-success">See Profile</a>
+      html+= ` <a href="/user/${user._id}" role="button" class="btn btn-outline-danger">See Profile</a>
                   </div>
               </div>`;
     });

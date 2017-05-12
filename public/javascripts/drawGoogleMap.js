@@ -71,7 +71,7 @@ function googleUserMap(users){
                 `<a href="/user/${users._id}">Profile</a>` 
                 ;
                 
-                var img = `https://files.coinmarketcap.com/static/img/coins/16x16/bitcoin.png`;
+                var img = `https://files.coinmarketcap.com/static/img/coins/16x16/../CryptoClan_16x.png`;
 
                 var pin = new google.maps.LatLng(users.location.coordinates[0], users.location.coordinates[1]);
 

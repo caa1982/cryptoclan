@@ -267,6 +267,11 @@ canvas{
     padding: 3%;
 }
 
+/*Add friends*/
+
+.addFreindsBadge{
+    margin: 1%;
+}
 
 @media(max-width:768px){
     #login-dp{
