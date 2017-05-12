@@ -69,6 +69,7 @@ Coin.find({}, (err, cmcCoins) => {
     for (let i = 0; i < numberOfCoinClans; i++) {
       coinClans.push(cmcCoins[Math.floor(Math.random() * cmcCoins.length)].id)
     }
+    coinClans.push('bitcoin');
     let city = random.city();
 
     geocoder.geocode(city, function (err, res) {
