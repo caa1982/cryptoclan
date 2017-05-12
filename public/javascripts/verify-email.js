@@ -16,7 +16,7 @@ $(document).ready(function(){
     }).then(function(data) {
       if(data.userExists) {
         $('#signup-form').html(`
-        <div style="color:black" class="jumbotron">
+        <div  class="jumbotron">
           Email already exists, please check your inbox for email verification message.
           <br>
           <span id="msg-reg"></span>
@@ -24,7 +24,7 @@ $(document).ready(function(){
           <a id="resend" href="#">Resend verification email</a></div>`);
       } else {
         $('#signup-form').html(`
-          <div style="color:black" class="jumbotron">
+          <div class="jumbotron">
           Confirmation email has been sent, to your email address. 
           Please log in to your inbox and click the verification link
           <br>
